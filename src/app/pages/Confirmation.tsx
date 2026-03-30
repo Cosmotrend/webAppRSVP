@@ -1,27 +1,194 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { Gift, Ticket, Car, Sparkles, Camera, Calendar, MapPin } from 'lucide-react';
+import { Gift, Ticket, Car, Sparkles, Camera, Download, MessageCircle, Calendar, MapPin } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
-import { PageTransition } from '../components/PageTransition';
 import { sounds } from '../utils/sounds';
+
+function generateTicketImage(ticketNumber: string, fullName: string): string {
+  const canvas = document.createElement('canvas');
+  canvas.width = 800;
+  canvas.height = 420;
+  const ctx = canvas.getContext('2d')!;
+
+  // Background
+  const bg = ctx.createLinearGradient(0, 0, 800, 420);
+  bg.addColorStop(0, '#0D0008');
+  bg.addColorStop(1, '#1a0010');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 800, 420);
+
+  // Pink glow top center
+  const glow = ctx.createRadialGradient(400, 0, 0, 400, 0, 300);
+  glow.addColorStop(0, 'rgba(248,164,200,0.25)');
+  glow.addColorStop(1, 'rgba(248,164,200,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 800, 420);
+
+  // Border
+  ctx.strokeStyle = 'rgba(248,164,200,0.35)';
+  ctx.lineWidth = 2;
+  roundRect(ctx, 16, 16, 768, 388, 24);
+  ctx.stroke();
+
+  // Dashed separator
+  ctx.setLineDash([8, 6]);
+  ctx.strokeStyle = 'rgba(248,164,200,0.2)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(200, 16);
+  ctx.lineTo(200, 404);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // LEFT SECTION — Logo
+  ctx.save();
+  ctx.font = 'italic 300 52px Georgia, serif';
+  const logoGrad = ctx.createLinearGradient(30, 0, 200, 0);
+  logoGrad.addColorStop(0, '#c47090');
+  logoGrad.addColorStop(0.5, '#F8A4C8');
+  logoGrad.addColorStop(1, '#D4A574');
+  ctx.fillStyle = logoGrad;
+  ctx.fillText('Semilac', 30, 130);
+  ctx.restore();
+
+  ctx.font = 'bold 16px Montserrat, Arial, sans-serif';
+  ctx.fillStyle = '#FFF8F5';
+  ctx.letterSpacing = '6px';
+  ctx.fillText('DAYS', 38, 158);
+
+  ctx.font = '10px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(248,164,200,0.55)';
+  ctx.fillText('14–19 MAI 2026  ·  CASABLANCA', 30, 195);
+  ctx.fillText('2ÈME ÉDITION', 30, 214);
+
+  // Little dots
+  ctx.fillStyle = '#F8A4C8';
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    ctx.arc(30 + i * 16, 370, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // RIGHT SECTION
+  // "BILLET D'INVITATION" label
+  ctx.font = 'bold 9px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(248,164,200,0.5)';
+  ctx.fillText('BILLET D\'INVITATION', 225, 60);
+
+  // Client name
+  ctx.font = 'italic 300 28px Georgia, serif';
+  ctx.fillStyle = '#FFF8F5';
+  ctx.fillText(fullName || 'Invité(e)', 225, 140);
+
+  // Divider
+  const divGrad = ctx.createLinearGradient(225, 0, 750, 0);
+  divGrad.addColorStop(0, 'rgba(248,164,200,0.4)');
+  divGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = divGrad;
+  ctx.fillRect(225, 155, 520, 1);
+
+  // Ticket number label
+  ctx.font = 'bold 8px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(248,164,200,0.5)';
+  ctx.fillText('NUMÉRO DE BILLET', 225, 185);
+
+  // Ticket number
+  ctx.font = 'bold 32px "Courier New", monospace';
+  const ticketGrad = ctx.createLinearGradient(225, 0, 500, 0);
+  ticketGrad.addColorStop(0, '#F8A4C8');
+  ticketGrad.addColorStop(1, '#ffc8de');
+  ctx.fillStyle = ticketGrad;
+  ctx.fillText(ticketNumber, 225, 225);
+
+  // Validity notice
+  ctx.font = '10px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(248,164,200,0.4)';
+  ctx.fillText('Valable uniquement sur place · En présence du commercial', 225, 260);
+
+  // Stamp circle
+  ctx.save();
+  ctx.translate(680, 320);
+  ctx.beginPath();
+  ctx.arc(0, 0, 52, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(248,164,200,0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, 44, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.font = 'bold 9px Arial';
+  ctx.fillStyle = 'rgba(248,164,200,0.7)';
+  ctx.textAlign = 'center';
+  ctx.fillText('SEMILAC', 0, -6);
+  ctx.fillText('DAYS 2026', 0, 8);
+  ctx.restore();
+
+  return canvas.toDataURL('image/png');
+}
+
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number, y: number, w: number, h: number, r: number
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
 
 export function Confirmation() {
   const navigate = useNavigate();
   const [ticketNumber, setTicketNumber] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
   const [showContent, setShowContent] = useState(false);
 
+  const handleDownloadTicket = useCallback(() => {
+    sounds.click();
+    const imgData = generateTicketImage(ticketNumber, fullName);
+    const link = document.createElement('a');
+    link.download = `ticket-semilac-${ticketNumber}.png`;
+    link.href = imgData;
+    link.click();
+  }, [ticketNumber, fullName]);
+
+  const handleWhatsApp = useCallback(() => {
+    sounds.click();
+    const phone = whatsapp.replace(/\D/g, '');
+    const text = encodeURIComponent(
+      `🎫 Mon billet Semilac Days 2026\n\nN° Billet : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca\n\nPrésentez ce message à votre commercial le jour J pour accéder à la Roue de la Fortune 🎡`
+    );
+    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+  }, [ticketNumber, whatsapp]);
+
   useEffect(() => {
+    // Route guard
+    const rsvpRaw = localStorage.getItem('rsvpData');
+    if (!rsvpRaw) {
+      navigate('/');
+      return;
+    }
+
     sounds.success();
 
-    const rsvpData = localStorage.getItem('rsvpData');
+    const rsvpData = rsvpRaw;
     if (rsvpData) {
       const data = JSON.parse(rsvpData);
       setTicketNumber(data.ticketNumber);
+      setFullName(data.fullName || '');
+      setWhatsapp(data.whatsapp || '');
     }
 
     // Delay content reveal
@@ -360,94 +527,92 @@ export function Confirmation() {
                 </div>
               </motion.div>
 
-              {/* Screenshot Instruction - MOST IMPORTANT */}
+              {/* Save ticket — download + WhatsApp */}
               <motion.div
-                className="mb-6 p-6 rounded-3xl relative overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(248,164,200,0.15), rgba(212,165,116,0.15))',
-                  border: '2px solid rgba(248,164,200,0.4)',
-                  boxShadow: '0 8px 32px rgba(248,164,200,0.3), inset 0 0 60px rgba(248,164,200,0.1)',
-                }}
-                initial={{ opacity: 0, scale: 0.9 }}
+                className="mb-6"
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 2.6, type: 'spring', stiffness: 200 }}
               >
-                {/* Pulsing glow */}
-                <motion.div
-                  className="absolute inset-0"
+                <div
                   style={{
-                    background: 'radial-gradient(circle at center, rgba(248,164,200,0.2), transparent)',
-                    filter: 'blur(40px)',
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.22em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(248,164,200,0.5)',
+                    textAlign: 'center',
+                    marginBottom: '12px',
                   }}
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.5, 0.8, 0.5],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-
-                {/* Animated camera icon */}
-                <motion.div
-                  className="mx-auto mb-3 flex justify-center"
-                  animate={{
-                    y: [0, -5, 0],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <motion.div
-                    className="p-3 rounded-full relative"
-                    style={{
-                      background: 'rgba(248,164,200,0.2)',
-                      border: '2px solid rgba(248,164,200,0.5)',
-                    }}
-                  >
-                    <Camera size={24} color="#F8A4C8" />
-                    <motion.div
-                      className="absolute inset-0 rounded-full"
-                      style={{
-                        border: '2px solid rgba(248,164,200,0.4)',
-                      }}
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </motion.div>
-                </motion.div>
-
-                <div className="relative text-center">
-                  <motion.div
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 700,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      color: '#F8A4C8',
-                      marginBottom: '8px',
-                      textShadow: '0 2px 10px rgba(248,164,200,0.5)',
-                    }}
-                    animate={{ scale: [1, 1.02, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    📸 Prenez une capture d'écran !
-                  </motion.div>
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      color: 'rgba(255,248,245,0.8)',
-                      lineHeight: 1.5,
-                      letterSpacing: '0.02em',
-                    }}
-                  >
-                    Présentez cette page à votre commercial{' '}
-                    <span style={{ fontWeight: 700, color: '#D4A574' }}>le jour J</span>
-                    <br />
-                    pour accéder à la{' '}
-                    <span style={{ fontWeight: 700, color: '#F8A4C8' }}>
-                      Roue de la Fortune
-                    </span>{' '}
-                    🎡
-                  </div>
+                  Sauvegardez votre billet
                 </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Télécharger image */}
+                  <motion.button
+                    className="flex flex-col items-center justify-center gap-2 rounded-2xl p-4 relative overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(248,164,200,0.15), rgba(212,165,116,0.1))',
+                      border: '1.5px solid rgba(248,164,200,0.35)',
+                      boxShadow: '0 8px 24px rgba(248,164,200,0.2)',
+                      minHeight: '80px',
+                    }}
+                    whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(248,164,200,0.35)' }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleDownloadTicket}
+                  >
+                    <motion.div
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Download size={22} color="#F8A4C8" />
+                    </motion.div>
+                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#FFF8F5', letterSpacing: '0.06em' }}>
+                      Télécharger
+                    </div>
+                    <div style={{ fontSize: '8px', color: 'rgba(248,164,200,0.5)', letterSpacing: '0.04em' }}>
+                      Image PNG
+                    </div>
+                  </motion.button>
+
+                  {/* WhatsApp */}
+                  <motion.button
+                    className="flex flex-col items-center justify-center gap-2 rounded-2xl p-4 relative overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(37,211,102,0.12), rgba(37,211,102,0.06))',
+                      border: '1.5px solid rgba(37,211,102,0.3)',
+                      boxShadow: '0 8px 24px rgba(37,211,102,0.15)',
+                      minHeight: '80px',
+                    }}
+                    whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(37,211,102,0.25)' }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleWhatsApp}
+                  >
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <MessageCircle size={22} color="#25D366" />
+                    </motion.div>
+                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#FFF8F5', letterSpacing: '0.06em' }}>
+                      WhatsApp
+                    </div>
+                    <div style={{ fontSize: '8px', color: 'rgba(37,211,102,0.6)', letterSpacing: '0.04em' }}>
+                      Sauvegarder
+                    </div>
+                  </motion.button>
+                </div>
+
+                <motion.div
+                  className="mt-3 text-center"
+                  style={{ fontSize: '9px', color: 'rgba(255,248,245,0.35)', lineHeight: 1.5 }}
+                >
+                  Présentez votre billet à votre commercial{' '}
+                  <span style={{ color: '#D4A574', fontWeight: 600 }}>le jour J</span>
+                  {' '}pour la{' '}
+                  <span style={{ color: '#F8A4C8', fontWeight: 600 }}>Roue de la Fortune 🎡</span>
+                </motion.div>
               </motion.div>
 
               {/* CTA Button */}

@@ -6,9 +6,7 @@ import {
   Trophy,
   Sparkles,
   Camera,
-  Share2,
   RotateCcw,
-  FileText,
 } from "lucide-react";
 import { ShimmerButton } from "../components/ShimmerButton";
 import { PageTransition } from "../components/PageTransition";
@@ -25,7 +23,15 @@ export function CouponResult() {
   const [registered, setRegistered] = useState(false);
 
   useEffect(() => {
-    const savedPrize = localStorage.getItem("wheelPrize");
+    // Route guard
+    const wheelData = localStorage.getItem("wheelData");
+    const savedPrizeGuard = localStorage.getItem("wheelPrize");
+    if (!wheelData || !savedPrizeGuard) {
+      navigate("/");
+      return;
+    }
+
+    const savedPrize = savedPrizeGuard;
     if (savedPrize) {
       setPrize(savedPrize);
     }
@@ -600,42 +606,6 @@ export function CouponResult() {
                   Nouvelle inscription RSVP
                 </span>
               </ShimmerButton>
-
-              <motion.button
-                className="text-center w-full flex items-center justify-center gap-2"
-                style={{
-                  fontSize: "10px",
-                  color: "rgba(248,164,200,0.5)",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  padding: "12px",
-                }}
-                whileHover={{
-                  color: "rgba(248,164,200,0.9)",
-                  scale: 1.05,
-                }}
-              >
-                <Share2 size={14} />
-                Partager mon gain
-              </motion.button>
-
-              <motion.button
-                className="text-center w-full flex items-center justify-center gap-2"
-                style={{
-                  fontSize: "10px",
-                  color: "rgba(248,164,200,0.5)",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  padding: "12px",
-                }}
-                whileHover={{
-                  color: "rgba(248,164,200,0.9)",
-                  scale: 1.05,
-                }}
-              >
-                <FileText size={14} />
-                Voir mon devis
-              </motion.button>
             </motion.div>
           </>
         )}

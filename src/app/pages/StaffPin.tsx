@@ -7,8 +7,7 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { sounds } from '../utils/sounds';
-
-const STAFF_PIN = 'COSMO2026';
+import { callAPI } from '../utils/api';
 
 export function StaffPin() {
   const navigate = useNavigate();
@@ -21,14 +20,25 @@ export function StaffPin() {
     setError('');
     sounds.click();
 
-    // Simuler une validation
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    try {
+      const result = await callAPI({
+        action: 'validatePin',
+        pin: pin.toUpperCase(),
+      });
 
-    if (pin.toUpperCase() === STAFF_PIN) {
-      sounds.success();
-      navigate('/wheel-code');
-    } else {
-      setError('Code incorrect');
+      if (result.success) {
+        // Stocker l'autorisation en session (expire à la fermeture de l'onglet)
+        sessionStorage.setItem('staffAuth', '1');
+        sounds.success();
+        navigate('/wheel-code');
+      } else {
+        setError('Code incorrect');
+        sounds.error();
+        setIsValidating(false);
+      }
+    } catch {
+      // Fallback offline — supprimer si connexion disponible en prod
+      setError('Erreur de connexion');
       sounds.error();
       setIsValidating(false);
     }

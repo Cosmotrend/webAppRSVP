@@ -11,6 +11,13 @@ import { callAPI } from '../utils/api';
 
 export function WheelCode() {
   const navigate = useNavigate();
+
+  // Route guard — only accessible after staff PIN
+  if (!sessionStorage.getItem('staffAuth')) {
+    navigate('/staff-pin');
+    return null;
+  }
+
   const [ticketNumber, setTicketNumber] = useState('');
   const [devisNumber, setDevisNumber] = useState('');
   const [isValidating, setIsValidating] = useState(false);

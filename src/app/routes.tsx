@@ -6,7 +6,6 @@ import { WheelCode } from './pages/WheelCode';
 import { Greeting } from './pages/Greeting';
 import { WheelGame } from './pages/WheelGame';
 import { CouponResult } from './pages/CouponResult';
-import { DeclinePage } from './pages/DeclinePage';
 import { ErrorPage } from './pages/ErrorPage';
 
 export const router = createBrowserRouter([
@@ -53,11 +52,6 @@ export const router = createBrowserRouter([
   {
     path: '/result',
     Component: CouponResult,
-    ErrorBoundary: ErrorPage,
-  },
-  {
-    path: '/decline',
-    Component: DeclinePage,
     ErrorBoundary: ErrorPage,
   },
   {

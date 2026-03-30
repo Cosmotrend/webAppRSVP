@@ -113,9 +113,14 @@ export function WheelGame() {
     }
   };
 
-  // Récupérer les données depuis wheelData au lieu de rsvpData
+  // Route guard
   const wheelDataStr = localStorage.getItem('wheelData');
-  const wheelData = wheelDataStr ? JSON.parse(wheelDataStr) : null;
+  if (!wheelDataStr) {
+    navigate('/staff-pin');
+    return null;
+  }
+
+  const wheelData = JSON.parse(wheelDataStr);
   
   const ticketNumber = wheelData?.ticketNumber || 'SD26-XXXX';
   const clientName = wheelData?.clientName || 'Client VIP';

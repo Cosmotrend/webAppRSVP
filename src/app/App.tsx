@@ -4,16 +4,49 @@ import { router } from './routes';
 export default function App() {
   return (
     <div className="w-full h-full bg-black flex items-center justify-center">
-      {/* Mobile: full screen. Desktop: fixed 375×812 phone mockup centered */}
+      {/*
+        Mobile  (<768px)  : full screen, no wrapper
+        Tablet  (768–1023px): centré, max 600px, padding vertical 16px, border-radius
+        Desktop (≥1024px) : phone mockup 430×900px centré avec ombre
+      */}
       <div
-        className="relative overflow-hidden w-full h-full md:w-[375px] md:h-[812px] md:rounded-2xl md:shadow-2xl"
+        className="relative overflow-hidden"
         style={{
-          background: '#0D0008',
-          // Use dvh for correct iOS viewport (excludes Dynamic Island + URL bar)
+          width: '100%',
+          height: '100%',
           maxHeight: 'calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+          background: '#0D0008',
         }}
       >
-        <RouterProvider router={router} />
+        <style>{`
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .app-shell {
+              width: 100% !important;
+              max-width: 620px !important;
+              height: calc(100dvh - 32px) !important;
+              max-height: calc(100dvh - 32px) !important;
+              border-radius: 24px !important;
+              box-shadow: 0 32px 80px rgba(0,0,0,0.7) !important;
+              margin: 16px auto !important;
+              position: relative !important;
+            }
+          }
+          @media (min-width: 1024px) {
+            .app-shell {
+              width: 430px !important;
+              height: min(900px, calc(100dvh - 48px)) !important;
+              border-radius: 40px !important;
+              box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(248,164,200,0.08) !important;
+              margin: auto !important;
+            }
+          }
+        `}</style>
+        <div
+          className="app-shell relative overflow-hidden w-full h-full"
+          style={{ background: '#0D0008' }}
+        >
+          <RouterProvider router={router} />
+        </div>
       </div>
     </div>
   );

@@ -5,26 +5,34 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbxMbW-f3gvc4CsRlVHSI2V8LZXKC30Ludig1pQGWcRPtIAG29aUSWwLi0mYvklBNeYt/exec';
 
 export interface APIPayload {
-  action: 'registerRSVP' | 'validate' | 'register';
+  action: 'registerRSVP' | 'validate' | 'register' | 'validatePin';
   devisNumber?: string;
   ticket?: string;
   ticketNumber?: string;
   clientName?: string;
+  firstName?: string;
+  lastName?: string;
   salon?: string;
   city?: string;
+  phone?: string;
+  people?: string;
+  day?: string;
   discount?: string;
   representative?: string;
+  pin?: string;
 }
 
 export interface APIResponse {
   success: boolean;
   message: string;
+  ticketNumber?: string;
   data?: {
     used?: boolean;
     devisUsed?: boolean;
     alreadyUsed?: boolean;
     notFound?: boolean;
     ticket?: string;
+    ticketNumber?: string;
     discount?: string;
     date?: string;
     timestamp?: string;

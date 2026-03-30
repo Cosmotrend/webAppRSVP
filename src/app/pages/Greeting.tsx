@@ -10,7 +10,14 @@ export function Greeting() {
   const [name, setName] = useState('Invité');
 
   useEffect(() => {
-    const wheelData = localStorage.getItem('wheelData');
+    // Route guard
+    const wheelDataRaw = localStorage.getItem('wheelData');
+    if (!wheelDataRaw) {
+      navigate('/staff-pin');
+      return;
+    }
+
+    const wheelData = wheelDataRaw;
     if (wheelData) {
       const data = JSON.parse(wheelData);
       if (data.clientName) {
