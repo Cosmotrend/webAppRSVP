@@ -24,23 +24,19 @@ export function CouponResult() {
 
   useEffect(() => {
     // Route guard
-    const wheelData = localStorage.getItem("wheelData");
-    const savedPrizeGuard = localStorage.getItem("wheelPrize");
-    if (!wheelData || !savedPrizeGuard) {
+    const wheelDataRaw = localStorage.getItem("wheelData");
+    const savedPrize = localStorage.getItem("wheelPrize");
+    if (!wheelDataRaw || !savedPrize) {
       navigate("/");
       return;
     }
 
-    const savedPrize = savedPrizeGuard;
-    if (savedPrize) {
-      setPrize(savedPrize);
-    }
+    setPrize(savedPrize);
 
-    // Get wheel data from localStorage
-    const wheelData = localStorage.getItem("wheelData");
+    // Parse wheel data
     let clientData = null;
-    if (wheelData) {
-      clientData = JSON.parse(wheelData);
+    if (wheelDataRaw) {
+      clientData = JSON.parse(wheelDataRaw);
       setTicketNumber(clientData.ticketNumber || "SD26-XXXX");
       setDevisNumber(clientData.devisNumber || "");
     }
