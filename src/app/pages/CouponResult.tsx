@@ -6,10 +6,8 @@ import {
   Trophy,
   Sparkles,
   Camera,
-  RotateCcw,
   FileText,
 } from "lucide-react";
-import { ShimmerButton } from "../components/ShimmerButton";
 import { PageTransition } from "../components/PageTransition";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
@@ -587,23 +585,6 @@ export function CouponResult() {
               </motion.div>
             )}
 
-            {/* Action Buttons */}
-            <motion.div
-              className="w-full max-w-sm space-y-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2 }}
-            >
-              <ShimmerButton
-                className="w-full h-14"
-                onClick={() => navigate("/")}
-              >
-                <span className="flex items-center gap-2">
-                  <RotateCcw size={16} />
-                  Nouvelle inscription RSVP
-                </span>
-              </ShimmerButton>
-            </motion.div>
           </>
         )}
       </AnimatePresence>
