@@ -9,8 +9,8 @@ export function TopBar({ rightText = 'Cosmotrend · 2026' }: TopBarProps) {
     <motion.div
       className="absolute top-0 left-0 right-0 h-[44px] flex items-center justify-between px-5 border-b z-10"
       style={{
-        background: 'rgba(13,0,8,0.95)',
-        borderColor: 'rgba(248,164,200,0.07)',
+        background: 'rgba(250,247,242,0.97)',
+        borderColor: 'rgba(232,0,125,0.10)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
       }}
@@ -22,12 +22,12 @@ export function TopBar({ rightText = 'Cosmotrend · 2026' }: TopBarProps) {
         <motion.div
           className="w-7 h-7 rounded-full flex items-center justify-center border"
           style={{
-            background: 'rgba(248,164,200,0.1)',
-            borderColor: 'rgba(248,164,200,0.25)',
+            background: 'rgba(232,0,125,0.08)',
+            borderColor: 'rgba(232,0,125,0.25)',
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: '12px',
             fontStyle: 'italic',
-            color: '#F8A4C8',
+            color: '#E8007D',
           }}
           whileHover={{ scale: 1.1, rotate: 360 }}
           transition={{ duration: 0.5 }}
@@ -40,7 +40,7 @@ export function TopBar({ rightText = 'Cosmotrend · 2026' }: TopBarProps) {
             fontWeight: 700,
             letterSpacing: '0.28em',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.35)',
+            color: 'rgba(26,16,5,0.4)',
           }}
         >
           Semilac Days
@@ -51,7 +51,7 @@ export function TopBar({ rightText = 'Cosmotrend · 2026' }: TopBarProps) {
           fontSize: '7px',
           letterSpacing: '0.18em',
           textTransform: 'uppercase',
-          color: 'rgba(248,164,200,0.25)',
+          color: 'rgba(232,0,125,0.4)',
         }}
       >
         {rightText}

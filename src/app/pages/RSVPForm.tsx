@@ -157,7 +157,7 @@ export function RSVPForm() {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#0D0008' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar />
@@ -179,16 +179,16 @@ export function RSVPForm() {
           <motion.div
             className="inline-flex items-center gap-2 border rounded-full px-4 py-2 mb-4 relative overflow-hidden"
             style={{
-              borderColor: 'rgba(248,164,200,0.3)',
-              background: 'rgba(248,164,200,0.06)',
-              boxShadow: '0 0 20px rgba(248,164,200,0.2)',
+              borderColor: 'rgba(232,0,125,0.25)',
+              background: 'rgba(232,0,125,0.06)',
+              boxShadow: '0 0 20px rgba(232,0,125,0.12)',
             }}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(248,164,200,0.4)' }}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(232,0,125,0.2)' }}
           >
             <motion.div
               className="absolute inset-0"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
               }}
               animate={{ x: ['-100%', '200%'] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
@@ -197,7 +197,7 @@ export function RSVPForm() {
               animate={{ rotate: [0, 360], scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <Sparkles size={12} color="#F8A4C8" />
+              <Sparkles size={12} color="#E8007D" />
             </motion.div>
             <span
               style={{
@@ -205,7 +205,7 @@ export function RSVPForm() {
                 fontWeight: 700,
                 letterSpacing: '0.24em',
                 textTransform: 'uppercase',
-                color: '#F8A4C8',
+                color: '#E8007D',
               }}
             >
               Invitation Exclusive
@@ -220,9 +220,7 @@ export function RSVPForm() {
             transition={{ delay: 0.3, duration: 0.6 }}
             whileHover={{ scale: 1.03 }}
           >
-            <div style={{ filter: 'brightness(0) invert(1)' }}>
-              <SemilacDaysLogo height={80} />
-            </div>
+            <SemilacDaysLogo height={80} />
           </motion.div>
 
           {/* Event info */}
@@ -241,7 +239,7 @@ export function RSVPForm() {
                 key={text}
                 className="flex items-center gap-1"
                 whileHover={{ scale: 1.1 }}
-                style={{ fontSize: '9px', color: 'rgba(248,164,200,0.6)', letterSpacing: '0.1em' }}
+                style={{ fontSize: '9px', color: 'rgba(232,0,125,0.6)', letterSpacing: '0.1em' }}
               >
                 {icon}
                 <span>{text}</span>
@@ -254,22 +252,22 @@ export function RSVPForm() {
         <motion.div
           className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden"
           style={{
-            background: 'rgba(20,5,15,0.88)',
-            border: '1px solid rgba(248,164,200,0.18)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(248,164,200,0.1)',
+            background: 'rgba(255,255,255,0.85)',
+            border: '1px solid rgba(232,0,125,0.12)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           whileHover={{
-            boxShadow: '0 25px 70px rgba(248,164,200,0.3), 0 0 0 1px rgba(248,164,200,0.2)',
+            boxShadow: '0 12px 50px rgba(232,0,125,0.12)',
           }}
         >
           {/* Ambient glow */}
           <motion.div
             className="absolute top-0 left-1/2 w-64 h-64 rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(248,164,200,0.15), transparent)',
+              background: 'radial-gradient(circle, rgba(232,0,125,0.08), transparent)',
               filter: 'blur(40px)',
               transform: 'translate(-50%, -50%)',
             }}
@@ -289,14 +287,8 @@ export function RSVPForm() {
                 fontWeight: 700,
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
-                background: 'linear-gradient(90deg, #F8A4C8, #ffc8de, #F8A4C8)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundSize: '200% 100%',
+                color: '#E8007D',
               }}
-              animate={{ backgroundPosition: ['0% 0%', '100% 0%', '0% 0%'] }}
-              transition={{ duration: 3, repeat: Infinity }}
             >
               Confirmez votre présence
             </motion.h2>
@@ -369,12 +361,12 @@ export function RSVPForm() {
           <div className="mt-5 relative">
             <div
               className="relative w-full rounded-full overflow-hidden"
-              style={{ height: '3px', background: 'rgba(255,255,255,0.07)' }}
+              style={{ height: '3px', background: 'rgba(26,16,5,0.07)' }}
             >
               <motion.div
                 className="absolute inset-y-0 left-0 rounded-full"
                 style={{
-                  background: 'linear-gradient(90deg, #c47090, #F8A4C8, #D4A574)',
+                  background: 'linear-gradient(90deg, #C4157A, #E8007D, #C4904A)',
                 }}
                 animate={{ width: `${progress * 100}%` }}
                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
@@ -385,10 +377,10 @@ export function RSVPForm() {
                 style={{
                   fontSize: '7px',
                   letterSpacing: '0.1em',
-                  color: 'rgba(248,164,200,0.35)',
+                  color: 'rgba(232,0,125,0.45)',
                   textTransform: 'uppercase',
                 }}
-                animate={{ opacity: progress === 1 ? [0.35, 0.8, 0.35] : 0.35 }}
+                animate={{ opacity: progress === 1 ? [0.5, 1, 0.5] : 1 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {progress === 1 ? '✓ Formulaire complet' : 'Informations requises'}
@@ -397,7 +389,7 @@ export function RSVPForm() {
                 style={{
                   fontSize: '7px',
                   letterSpacing: '0.1em',
-                  color: 'rgba(248,164,200,0.35)',
+                  color: 'rgba(232,0,125,0.4)',
                 }}
               >
                 {filledCount}/7
@@ -422,7 +414,7 @@ export function RSVPForm() {
                     className="flex items-center gap-2"
                   >
                     <motion.div
-                      className="w-4 h-4 border-2 border-[#0D0008] border-t-transparent rounded-full"
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                       animate={{ rotate: 360 }}
                       transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                     />
@@ -454,7 +446,7 @@ export function RSVPForm() {
           <motion.div
             style={{
               fontSize: '8px',
-              color: 'rgba(248,164,200,0.6)',
+              color: 'rgba(232,0,125,0.5)',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
             }}

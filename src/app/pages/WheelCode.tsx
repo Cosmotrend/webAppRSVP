@@ -6,6 +6,7 @@ import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
+import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
 
@@ -111,7 +112,7 @@ export function WheelCode() {
   const isFormValid = ticketNumber.length >= 8 && devisNumber.length === 6;
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#0D0008' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar rightText="Roue de la Fortune" />
@@ -132,73 +133,44 @@ export function WheelCode() {
           <motion.div
             className="inline-flex items-center gap-2 border rounded-full px-5 py-2 mb-5 relative overflow-hidden"
             style={{
-              borderColor: 'rgba(248,164,200,0.25)',
-              background: 'rgba(248,164,200,0.06)',
-              boxShadow: '0 0 20px rgba(248,164,200,0.2)',
+              borderColor: 'rgba(232,0,125,0.25)',
+              background: 'rgba(232,0,125,0.06)',
+              boxShadow: '0 0 20px rgba(232,0,125,0.10)',
             }}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(248,164,200,0.4)' }}
+            whileHover={{ scale: 1.05 }}
           >
-            <Sparkles size={12} color="#F8A4C8" />
+            <Sparkles size={12} color="#E8007D" />
             <span
               style={{
                 fontSize: '8px',
                 fontWeight: 700,
                 letterSpacing: '0.24em',
                 textTransform: 'uppercase',
-                color: '#F8A4C8',
+                color: '#E8007D',
               }}
             >
               Validation Client
             </span>
           </motion.div>
 
-          {/* Logo */}
+          {/* Logo officiel */}
           <motion.div
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '56px',
-              fontWeight: 300,
-              fontStyle: 'italic',
-              lineHeight: 0.85,
-              background: 'linear-gradient(150deg, #c47090, #F8A4C8, #ffdaec, #D4A574)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
+            className="flex justify-center mb-2"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Semilac
+            <SemilacDaysLogo height={72} />
           </motion.div>
 
           <motion.div
-            style={{
-              fontSize: '20px',
-              fontWeight: 800,
-              letterSpacing: '0.48em',
-              textTransform: 'uppercase',
-              color: '#FFF8F5',
-              marginTop: '4px',
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            DAYS
-          </motion.div>
-
-          <motion.div
-            className="mt-4"
+            className="mt-3"
             style={{
               fontSize: '11px',
               fontWeight: 700,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              background: 'linear-gradient(90deg, #F8A4C8, #D4A574, #F8A4C8)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: '#E8007D',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -212,9 +184,9 @@ export function WheelCode() {
         <motion.div
           className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden flex-1 flex flex-col justify-center"
           style={{
-            background: 'rgba(20,5,15,0.92)',
-            border: '1px solid rgba(248,164,200,0.18)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+            background: 'rgba(255,255,255,0.85)',
+            border: '1px solid rgba(232,0,125,0.12)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -224,7 +196,7 @@ export function WheelCode() {
           <motion.div
             className="absolute top-0 left-1/2 w-64 h-64 rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(248,164,200,0.15), transparent)',
+              background: 'radial-gradient(circle, rgba(232,0,125,0.08), transparent)',
               filter: 'blur(40px)',
               transform: 'translate(-50%, -50%)',
             }}
@@ -246,7 +218,7 @@ export function WheelCode() {
               <div
                 style={{
                   fontSize: '10px',
-                  color: 'rgba(255,248,245,0.7)',
+                  color: 'rgba(26,16,5,0.5)',
                   letterSpacing: '0.08em',
                   lineHeight: '1.6',
                 }}
@@ -272,7 +244,7 @@ export function WheelCode() {
                     fontWeight: 600,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    color: '#F8A4C8',
+                    color: '#E8007D',
                   }}
                 >
                   Code Billet Client
@@ -286,22 +258,22 @@ export function WheelCode() {
                 placeholder="SD26-001"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
-                  background: 'rgba(248,164,200,0.08)',
-                  border: '2px solid rgba(248,164,200,0.25)',
-                  color: '#FFF8F5',
+                  background: 'rgba(232,0,125,0.04)',
+                  border: '2px solid rgba(232,0,125,0.2)',
+                  color: '#1A1005',
                   fontSize: '16px',
                   fontWeight: 700,
                   letterSpacing: '0.2em',
                   textAlign: 'center',
                   fontFamily: "'Courier New', monospace",
-                  boxShadow: '0 4px 20px rgba(248,164,200,0.15)',
+                  boxShadow: '0 4px 20px rgba(232,0,125,0.08)',
                 }}
               />
               <div
                 className="mt-1 text-right"
                 style={{
                   fontSize: '7px',
-                  color: 'rgba(255,248,245,0.4)',
+                  color: 'rgba(26,16,5,0.35)',
                   letterSpacing: '0.05em',
                 }}
               >
@@ -324,7 +296,7 @@ export function WheelCode() {
                     fontWeight: 600,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    color: '#D4A574',
+                    color: '#C4904A',
                   }}
                 >
                   Numéro de Devis
@@ -338,22 +310,22 @@ export function WheelCode() {
                 placeholder="S26___"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
-                  background: 'rgba(212,165,116,0.08)',
-                  border: '2px solid rgba(212,165,116,0.25)',
-                  color: '#FFF8F5',
+                  background: 'rgba(196,144,74,0.06)',
+                  border: '2px solid rgba(196,144,74,0.25)',
+                  color: '#1A1005',
                   fontSize: '16px',
                   fontWeight: 700,
                   letterSpacing: '0.3em',
                   textAlign: 'center',
                   fontFamily: "'Courier New', monospace",
-                  boxShadow: '0 4px 20px rgba(212,165,116,0.15)',
+                  boxShadow: '0 4px 20px rgba(196,144,74,0.10)',
                 }}
               />
               <div
                 className="mt-1 text-right"
                 style={{
                   fontSize: '7px',
-                  color: 'rgba(255,248,245,0.4)',
+                  color: 'rgba(26,16,5,0.35)',
                   letterSpacing: '0.05em',
                 }}
               >
@@ -442,7 +414,7 @@ export function WheelCode() {
           <div
             style={{
               fontSize: '7px',
-              color: 'rgba(248,164,200,0.5)',
+              color: 'rgba(232,0,125,0.4)',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
             }}

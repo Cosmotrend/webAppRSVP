@@ -37,25 +37,25 @@ export function PremiumInput({
         className="relative rounded-xl overflow-hidden"
         animate={{
           boxShadow: isFocused
-            ? '0 0 0 2px rgba(248,164,200,0.3), 0 8px 20px rgba(248,164,200,0.15)'
-            : '0 0 0 1px rgba(248,164,200,0.11)',
+            ? '0 0 0 2px rgba(232,0,125,0.25), 0 8px 20px rgba(232,0,125,0.08)'
+            : '0 0 0 1px rgba(26,16,5,0.10)',
         }}
         transition={{ duration: 0.2 }}
       >
-        {/* Animated background gradient */}
+        {/* Background */}
         <motion.div
           className="absolute inset-0"
           style={{
             background: isFocused
-              ? 'linear-gradient(135deg, rgba(248,164,200,0.08), rgba(212,165,116,0.08))'
-              : 'rgba(255,255,255,0.03)',
+              ? 'linear-gradient(135deg, rgba(232,0,125,0.04), rgba(196,144,74,0.04))'
+              : 'rgba(255,255,255,0.7)',
           }}
         />
 
         <input
           className="relative w-full px-4 pt-6 pb-2 outline-none bg-transparent"
           style={{
-            color: 'rgba(255,248,245,0.9)',
+            color: '#1A1005',
             fontSize: '11px',
             fontWeight: 600,
             letterSpacing: '0.08em',
@@ -79,7 +79,7 @@ export function PremiumInput({
             fontWeight: 600,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
-            color: isFocused ? '#F8A4C8' : 'rgba(248,164,200,0.4)',
+            color: isFocused ? '#E8007D' : 'rgba(26,16,5,0.4)',
             fontFamily: "'Montserrat', sans-serif",
           }}
           animate={{
@@ -102,18 +102,12 @@ export function PremiumInput({
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             >
               {isValid ? (
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Check size={16} color="#F8A4C8" strokeWidth={3} />
+                <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 0.5 }}>
+                  <Check size={16} color="#E8007D" strokeWidth={3} />
                 </motion.div>
               ) : (
-                <motion.div
-                  animate={{ rotate: [-5, 5, -5] }}
-                  transition={{ duration: 0.3, repeat: 2 }}
-                >
-                  <AlertCircle size={16} color="rgba(255,100,100,0.7)" strokeWidth={2} />
+                <motion.div animate={{ rotate: [-5, 5, -5] }} transition={{ duration: 0.3, repeat: 2 }}>
+                  <AlertCircle size={16} color="rgba(220,50,50,0.7)" strokeWidth={2} />
                 </motion.div>
               )}
             </motion.div>
@@ -130,8 +124,8 @@ export function PremiumInput({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
           >
-            <AlertCircle size={10} color="rgba(255,100,100,0.8)" />
-            <span style={{ fontSize: '9px', color: 'rgba(255,100,100,0.8)', fontWeight: 600, letterSpacing: '0.05em' }}>
+            <AlertCircle size={10} color="rgba(220,50,50,0.8)" />
+            <span style={{ fontSize: '9px', color: 'rgba(220,50,50,0.8)', fontWeight: 600, letterSpacing: '0.05em' }}>
               {errorMessage}
             </span>
           </motion.div>
@@ -144,7 +138,7 @@ export function PremiumInput({
           <motion.div
             className="absolute -bottom-1 left-0 right-0 h-1 rounded-full"
             style={{
-              background: 'linear-gradient(90deg, transparent, #F8A4C8, transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.4), transparent)',
               filter: 'blur(4px)',
             }}
             initial={{ opacity: 0, scaleX: 0 }}

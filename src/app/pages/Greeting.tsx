@@ -10,22 +10,15 @@ export function Greeting() {
   const [name, setName] = useState('Invité');
 
   useEffect(() => {
-    // Route guard
     const wheelDataRaw = localStorage.getItem('wheelData');
     if (!wheelDataRaw) {
       navigate('/staff-pin');
       return;
     }
 
-    const wheelData = wheelDataRaw;
-    if (wheelData) {
-      const data = JSON.parse(wheelData);
-      if (data.clientName) {
-        setName(data.clientName);
-      }
-    }
+    const data = JSON.parse(wheelDataRaw);
+    if (data.clientName) setName(data.clientName);
 
-    // Auto-navigate after 3.5 seconds
     const timer = setTimeout(() => {
       navigate('/wheel-game');
     }, 3500);
@@ -34,13 +27,13 @@ export function Greeting() {
   }, [navigate]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#0D0008' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar rightText="" />
 
       <div className="absolute top-[44px] left-0 right-0 bottom-0 flex flex-col items-center justify-center px-6 text-center">
-        {/* Multiple layered glow effects */}
+        {/* Glow effects */}
         {[1, 2, 3].map((i) => (
           <motion.div
             key={i}
@@ -50,19 +43,15 @@ export function Greeting() {
               left: '50%',
               width: `${240 + i * 40}px`,
               height: `${240 + i * 40}px`,
-              background: `radial-gradient(ellipse, rgba(248,164,200,${0.2 - i * 0.05}) 0%, transparent 70%)`,
+              background: `radial-gradient(ellipse, rgba(232,0,125,${0.08 - i * 0.02}) 0%, transparent 70%)`,
               filter: `blur(${40 + i * 10}px)`,
               transform: 'translate(-50%, -50%)',
             }}
             animate={{
               scale: [1, 1.2 + i * 0.1, 1],
-              opacity: [0.3 + i * 0.1, 0.6 + i * 0.1, 0.3 + i * 0.1],
+              opacity: [0.5, 0.9, 0.5],
             }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            transition={{ duration: 4 + i, repeat: Infinity, ease: 'easeInOut' }}
           />
         ))}
 
@@ -73,7 +62,7 @@ export function Greeting() {
             fontWeight: 700,
             letterSpacing: '0.42em',
             textTransform: 'uppercase',
-            color: 'rgba(248,164,200,0.5)',
+            color: 'rgba(232,0,125,0.5)',
             marginBottom: '24px',
             position: 'relative',
           }}
@@ -81,18 +70,7 @@ export function Greeting() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <motion.span
-            animate={{
-              textShadow: [
-                '0 0 10px rgba(248,164,200,0.3)',
-                '0 0 20px rgba(248,164,200,0.6)',
-                '0 0 10px rgba(248,164,200,0.3)',
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            BIENVENUE
-          </motion.span>
+          BIENVENUE
         </motion.div>
 
         {/* Greeting text */}
@@ -102,7 +80,7 @@ export function Greeting() {
             fontSize: '24px',
             fontWeight: 300,
             fontStyle: 'italic',
-            color: 'rgba(255,248,245,0.5)',
+            color: 'rgba(26,16,5,0.5)',
             marginBottom: '8px',
             position: 'relative',
           }}
@@ -113,7 +91,7 @@ export function Greeting() {
           Bonjour,
         </motion.div>
 
-        {/* Name with 3D effect */}
+        {/* Client name */}
         <motion.div
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -121,7 +99,7 @@ export function Greeting() {
             fontWeight: 300,
             fontStyle: 'italic',
             lineHeight: 1.05,
-            background: 'linear-gradient(140deg, #c47090, #F8A4C8, #ffdaec, #D4A574)',
+            background: 'linear-gradient(140deg, #C4157A, #E8007D, #ff4da6, #C4904A)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -150,7 +128,7 @@ export function Greeting() {
           style={{
             width: '80px',
             height: '2px',
-            background: 'linear-gradient(90deg, transparent, rgba(248,164,200,0.5), transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.5), transparent)',
             margin: '0 auto 28px',
             position: 'relative',
           }}
@@ -158,7 +136,6 @@ export function Greeting() {
           animate={{ width: '80px', opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
         >
-          {/* Glowing dots on divider */}
           {[-1, 0, 1].map((pos) => (
             <motion.div
               key={pos}
@@ -166,40 +143,25 @@ export function Greeting() {
               style={{
                 width: '6px',
                 height: '6px',
-                background: '#F8A4C8',
+                background: '#E8007D',
                 left: pos === -1 ? '0%' : pos === 0 ? '50%' : '100%',
                 transform: 'translate(-50%, -50%)',
-                boxShadow: '0 0 12px rgba(248,164,200,0.8)',
+                boxShadow: '0 0 12px rgba(232,0,125,0.6)',
               }}
-              animate={{
-                scale: [1, 1.4, 1],
-                opacity: [1, 0.6, 1],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: pos * 0.2,
-              }}
+              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity, delay: pos * 0.2 }}
             />
           ))}
         </motion.div>
 
-        {/* Message with sparkles */}
+        {/* Message */}
         <motion.div
-          className="relative"
-          style={{
-            fontSize: '12px',
-            letterSpacing: '0.16em',
-            color: 'rgba(255,248,245,0.35)',
-          }}
+          style={{ fontSize: '12px', letterSpacing: '0.16em', color: 'rgba(26,16,5,0.35)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
         >
-          <motion.span
-            animate={{ opacity: [0.35, 0.6, 0.35] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+          <motion.span animate={{ opacity: [0.35, 0.6, 0.35] }} transition={{ duration: 2, repeat: Infinity }}>
             Votre roue vous attend
           </motion.span>
           {' '}
@@ -212,42 +174,31 @@ export function Greeting() {
           </motion.span>
         </motion.div>
 
-        {/* Orbiting particles around name */}
+        {/* Orbiting particles */}
         {[...Array(8)].map((_, i) => {
           const angle = (360 / 8) * i;
           const radius = 140;
           const x = Math.cos((angle * Math.PI) / 180) * radius;
           const y = Math.sin((angle * Math.PI) / 180) * radius;
-
           return (
             <motion.div
               key={i}
               className="absolute rounded-full"
               style={{
-                width: '8px',
-                height: '8px',
-                background: `rgba(248,164,200,${0.4 + Math.random() * 0.4})`,
-                boxShadow: '0 0 12px rgba(248,164,200,0.6)',
+                width: '6px',
+                height: '6px',
+                background: `rgba(232,0,125,${0.3 + Math.random() * 0.3})`,
+                boxShadow: '0 0 10px rgba(232,0,125,0.4)',
                 top: '50%',
                 left: '50%',
               }}
-              animate={{
-                x: [0, x, 0],
-                y: [0, y, 0],
-                scale: [0, 1, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                delay: i * 0.2,
-                ease: 'easeInOut',
-              }}
+              animate={{ x: [0, x, 0], y: [0, y, 0], scale: [0, 1, 0], opacity: [0, 1, 0] }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.2, ease: 'easeInOut' }}
             />
           );
         })}
 
-        {/* Progress indicator */}
+        {/* Progress dots */}
         <motion.div
           className="absolute bottom-12 left-1/2"
           style={{ transform: 'translateX(-50%)' }}
@@ -255,28 +206,17 @@ export function Greeting() {
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
         >
-          <motion.div
-            className="flex gap-2"
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
+          <div className="flex gap-2">
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
                 className="w-2 h-2 rounded-full"
-                style={{ background: 'rgba(248,164,200,0.5)' }}
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
+                style={{ background: 'rgba(232,0,125,0.4)' }}
+                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
               />
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </div>

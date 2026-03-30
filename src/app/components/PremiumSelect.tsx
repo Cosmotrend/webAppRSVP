@@ -29,8 +29,8 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
         className="relative rounded-xl overflow-hidden"
         animate={{
           boxShadow: isFocused
-            ? '0 0 0 2px rgba(248,164,200,0.3), 0 8px 20px rgba(248,164,200,0.15)'
-            : '0 0 0 1px rgba(248,164,200,0.11)',
+            ? '0 0 0 2px rgba(232,0,125,0.25), 0 8px 20px rgba(232,0,125,0.08)'
+            : '0 0 0 1px rgba(26,16,5,0.10)',
         }}
         transition={{ duration: 0.2 }}
       >
@@ -39,8 +39,8 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
           className="absolute inset-0"
           style={{
             background: isFocused
-              ? 'linear-gradient(135deg, rgba(248,164,200,0.08), rgba(212,165,116,0.08))'
-              : 'rgba(255,255,255,0.03)',
+              ? 'linear-gradient(135deg, rgba(232,0,125,0.04), rgba(196,144,74,0.04))'
+              : 'rgba(255,255,255,0.7)',
           }}
         />
 
@@ -52,7 +52,7 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
             fontWeight: 600,
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
-            color: isFocused ? '#F8A4C8' : 'rgba(248,164,200,0.4)',
+            color: isFocused ? '#E8007D' : 'rgba(26,16,5,0.4)',
             fontFamily: "'Montserrat', sans-serif",
           }}
           animate={{
@@ -64,7 +64,7 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
           {label}{required && ' *'}
         </motion.label>
 
-        {/* Native select — preserves iOS/Android native picker UX */}
+        {/* Native select */}
         <select
           className="relative w-full outline-none bg-transparent appearance-none cursor-pointer"
           style={{
@@ -72,7 +72,7 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
             paddingRight: '36px',
             paddingTop: isFocused || hasValue ? '22px' : '14px',
             paddingBottom: '6px',
-            color: hasValue ? 'rgba(255,248,245,0.9)' : 'transparent',
+            color: hasValue ? '#1A1005' : 'transparent',
             fontSize: '11px',
             fontWeight: 600,
             letterSpacing: '0.06em',
@@ -84,12 +84,12 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         >
-          <option value="" disabled style={{ background: '#140510', color: 'transparent' }}></option>
+          <option value="" disabled style={{ background: '#FAF7F2', color: 'transparent' }}></option>
           {options.map((opt) => (
             <option
               key={opt.value}
               value={opt.value}
-              style={{ background: '#140510', color: '#FFF8F5' }}
+              style={{ background: '#FFFFFF', color: '#1A1005' }}
             >
               {opt.label}
             </option>
@@ -102,7 +102,7 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
           animate={{ rotate: isFocused ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <ChevronDown size={14} color={isFocused ? '#F8A4C8' : 'rgba(248,164,200,0.4)'} />
+          <ChevronDown size={14} color={isFocused ? '#E8007D' : 'rgba(26,16,5,0.4)'} />
         </motion.div>
       </motion.div>
 
@@ -112,7 +112,7 @@ export function PremiumSelect({ label, value, onChange, options, required }: Pre
           <motion.div
             className="absolute -bottom-1 left-0 right-0 h-1 rounded-full"
             style={{
-              background: 'linear-gradient(90deg, transparent, #F8A4C8, transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.4), transparent)',
               filter: 'blur(4px)',
             }}
             initial={{ opacity: 0, scaleX: 0 }}

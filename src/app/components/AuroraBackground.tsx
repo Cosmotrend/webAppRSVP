@@ -4,12 +4,12 @@ export function AuroraBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute w-[300px] h-[300px] rounded-full"
+        className="absolute w-[350px] h-[350px] rounded-full"
         style={{
-          background: 'radial-gradient(ellipse, rgba(248,164,200,0.3) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          top: '-80px',
-          left: '-60px',
+          background: 'radial-gradient(ellipse, rgba(232,0,125,0.10) 0%, transparent 70%)',
+          filter: 'blur(70px)',
+          top: '-100px',
+          left: '-80px',
         }}
         animate={{
           x: [0, 30, 0],
@@ -23,12 +23,12 @@ export function AuroraBackground() {
         }}
       />
       <motion.div
-        className="absolute w-[250px] h-[250px] rounded-full"
+        className="absolute w-[280px] h-[280px] rounded-full"
         style={{
-          background: 'radial-gradient(ellipse, rgba(212,100,150,0.18) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(232,0,125,0.07) 0%, transparent 70%)',
           filter: 'blur(60px)',
           top: '40%',
-          right: '-60px',
+          right: '-70px',
         }}
         animate={{
           x: [0, -20, 0],
@@ -42,9 +42,9 @@ export function AuroraBackground() {
         }}
       />
       <motion.div
-        className="absolute w-[200px] h-[200px] rounded-full"
+        className="absolute w-[220px] h-[220px] rounded-full"
         style={{
-          background: 'radial-gradient(ellipse, rgba(212,165,116,0.18) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(196,144,74,0.07) 0%, transparent 70%)',
           filter: 'blur(60px)',
           bottom: '-20px',
           left: '15%',

@@ -8,8 +8,7 @@ export function SemilacDaysLogo({ height = 80, className }: SemilacDaysLogoProps
     <img
       src="/logos/semilac-days.svg"
       alt="Semilac Days"
-      height={height}
-      style={{ display: 'block' }}
+      style={{ display: 'block', height: `${height}px`, width: 'auto' }}
       className={className}
     />
   );

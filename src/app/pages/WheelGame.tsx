@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
+import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
 import { PageTransition } from '../components/PageTransition';
 import { ShimmerButton } from '../components/ShimmerButton';
@@ -106,7 +107,7 @@ export function WheelGame() {
   const lastName = nameParts.slice(1).join(' ') || 'VIP';
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#0D0008' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar rightText="" />
@@ -120,9 +121,9 @@ export function WheelGame() {
         <div
           className="rounded-3xl p-4 text-center h-full backdrop-blur-xl flex flex-col"
           style={{
-            background: 'rgba(20,5,15,0.88)',
-            border: '1px solid rgba(248,164,200,0.18)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+            background: 'rgba(255,255,255,0.85)',
+            border: '1px solid rgba(232,0,125,0.12)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
           }}
         >
           {/* Title Section */}
@@ -136,16 +137,13 @@ export function WheelGame() {
             <motion.div
               style={{
                 fontFamily: "'Montserrat', sans-serif",
-                fontSize: '18px',
+                fontSize: '14px',
                 fontWeight: 700,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                background: 'linear-gradient(90deg, #F8A4C8, #D4A574, #F8A4C8)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: '#E8007D',
                 lineHeight: '1.1',
-                marginBottom: '12px',
+                marginBottom: '8px',
               }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -154,40 +152,14 @@ export function WheelGame() {
               Roue de la Fortune
             </motion.div>
 
-            {/* SEMILAC DAYS LOGO */}
+            {/* SEMILAC DAYS LOGO officiel */}
             <motion.div
-              className="mb-4"
+              className="flex justify-center mb-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <div
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '28px',
-                  fontWeight: 300,
-                  fontStyle: 'italic',
-                  background: 'linear-gradient(150deg, #c47090, #F8A4C8, #ffdaec, #D4A574)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  lineHeight: '0.9',
-                }}
-              >
-                Semilac
-              </div>
-              <div
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 800,
-                  letterSpacing: '0.42em',
-                  textTransform: 'uppercase',
-                  color: '#FFF8F5',
-                  marginTop: '2px',
-                }}
-              >
-                DAYS
-              </div>
+              <SemilacDaysLogo height={56} />
             </motion.div>
 
             {/* ESSAI indicator */}
@@ -197,7 +169,7 @@ export function WheelGame() {
                 fontWeight: 700,
                 letterSpacing: '0.24em',
                 textTransform: 'uppercase',
-                color: '#F8A4C8',
+                color: '#E8007D',
                 marginBottom: '12px',
               }}
               initial={{ opacity: 0 }}
@@ -219,7 +191,7 @@ export function WheelGame() {
                   fontWeight: 600,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  color: 'rgba(255,248,245,0.6)',
+                  color: 'rgba(26,16,5,0.5)',
                   marginBottom: '4px',
                 }}
               >
@@ -231,7 +203,7 @@ export function WheelGame() {
                   fontWeight: 700,
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: '#F8A4C8',
+                  color: '#E8007D',
                   marginBottom: '8px',
                 }}
               >
@@ -242,10 +214,10 @@ export function WheelGame() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  border: '1px solid rgba(248,164,200,0.25)',
+                  border: '1px solid rgba(232,0,125,0.2)',
                   borderRadius: '100px',
                   padding: '4px 12px',
-                  background: 'rgba(248,164,200,0.05)',
+                  background: 'rgba(232,0,125,0.05)',
                 }}
               >
                 <span
@@ -253,8 +225,8 @@ export function WheelGame() {
                     width: '3px',
                     height: '3px',
                     borderRadius: '50%',
-                    background: '#F8A4C8',
-                    boxShadow: '0 0 6px rgba(248,164,200,0.8)',
+                    background: '#E8007D',
+                    boxShadow: '0 0 6px rgba(232,0,125,0.6)',
                     display: 'inline-block',
                   }}
                 />
@@ -264,7 +236,7 @@ export function WheelGame() {
                     fontWeight: 600,
                     letterSpacing: '0.22em',
                     textTransform: 'uppercase',
-                    color: '#F8A4C8',
+                    color: '#E8007D',
                   }}
                 >
                   {ticketNumber}
@@ -274,8 +246,8 @@ export function WheelGame() {
                     width: '3px',
                     height: '3px',
                     borderRadius: '50%',
-                    background: '#F8A4C8',
-                    boxShadow: '0 0 6px rgba(248,164,200,0.8)',
+                    background: '#E8007D',
+                    boxShadow: '0 0 6px rgba(232,0,125,0.6)',
                     display: 'inline-block',
                   }}
                 />
@@ -294,16 +266,16 @@ export function WheelGame() {
               <motion.div
                 className="relative rounded-2xl p-4"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(248,164,200,0.12), rgba(212,165,116,0.08))',
-                  border: '1.5px solid rgba(248,164,200,0.3)',
-                  boxShadow: '0 8px 32px rgba(248,164,200,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
+                  background: 'linear-gradient(135deg, rgba(232,0,125,0.06), rgba(196,144,74,0.06))',
+                  border: '1.5px solid rgba(232,0,125,0.2)',
+                  boxShadow: '0 8px 32px rgba(232,0,125,0.08), inset 0 1px 0 rgba(255,255,255,0.5)',
                 }}
                 animate={{
-                  borderColor: ['rgba(248,164,200,0.3)', 'rgba(248,164,200,0.5)', 'rgba(248,164,200,0.3)'],
+                  borderColor: ['rgba(232,0,125,0.2)', 'rgba(232,0,125,0.4)', 'rgba(232,0,125,0.2)'],
                   boxShadow: [
-                    '0 8px 32px rgba(248,164,200,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
-                    '0 8px 40px rgba(248,164,200,0.25), inset 0 1px 0 rgba(255,255,255,0.15)',
-                    '0 8px 32px rgba(248,164,200,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
+                    '0 8px 32px rgba(232,0,125,0.08)',
+                    '0 8px 40px rgba(232,0,125,0.15)',
+                    '0 8px 32px rgba(232,0,125,0.08)',
                   ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -318,7 +290,7 @@ export function WheelGame() {
                   style={{
                     fontFamily: "'Montserrat', sans-serif",
                     fontSize: '12px',
-                    color: '#F8A4C8',
+                    color: '#1A1005',
                     letterSpacing: '0.08em',
                     fontWeight: 600,
                     textAlign: 'center',
@@ -339,10 +311,7 @@ export function WheelGame() {
                       <br />
                       <span style={{ 
                         fontFamily: "'Montserrat', sans-serif",
-                        background: 'linear-gradient(90deg, #F8A4C8, #D4A574, #F8A4C8)',
-                        WebkitBackgroundClip: 'text',
-                        backgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
+                        color: '#E8007D',
                         fontWeight: 800,
                         fontSize: '13px',
                       }}>
@@ -356,7 +325,7 @@ export function WheelGame() {
                       <br />
                       <span style={{ 
                         fontFamily: "'Montserrat', sans-serif",
-                        color: '#D4A574',
+                        color: '#C4904A',
                         fontWeight: 800,
                       }}>
                         Améliorez votre gain de {firstPrize}
@@ -390,7 +359,7 @@ export function WheelGame() {
               <motion.div
                 style={{
                   fontSize: '13px',
-                  color: '#F8A4C8',
+                  color: '#E8007D',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
                   marginBottom: '12px',
