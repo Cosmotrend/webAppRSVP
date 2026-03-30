@@ -7,6 +7,7 @@ import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
+import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 
 function generateTicketImage(ticketNumber: string, fullName: string): string {
@@ -632,6 +633,17 @@ export function Confirmation() {
                 </ShimmerButton>
 
               </motion.div>
+
+              {/* Brand strip */}
+              <motion.div
+                className="mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 3.2 }}
+              >
+                <BrandStrip />
+              </motion.div>
+
             </div>
           </motion.div>
         )}

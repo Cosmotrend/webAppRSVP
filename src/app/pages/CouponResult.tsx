@@ -9,6 +9,7 @@ import {
   FileText,
 } from "lucide-react";
 import { PageTransition } from "../components/PageTransition";
+import { BrandStrip } from "../components/logos/BrandStrip";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
 
@@ -584,6 +585,16 @@ export function CouponResult() {
                 </div>
               </motion.div>
             )}
+
+            {/* Brand strip */}
+            <motion.div
+              className="w-full max-w-sm mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.4 }}
+            >
+              <BrandStrip />
+            </motion.div>
 
           </>
         )}

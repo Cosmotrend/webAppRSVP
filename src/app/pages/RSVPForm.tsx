@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Calendar, MapPin, Users } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
+import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
@@ -211,40 +212,15 @@ export function RSVPForm() {
             </span>
           </motion.div>
 
-          {/* Main title */}
+          {/* Main title — logo officiel */}
           <motion.div
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '64px',
-              fontWeight: 300,
-              fontStyle: 'italic',
-              lineHeight: 0.85,
-              background: 'linear-gradient(150deg, #c47090, #F8A4C8, #ffdaec, #D4A574)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundSize: '200% 200%',
-            }}
-            whileHover={{ scale: 1.05 }}
+            className="flex justify-center"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            whileHover={{ scale: 1.03 }}
           >
-            Semilac
-          </motion.div>
-
-          <motion.div
-            style={{
-              fontSize: '22px',
-              fontWeight: 800,
-              letterSpacing: '0.48em',
-              textTransform: 'uppercase',
-              color: '#FFF8F5',
-              marginTop: '4px',
-              textShadow: '0 2px 20px rgba(248,164,200,0.3)',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            DAYS
+            <SemilacDaysLogo semilacSize={48} daysSize={40} />
           </motion.div>
 
           {/* Event info */}
