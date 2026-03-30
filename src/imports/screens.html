@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>RSVP Cosmotrend — All Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#111;font-family:'Montserrat',sans-serif;padding:40px 32px;}
+h1{color:#F8A4C8;font-size:13px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin-bottom:8px;}
+.meta{color:rgba(255,255,255,.25);font-size:11px;letter-spacing:.12em;margin-bottom:40px;}
+.flow-label{color:rgba(255,255,255,.35);font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;margin-bottom:16px;padding-left:4px;}
+.row{display:flex;gap:24px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:16px;margin-bottom:48px;}
+.screen-wrap{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.screen-label{color:rgba(255,255,255,.3);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;}
+.screen{width:375px;height:812px;background:#0D0008;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(248,164,200,.1);position:relative;font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased;}
+
+/* ── SHARED ── */
+.topbar{position:absolute;top:0;left:0;right:0;height:44px;background:rgba(13,0,8,.95);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(248,164,200,.07);}
+.topbar-logo{width:28px;height:28px;border-radius:50%;background:rgba(248,164,200,.1);border:1px solid rgba(248,164,200,.25);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:#F8A4C8;}
+.topbar-name{font-size:8px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-left:8px;}
+.topbar-right{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:rgba(248,164,200,.25);}
+.aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);}
+.b1{width:300px;height:300px;background:radial-gradient(ellipse,rgba(248,164,200,.3) 0%,transparent 70%);top:-80px;left:-60px;}
+.b2{width:250px;height:250px;background:radial-gradient(ellipse,rgba(212,100,150,.18) 0%,transparent 70%);top:40%;right:-60px;}
+.b3{width:200px;height:200px;background:radial-gradient(ellipse,rgba(212,165,116,.18) 0%,transparent 70%);bottom:-20px;left:15%;}
+.glass{background:rgba(20,5,15,.84);backdrop-filter:blur(20px);border:1px solid rgba(248,164,200,.14);border-radius:16px;}
+.btn-g{background:linear-gradient(135deg,#c47090,#F8A4C8,#ffc8de,#D4A574);color:#0D0008;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.btn-o{background:transparent;color:rgba(255,248,245,.35);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,248,245,.1);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.fi{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(248,164,200,.11);border-radius:8px;padding:16px 14px 6px;color:rgba(255,248,245,.5);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;}
+.fl{font-size:7px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(248,164,200,.55);margin-bottom:3px;}
+
+/* ────────────────────────────────
+   SCREEN 1 — RSVP Formulaire
+   ──────────────────────────────── */
+#s1 .content{position:absolute;top:44px;left:0;right:0;bottom:0;padding:28px 16px 20px;overflow:hidden;}
+#s1 .hero{text-align:center;margin-bottom:20px;}
+#s1 .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.2);border-radius:100px;padding:5px 14px;margin-bottom:16px;background:rgba(248,164,200,.04);}
+#s1 .badge-dot{width:4px;height:4px;border-radius:50%;background:#F8A4C8;box-shadow:0 0 8px rgba(248,164,200,.9);}
+#s1 .badge-text{font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#F8A4C8;}
+#s1 .title-s{display:block;font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;font-style:italic;line-height:.95;background:linear-gradient(150deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+#s1 .title-d{display:block;font-size:18px;font-weight:800;letter-spacing:.42em;text-transform:uppercase;color:#FFF8F5;}
+#s1 .subtitle{font-size:8px;letter-spacing:.26em;text-transform:uppercase;color:rgba(248,164,200,.45);margin-top:8px;}
+#s1 .dateinfo{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,248,245,.3);margin-top:6px;}
+#s1 .form-card{padding:20px 16px 16px;}
+#s1 .form-title{text-align:center;font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(248,164,200,.35);margin-bottom:14px;}
+#s1 .fields{display:flex;flex-direction:column;gap:8px;}
+#s1 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+#s1 .btns{display:flex;gap:8px;margin-top:14px;}
+
+/* ────────────────────────────────
+   SCREEN 2 — Confirmation
+   ──────────────────────────────── */
+#s2 .content{position:absolute;top:44px;left:0;right:0;bottom:0;padding:20px 16px;}
+#s2 .card{padding:32px 20px;text-align:center;}
+#s2 .check{width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(248,164,200,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+#s2 .big-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:#FFF8F5;margin-bottom:6px;line-height:1.2;}
+#s2 .sub{font-size:11px;color:rgba(255,248,245,.35);margin-bottom:24px;}
+#s2 .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.2),transparent);margin-bottom:18px;}
+#s2 .ticket-label{font-size:8px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,248,245,.22);margin-bottom:8px;}
+#s2 .ticket-code{font-family:'Courier New',monospace;font-size:22px;font-weight:700;letter-spacing:.18em;color:#F8A4C8;text-shadow:0 0 20px rgba(248,164,200,.35);display:inline-block;padding:12px 24px;background:rgba(248,164,200,.05);border:1px solid rgba(248,164,200,.15);border-radius:8px;margin-bottom:20px;}
+#s2 .perk{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;margin-bottom:8px;text-align:left;}
+#s2 .perk-icon{font-size:18px;flex-shrink:0;}
+#s2 .perk-title{font-size:11px;font-weight:600;color:#FFF8F5;margin-bottom:2px;}
+#s2 .perk-sub{font-size:9px;color:rgba(255,248,245,.3);}
+
+/* ────────────────────────────────
+   SCREEN 3 — Wheel Code
+   ──────────────────────────────── */
+#s3 .content{position:absolute;top:44px;left:0;right:0;bottom:0;padding:24px 16px 20px;}
+#s3 .topbar-right{font-size:7px;}
+#s3 .hero{text-align:center;margin-bottom:28px;}
+#s3 .wheel-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.18);border-radius:100px;padding:5px 16px;margin-bottom:14px;background:rgba(248,164,200,.04);}
+#s3 .wheel-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#FFF8F5;line-height:1.1;}
+#s3 .wheel-title em{font-style:italic;color:#F8A4C8;}
+#s3 .wheel-sub{font-size:10px;color:rgba(255,248,245,.3);margin-top:8px;letter-spacing:.06em;}
+#s3 .code-card{padding:28px 20px;text-align:center;}
+#s3 .lock{width:44px;height:44px;border-radius:50%;background:rgba(248,164,200,.06);border:1px solid rgba(248,164,200,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+#s3 .code-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#FFF8F5;margin-bottom:4px;}
+#s3 .code-format{font-size:9px;color:rgba(255,248,245,.25);letter-spacing:.1em;margin-bottom:18px;}
+#s3 .code-input-mock{background:rgba(248,164,200,.05);border:1px solid rgba(248,164,200,.2);border-radius:10px;padding:16px;font-family:'Courier New',monospace;font-size:20px;font-weight:700;letter-spacing:.22em;color:#F8A4C8;text-align:center;margin-bottom:14px;}
+
+/* ────────────────────────────────
+   SCREEN 4 — Greeting
+   ──────────────────────────────── */
+#s4 .content{position:absolute;top:44px;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;}
+#s4 .gr-welcome{font-size:8px;font-weight:600;letter-spacing:.38em;text-transform:uppercase;color:rgba(248,164,200,.4);margin-bottom:18px;}
+#s4 .gr-pre{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:rgba(255,248,245,.4);margin-bottom:4px;}
+#s4 .gr-name{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;font-style:italic;line-height:1.05;background:linear-gradient(140deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;text-align:center;}
+#s4 .gr-sep{width:64px;height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.35),transparent);margin:0 auto 18px;}
+#s4 .gr-sub{font-size:10px;letter-spacing:.14em;color:rgba(255,248,245,.25);}
+#s4 .glow-bg{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:280px;height:280px;background:radial-gradient(ellipse,rgba(248,164,200,.14) 0%,transparent 70%);pointer-events:none;}
+
+/* ────────────────────────────────
+   SCREEN 5 — Wheel Game
+   ──────────────────────────────── */
+#s5 .content{position:absolute;top:44px;left:0;right:0;bottom:0;padding:16px;}
+#s5 .wheel-card{height:100%;padding:20px 16px;text-align:center;}
+#s5 .wg{font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,164,200,.4);margin-bottom:12px;}
+#s5 .dots{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
+#s5 .dot-a{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#F8A4C8,#ffc8de);box-shadow:0 0 8px rgba(248,164,200,.5);}
+#s5 .dot-u{width:10px;height:10px;border-radius:50%;background:rgba(255,248,245,.12);border:1px solid rgba(255,248,245,.12);}
+#s5 .wheel-wrap{position:relative;width:280px;height:280px;margin:0 auto 20px;}
+#s5 .wheel-svg{width:100%;height:100%;}
+#s5 .pointer-tri{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:18px solid #F8A4C8;filter:drop-shadow(0 2px 8px rgba(248,164,200,.7));}
+
+/* ────────────────────────────────
+   SCREEN 6 — Coupon Result
+   ──────────────────────────────── */
+#s6{background:#0a0006;}
+#s6 .content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;}
+#s6 .res-glow{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:400px;background:radial-gradient(ellipse,rgba(248,164,200,.2) 0%,transparent 65%);pointer-events:none;}
+#s6 .res-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.18);border-radius:100px;padding:5px 16px;margin-bottom:22px;background:rgba(248,164,200,.05);}
+#s6 .bravo{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;font-style:italic;color:#FFF8F5;line-height:1;margin-bottom:8px;}
+#s6 .vous-avez{font-size:9px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:rgba(248,164,200,.5);margin-bottom:16px;}
+#s6 .prize{font-family:'Cormorant Garamond',serif;font-size:76px;font-weight:300;background:linear-gradient(135deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:8px;}
+#s6 .prize-desc{font-size:12px;color:rgba(255,248,245,.45);margin-bottom:4px;}
+#s6 .prize-event{font-size:9px;color:rgba(255,248,245,.2);letter-spacing:.1em;margin-bottom:16px;}
+#s6 .res-sep{width:160px;height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.3),transparent);margin:0 auto 16px;}
+#s6 .code-label{font-size:8px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,248,245,.25);margin-bottom:6px;}
+#s6 .code-val{font-family:'Courier New',monospace;font-size:18px;font-weight:700;letter-spacing:.22em;color:#F8A4C8;margin-bottom:20px;}
+#s6 .cta-box{width:100%;padding:16px;border:1px dashed rgba(248,164,200,.28);border-radius:12px;background:rgba(248,164,200,.06);margin-bottom:16px;}
+#s6 .cta-icon{font-size:22px;margin-bottom:6px;}
+#s6 .cta-text{font-size:12px;font-weight:600;color:#FFF8F5;line-height:1.5;}
+#s6 .retry-btn{width:100%;padding:14px;margin-bottom:10px;}
+#s6 .other-btn{width:100%;}
+
+/* ── PRINT ── */
+@media print{
+  body{background:white;padding:20px;}
+  .row{flex-wrap:wrap;gap:32px;}
+  .screen{box-shadow:0 2px 8px rgba(0,0,0,.3);}
+}
+</style>
+</head>
+<body>
+
+<h1>RSVP Cosmotrend — Screens</h1>
+<p class="meta">Semilac Days 2026 · Casablanca · Version mobile 375×812</p>
+
+<!-- ── FLOW 1: RSVP ── -->
+<div class="flow-label">Flow 1 — Inscription RSVP</div>
+<div class="row">
+
+  <!-- S1: Formulaire -->
+  <div class="screen-wrap">
+    <div class="screen" id="s1">
+      <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="topbar-logo">S</div>
+          <span class="topbar-name">Semilac Days</span>
+        </div>
+        <span class="topbar-right">Cosmotrend · 2026</span>
+      </div>
+      <div class="content" style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:24px 16px 16px;overflow:hidden;">
+        <div id="s1" style="height:100%;">
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.2);border-radius:100px;padding:5px 14px;margin-bottom:12px;background:rgba(248,164,200,.04);">
+              <span style="width:4px;height:4px;border-radius:50%;background:#F8A4C8;box-shadow:0 0 8px rgba(248,164,200,.9);display:inline-block;"></span>
+              <span style="font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#F8A4C8;">Invitation Exclusive</span>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;font-style:italic;line-height:.9;background:linear-gradient(150deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Semilac</div>
+            <div style="font-size:20px;font-weight:800;letter-spacing:.42em;text-transform:uppercase;color:#FFF8F5;margin-top:2px;">DAYS</div>
+            <div style="font-size:8px;letter-spacing:.26em;text-transform:uppercase;color:rgba(248,164,200,.45);margin-top:6px;">2ème Édition</div>
+            <div style="font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,248,245,.28);margin-top:4px;">14 — 19 Mai 2026 · Casablanca</div>
+          </div>
+          <div class="glass" style="padding:18px 14px 14px;">
+            <div style="text-align:center;font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(248,164,200,.35);margin-bottom:12px;">Confirmez votre présence</div>
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div class="fi" style="height:36px;">Nom &amp; Prénom *</div>
+              <div class="fi" style="height:36px;">Salon / Institut *</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+                <div class="fi" style="height:36px;">Ville *</div>
+                <div class="fi" style="height:36px;">WhatsApp *</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+                <div class="fi" style="height:36px;background:rgba(248,164,200,.05);border-color:rgba(248,164,200,.17);">
+                  <div style="font-size:7px;color:rgba(248,164,200,.65);font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px;">Nb personnes</div>
+                  <div style="font-size:11px;color:#FFF8F5;">1 personne</div>
+                </div>
+                <div class="fi" style="height:36px;">Représentant *</div>
+              </div>
+              <div class="fi" style="height:36px;background:rgba(248,164,200,.04);border-color:rgba(248,164,200,.15);">Jour de venue *</div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <div class="btn-g" style="flex:2;height:42px;border-radius:8px;">✓ Je confirme</div>
+              <div class="btn-o" style="flex:1;height:42px;border-radius:8px;font-size:9px;">Décliner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">① Formulaire RSVP</div>
+  </div>
+
+  <!-- S2: Succès -->
+  <div class="screen-wrap">
+    <div class="screen" id="s2">
+      <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="topbar-logo">S</div>
+          <span class="topbar-name">Semilac Days</span>
+        </div>
+      </div>
+      <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:16px;overflow:hidden;">
+        <div class="glass" style="padding:28px 20px;text-align:center;height:100%;overflow:hidden;">
+          <svg width="60" height="60" viewBox="0 0 72 72" style="display:block;margin:0 auto 18px;"><circle cx="36" cy="36" r="34" stroke="rgba(248,164,200,.12)" stroke-width="1.5" fill="none"/><circle cx="36" cy="36" r="34" stroke="url(#gr1)" stroke-width="1.5" stroke-dasharray="214" opacity=".55" fill="none"/><polyline points="20,36 30,46 52,26" stroke="#F8A4C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><defs><linearGradient id="gr1" x1="0" y1="0" x2="72" y2="72" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c47090"/><stop offset="50%" stop-color="#F8A4C8"/><stop offset="100%" stop-color="#D4A574"/></linearGradient></defs></svg>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:#FFF8F5;margin-bottom:6px;line-height:1.2;">Votre place est réservée</div>
+          <div style="font-size:11px;color:rgba(255,248,245,.35);margin-bottom:18px;">Nous avons hâte de vous accueillir</div>
+          <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.2),transparent);margin-bottom:14px;"></div>
+          <div style="font-size:8px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,248,245,.22);margin-bottom:8px;">Numéro de billet</div>
+          <div style="font-family:'Courier New',monospace;font-size:22px;font-weight:700;letter-spacing:.18em;color:#F8A4C8;padding:10px 20px;background:rgba(248,164,200,.05);border:1px solid rgba(248,164,200,.15);border-radius:8px;display:inline-block;margin-bottom:16px;">SD26-4521</div>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px;text-align:left;">
+            <div class="perk" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;">
+              <span style="font-size:18px;">🎫</span>
+              <div><div style="font-size:11px;font-weight:600;color:#FFF8F5;margin-bottom:2px;">Coupon -25% exclusif</div><div style="font-size:9px;color:rgba(255,248,245,.3);">Sur commandes durant l'événement</div></div>
+            </div>
+            <div class="perk" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;">
+              <span style="font-size:18px;">⭐</span>
+              <div><div style="font-size:11px;font-weight:600;color:#FFF8F5;margin-bottom:2px;">Ticket tombola offert</div></div>
+            </div>
+            <div class="perk" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;">
+              <span style="font-size:18px;">🚗</span>
+              <div><div style="font-size:11px;font-weight:600;color:#FFF8F5;margin-bottom:2px;">VTC privé offert</div></div>
+            </div>
+          </div>
+          <div class="btn-g" style="width:100%;height:42px;border-radius:8px;font-size:10px;">Télécharger mon billet PDF</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">② Confirmation &amp; Billet</div>
+  </div>
+
+</div>
+
+<!-- ── FLOW 2: ROUE ── -->
+<div class="flow-label">Flow 2 — Roue de la Fortune</div>
+<div class="row">
+
+  <!-- S3: Code entry -->
+  <div class="screen-wrap">
+    <div class="screen" id="s3">
+      <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="topbar-logo">S</div>
+          <span class="topbar-name">Semilac Days</span>
+        </div>
+        <span class="topbar-right">Roue de la Fortune</span>
+      </div>
+      <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:24px 16px;">
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.18);border-radius:100px;padding:5px 16px;margin-bottom:14px;background:rgba(248,164,200,.04);">
+            <span style="width:4px;height:4px;border-radius:50%;background:#F8A4C8;display:inline-block;"></span>
+            <span style="font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#F8A4C8;">Semilac Days 2026</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#FFF8F5;line-height:1.1;">Roue de la <em style="font-style:italic;color:#F8A4C8;">Fortune</em></div>
+          <div style="font-size:10px;color:rgba(255,248,245,.28);margin-top:8px;letter-spacing:.06em;">Entrez votre code billet pour tenter votre chance</div>
+        </div>
+        <div class="glass" style="padding:28px 20px;text-align:center;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(248,164,200,.5)" stroke-width="1.5" style="display:block;margin:0 auto 14px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#FFF8F5;margin-bottom:4px;">Votre code billet</div>
+          <div style="font-size:9px;color:rgba(255,248,245,.25);letter-spacing:.1em;margin-bottom:16px;">Format · SD26-XXXX</div>
+          <div style="background:rgba(248,164,200,.05);border:1px solid rgba(248,164,200,.2);border-radius:10px;padding:14px;font-family:'Courier New',monospace;font-size:20px;font-weight:700;letter-spacing:.22em;color:#F8A4C8;text-align:center;margin-bottom:12px;">SD26–_ _ _ _</div>
+          <div class="btn-g" style="width:100%;height:44px;border-radius:10px;opacity:.4;">Valider le code ›</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">③ Saisie du code</div>
+  </div>
+
+  <!-- S4: Greeting -->
+  <div class="screen-wrap">
+    <div class="screen" id="s4">
+      <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="topbar-logo">S</div>
+          <span class="topbar-name">Semilac Days</span>
+        </div>
+      </div>
+      <div style="position:absolute;top:44px;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;">
+        <div style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:280px;height:280px;background:radial-gradient(ellipse,rgba(248,164,200,.16) 0%,transparent 70%);pointer-events:none;"></div>
+        <div style="font-size:8px;font-weight:600;letter-spacing:.38em;text-transform:uppercase;color:rgba(248,164,200,.4);margin-bottom:18px;position:relative;">BIENVENUE</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:rgba(255,248,245,.4);margin-bottom:4px;position:relative;">Bonjour,</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;font-style:italic;line-height:1.05;background:linear-gradient(140deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;position:relative;">Yasmine Benali</div>
+        <div style="width:64px;height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.35),transparent);margin:0 auto 18px;"></div>
+        <div style="font-size:10px;letter-spacing:.14em;color:rgba(255,248,245,.25);">Votre roue vous attend ✨</div>
+      </div>
+    </div>
+    <div class="screen-label">④ Bonjour personnalisé</div>
+  </div>
+
+  <!-- S5: Wheel -->
+  <div class="screen-wrap">
+    <div class="screen" id="s5">
+      <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="topbar-logo">S</div>
+          <span class="topbar-name">Semilac Days</span>
+        </div>
+      </div>
+      <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:12px;">
+        <div class="glass" style="padding:16px;text-align:center;height:100%;">
+          <div style="font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,164,200,.4);margin-bottom:10px;">BONNE CHANCE · SD26-4521</div>
+          <div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#F8A4C8,#ffc8de);box-shadow:0 0 8px rgba(248,164,200,.5);"></div>
+            <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,248,245,.12);border:1px solid rgba(255,248,245,.12);"></div>
+          </div>
+          <div style="position:relative;width:290px;height:290px;margin:0 auto 16px;">
+            <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:18px solid #F8A4C8;filter:drop-shadow(0 2px 8px rgba(248,164,200,.7));z-index:2;"></div>
+            <svg viewBox="0 0 290 290" width="290" height="290" style="display:block;">
+              <defs>
+                <radialGradient id="seg1" cx="50%" cy="50%"><stop offset="5%" stop-color="#3d1028"/><stop offset="100%" stop-color="#1a0010"/></radialGradient>
+                <radialGradient id="seg2" cx="50%" cy="50%"><stop offset="5%" stop-color="#280918"/><stop offset="100%" stop-color="#120008"/></radialGradient>
+                <radialGradient id="seg3" cx="50%" cy="50%"><stop offset="5%" stop-color="#4a1530"/><stop offset="100%" stop-color="#220012"/></radialGradient>
+                <radialGradient id="seg4" cx="50%" cy="50%"><stop offset="5%" stop-color="#1e0815"/><stop offset="100%" stop-color="#0d0008"/></radialGradient>
+                <linearGradient id="ring" x1="0" y1="0" x2="290" y2="290" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="rgba(248,164,200,0.92)"/>
+                  <stop offset="50%" stop-color="rgba(255,220,238,0.96)"/>
+                  <stop offset="100%" stop-color="rgba(248,164,200,0.92)"/>
+                </linearGradient>
+              </defs>
+              <g transform="translate(145,145)">
+                <path d="M0,0 L0,-136 A136,136 0 0,1 47.9,-125.2 Z" fill="url(#seg1)"/>
+                <path d="M0,0 L47.9,-125.2 A136,136 0 0,1 85.6,-104.1 Z" fill="url(#seg2)"/>
+                <path d="M0,0 L85.6,-104.1 A136,136 0 0,1 113.1,-74.5 Z" fill="url(#seg3)"/>
+                <path d="M0,0 L113.1,-74.5 A136,136 0 0,1 129.5,-38.2 Z" fill="url(#seg4)"/>
+                <path d="M0,0 L129.5,-38.2 A136,136 0 0,1 136,0 Z" fill="url(#seg1)"/>
+                <path d="M0,0 L136,0 A136,136 0 0,1 129.5,38.2 Z" fill="url(#seg2)"/>
+                <path d="M0,0 L129.5,38.2 A136,136 0 0,1 113.1,74.5 Z" fill="url(#seg3)"/>
+                <path d="M0,0 L113.1,74.5 A136,136 0 0,1 85.6,104.1 Z" fill="url(#seg4)"/>
+                <path d="M0,0 L85.6,104.1 A136,136 0 0,1 47.9,125.2 Z" fill="url(#seg1)"/>
+                <path d="M0,0 L47.9,125.2 A136,136 0 0,1 0,136 Z" fill="url(#seg2)"/>
+                <path d="M0,0 L0,136 A136,136 0 0,1 -47.9,125.2 Z" fill="url(#seg3)"/>
+                <path d="M0,0 L-47.9,125.2 A136,136 0 0,1 -85.6,104.1 Z" fill="url(#seg4)"/>
+                <path d="M0,0 L-85.6,104.1 A136,136 0 0,1 -113.1,74.5 Z" fill="url(#seg1)"/>
+                <path d="M0,0 L-113.1,74.5 A136,136 0 0,1 -129.5,38.2 Z" fill="url(#seg2)"/>
+                <path d="M0,0 L-129.5,38.2 A136,136 0 0,1 -136,0 Z" fill="url(#seg3)"/>
+                <path d="M0,0 L-136,0 A136,136 0 0,1 -129.5,-38.2 Z" fill="url(#seg4)"/>
+                <path d="M0,0 L-129.5,-38.2 A136,136 0 0,1 -113.1,-74.5 Z" fill="url(#seg1)"/>
+                <path d="M0,0 L-113.1,-74.5 A136,136 0 0,1 -85.6,-104.1 Z" fill="url(#seg2)"/>
+                <path d="M0,0 L-85.6,-104.1 A136,136 0 0,1 -47.9,-125.2 Z" fill="url(#seg3)"/>
+                <path d="M0,0 L-47.9,-125.2 A136,136 0 0,1 0,-136 Z" fill="url(#seg4)"/>
+                <circle cx="0" cy="0" r="136" fill="none" stroke="url(#ring)" stroke-width="3"/>
+                <circle cx="0" cy="0" r="14" fill="#120008" stroke="rgba(248,164,200,0.4)" stroke-width="1.5"/>
+                <circle cx="0" cy="0" r="5" fill="#F8A4C8" opacity="0.8"/>
+                <!-- Labels -->
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(11.25)">-25%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(33.75)">-30%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(56.25)">-35%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(78.75)">-40%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(101.25)">-25%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(123.75)">-30%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(146.25)">-35%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(168.75)">-40%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(191.25)">-25%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(213.75)">-30%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(236.25)">-35%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(258.75)">-40%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(281.25)">-25%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(303.75)">-30%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(326.25)">-35%</text>
+                <text x="0" y="-100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="11" font-family="Montserrat,sans-serif" font-weight="700" transform="rotate(348.75)">-40%</text>
+              </g>
+            </svg>
+          </div>
+          <div class="btn-g" style="width:100%;height:48px;border-radius:10px;font-size:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:8px;"><path d="M21 12a9 9 0 11-4.22-7.67"/><polyline points="21 3 21 9 15 9"/></svg>
+            Tourner la roue
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">⑤ Jeu — Roue</div>
+  </div>
+
+  <!-- S6: Coupon résultat -->
+  <div class="screen-wrap">
+    <div class="screen" id="s6" style="background:#0a0006;">
+      <div style="position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:400px;background:radial-gradient(ellipse,rgba(248,164,200,.2) 0%,transparent 65%);pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;text-align:center;">
+        <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(248,164,200,.18);border-radius:100px;padding:5px 16px;margin-bottom:20px;background:rgba(248,164,200,.05);">
+          <span style="width:4px;height:4px;border-radius:50%;background:#F8A4C8;box-shadow:0 0 8px rgba(248,164,200,.9);animation:bpulse 2s ease-in-out infinite;display:inline-block;"></span>
+          <span style="font-size:8px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#F8A4C8;">Semilac Days 2026</span>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;font-style:italic;color:#FFF8F5;line-height:1;margin-bottom:8px;">Bravo !</div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:rgba(248,164,200,.5);margin-bottom:14px;">VOUS AVEZ GAGNÉ</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;background:linear-gradient(135deg,#c47090,#F8A4C8,#ffdaec,#D4A574);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:6px;">-30%</div>
+        <div style="font-size:12px;color:rgba(255,248,245,.45);margin-bottom:3px;">-30% sur votre commande</div>
+        <div style="font-size:9px;color:rgba(255,248,245,.2);letter-spacing:.1em;margin-bottom:14px;">Semilac Days 2026 · Casablanca</div>
+        <div style="width:160px;height:1px;background:linear-gradient(90deg,transparent,rgba(248,164,200,.3),transparent);margin:0 auto 12px;"></div>
+        <div style="font-size:8px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,248,245,.25);margin-bottom:5px;">CODE BILLET</div>
+        <div style="font-family:'Courier New',monospace;font-size:17px;font-weight:700;letter-spacing:.22em;color:#F8A4C8;margin-bottom:18px;">SD26-4521</div>
+        <div style="width:100%;padding:14px 16px;border:1px dashed rgba(248,164,200,.28);border-radius:12px;background:rgba(248,164,200,.06);margin-bottom:14px;">
+          <div style="font-size:20px;margin-bottom:6px;">📱</div>
+          <div style="font-size:11px;font-weight:600;color:#FFF8F5;line-height:1.5;">Présentez cet écran<br>à votre commerciale</div>
+        </div>
+        <div class="btn-g" style="width:100%;height:44px;border-radius:10px;font-size:10px;margin-bottom:8px;">⟳ Tenter le 2ème essai</div>
+        <div class="btn-o" style="width:100%;height:40px;border-radius:10px;font-size:9px;">Utiliser un autre billet</div>
+      </div>
+    </div>
+    <div class="screen-label">⑥ Coupon résultat</div>
+  </div>
+
+</div>
+
+<p style="color:rgba(255,255,255,.15);font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-top:20px;">RSVP Cosmotrend · Semilac Days 2026 · Generated by Claude Code</p>
+
+</body>
+</html>
