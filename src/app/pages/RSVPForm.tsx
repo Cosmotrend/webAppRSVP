@@ -59,13 +59,16 @@ export function RSVPForm() {
     day: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+
+  const isValidPhone = (v: string) => /^0[67]\d{8}$/.test(v.replace(/\s/g, ''));
 
   // Nombre de champs valides pour la barre de progression
   const filledCount = [
     formData.fullName.length > 2,
     formData.salon.length > 2,
     formData.city.length > 2,
-    formData.whatsapp.length > 5,
+    isValidPhone(formData.whatsapp),
     formData.people.length > 0,
     formData.representative.length > 0,
     formData.day.length > 0,
@@ -77,7 +80,7 @@ export function RSVPForm() {
     formData.fullName.length > 2 &&
     formData.salon.length > 2 &&
     formData.city.length > 2 &&
-    formData.whatsapp.length > 5 &&
+    isValidPhone(formData.whatsapp) &&
     formData.representative.length > 0 &&
     formData.people.length > 0 &&
     formData.day.length > 0;
@@ -105,6 +108,13 @@ export function RSVPForm() {
         people: formData.people,
         day: formData.day,
       });
+
+      // Bloquer si numéro déjà inscrit
+      if (result.data?.phoneDuplicate) {
+        setPhoneError('Ce numéro WhatsApp est déjà inscrit');
+        setIsSubmitting(false);
+        return;
+      }
 
       // Utiliser le ticket retourné par le serveur, sinon fallback local
       const ticketNumber =
@@ -341,12 +351,13 @@ export function RSVPForm() {
                 validate={(v) => v.length > 2}
               />
               <PremiumInput
-                placeholder="WhatsApp"
+                placeholder="WhatsApp (06 ou 07...)"
                 value={formData.whatsapp}
-                onChange={(value) => setFormData({ ...formData, whatsapp: value })}
+                onChange={(value) => { setFormData({ ...formData, whatsapp: value }); setPhoneError(''); }}
                 type="tel"
                 required
-                validate={(v) => v.length > 5}
+                validate={(v) => isValidPhone(v)}
+                errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? 'Format invalide : 06 ou 07 XXXXXXXX' : '')}
               />
             </div>
 

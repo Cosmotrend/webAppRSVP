@@ -9,6 +9,7 @@ interface PremiumInputProps {
   type?: string;
   required?: boolean;
   validate?: (value: string) => boolean;
+  errorMessage?: string;
 }
 
 export function PremiumInput({
@@ -18,6 +19,7 @@ export function PremiumInput({
   type = 'text',
   required = false,
   validate,
+  errorMessage,
 }: PremiumInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
@@ -118,6 +120,23 @@ export function PremiumInput({
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Error message */}
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div
+            className="flex items-center gap-1 mt-1 px-1"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+          >
+            <AlertCircle size={10} color="rgba(255,100,100,0.8)" />
+            <span style={{ fontSize: '9px', color: 'rgba(255,100,100,0.8)', fontWeight: 600, letterSpacing: '0.05em' }}>
+              {errorMessage}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom glow effect when focused */}
       <AnimatePresence>
