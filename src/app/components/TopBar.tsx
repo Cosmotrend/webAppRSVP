@@ -12,6 +12,7 @@ export function TopBar({ rightText = 'Cosmotrend · 2026' }: TopBarProps) {
         background: 'rgba(13,0,8,0.95)',
         borderColor: 'rgba(248,164,200,0.07)',
         backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
       }}
       initial={{ y: -44, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
