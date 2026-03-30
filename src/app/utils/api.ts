@@ -2,7 +2,7 @@
 // API GOOGLE SHEETS - SEMILAC DAYS 2026
 // ==========================================
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbxMbW-f3gvc4CsRlVHSI2V8LZXKC30Ludig1pQGWcRPtIAG29aUSWwLi0mYvklBNeYt/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxl-vNl8iyGZYlTUkcoGmVph6jE8VRFbP1ZFHZAHpcRHk0BybdDoWxabQ2sA8aeaA1j/exec';
 
 export interface APIPayload {
   action: 'registerRSVP' | 'validate' | 'register' | 'validatePin';
