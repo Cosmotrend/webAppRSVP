@@ -20,6 +20,8 @@ export interface APIPayload {
   discount?: string;
   representative?: string;
   pin?: string;
+  attempts?: number;
+  status?: string;
 }
 
 export interface APIResponse {
@@ -79,6 +81,7 @@ export async function registerResult(data: {
   city: string;
   discount: string;
   representative: string;
+  attempts?: number;
 }): Promise<APIResponse> {
   const payload: APIPayload = {
     action: 'register',

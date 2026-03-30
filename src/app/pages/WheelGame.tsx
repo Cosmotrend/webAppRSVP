@@ -19,39 +19,26 @@ export function WheelGame() {
   const [showChoiceButtons, setShowChoiceButtons] = useState(false); // Show choice after attempt 1
   const [isRegistering, setIsRegistering] = useState(false);
 
-  // Fonction pour enregistrer le résultat dans Google Sheets
-  const saveResultToAPI = async (finalPrize: string) => {
+  // Enregistre le résultat final dans Google Sheets
+  const saveResultToAPI = async (finalPrize: string, attempts: number) => {
     setIsRegistering(true);
-    
     try {
-      // Récupérer les données depuis localStorage
       const wheelDataStr = localStorage.getItem('wheelData');
-      
-      if (!wheelDataStr) {
-        console.error('Données wheelData manquantes');
-        return;
-      }
-      
+      if (!wheelDataStr) return;
       const wheelData = JSON.parse(wheelDataStr);
-      
-      // Appel API pour enregistrer le résultat
-      const result = await registerResult({
+
+      await registerResult({
         ticket: wheelData.ticketNumber || 'SD26-XXXX',
         devisNumber: wheelData.devisNumber || 'S26XXX',
         clientName: wheelData.clientName || 'Client',
         salon: wheelData.salon || '',
         city: wheelData.city || '',
         discount: finalPrize,
-        representative: '', // Pas de représentant dans wheelData
+        representative: '',
+        attempts,
       });
-      
-      if (result.success) {
-        console.log('✅ Résultat enregistré avec succès dans Google Sheets');
-      } else {
-        console.warn('⚠️ Erreur lors de l\'enregistrement:', result.message);
-      }
     } catch (error) {
-      console.error('❌ Erreur lors de l\'enregistrement du résultat:', error);
+      console.error('Erreur enregistrement résultat:', error);
     } finally {
       setIsRegistering(false);
     }
@@ -60,35 +47,24 @@ export function WheelGame() {
   const handleSpinComplete = (prizeIndex: number) => {
     setIsSpinning(false);
     setHasSpun(true);
-    
-    // Save prize to localStorage
+
     const prizes = ['-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%'];
     const currentPrize = prizes[prizeIndex];
-    
+
     if (attempt === 1) {
       setFirstPrize(currentPrize);
       localStorage.setItem('wheelPrize', currentPrize);
-      
-      // Show choice buttons after a short delay
-      setTimeout(() => {
-        setShowChoiceButtons(true);
-      }, 1500);
+      setTimeout(() => setShowChoiceButtons(true), 1500);
     } else {
-      // Second attempt - compare and keep the best
+      // Essai 2 — garder le meilleur
       const firstValue = parseInt(firstPrize?.replace(/[^0-9]/g, '') || '0');
       const currentValue = parseInt(currentPrize.replace(/[^0-9]/g, ''));
-      const bestPrize = currentValue > firstValue ? currentPrize : firstPrize;
-      
-      const finalPrize = bestPrize || currentPrize;
+      const finalPrize = currentValue > firstValue ? currentPrize : (firstPrize || currentPrize);
       localStorage.setItem('wheelPrize', finalPrize);
-      
-      // Enregistrer le résultat dans Google Sheets
-      saveResultToAPI(finalPrize);
-      
-      // Navigate to result after a short delay
-      setTimeout(() => {
-        navigate('/result');
-      }, 1500);
+
+      // 2 tentatives utilisées
+      saveResultToAPI(finalPrize, 2);
+      setTimeout(() => navigate('/result'), 1500);
     }
   };
 
@@ -100,10 +76,9 @@ export function WheelGame() {
   };
 
   const handleKeepPrize = async () => {
-    // Enregistrer le résultat dans Google Sheets avant de naviguer
+    // Client conserve après seulement 1 essai
     const prize = localStorage.getItem('wheelPrize') || firstPrize || '-25%';
-    await saveResultToAPI(prize);
-    
+    await saveResultToAPI(prize, 1);
     navigate('/result');
   };
 
