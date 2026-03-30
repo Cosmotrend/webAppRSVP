@@ -53,7 +53,7 @@ export async function callAPI(payload: APIPayload): Promise<APIResponse> {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify(payload),
       redirect: 'follow',
@@ -92,7 +92,7 @@ export async function registerResult(data: {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify(payload),
       redirect: 'follow',
