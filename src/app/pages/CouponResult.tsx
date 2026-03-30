@@ -153,7 +153,7 @@ export function CouponResult() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <SemilacDaysLogo height={90} />
+                <SemilacDaysLogo height={68} />
               </motion.div>
 
               {/* Trophy icon with rotation */}

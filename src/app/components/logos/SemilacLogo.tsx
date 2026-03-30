@@ -8,8 +8,7 @@ export function SemilacLogo({ height = 28, className }: SemilacLogoProps) {
     <img
       src="/logos/semilac.svg"
       alt="Semilac"
-      height={height}
-      style={{ display: 'block' }}
+      style={{ display: 'block', height: `${height}px`, width: 'auto' }}
       className={className}
     />
   );

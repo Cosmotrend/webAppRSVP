@@ -275,7 +275,7 @@ export function Confirmation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <SemilacDaysLogo height={110} />
+                <SemilacDaysLogo height={68} />
               </motion.div>
 
               {/* Success animation */}

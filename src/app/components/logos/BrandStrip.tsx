@@ -33,11 +33,11 @@ export function BrandStrip() {
           gap: '20px',
         }}
       >
-        <SemilacLogo height={20} />
-        <div style={{ width: '1px', height: '28px', background: 'rgba(232,0,125,0.15)' }} />
-        <FootlogixLogo height={30} />
-        <div style={{ width: '1px', height: '28px', background: 'rgba(232,0,125,0.15)' }} />
-        <SemilacAcademieLogo height={30} />
+        <SemilacLogo height={32} />
+        <div style={{ width: '1px', height: '44px', background: 'rgba(232,0,125,0.15)' }} />
+        <FootlogixLogo height={44} />
+        <div style={{ width: '1px', height: '44px', background: 'rgba(232,0,125,0.15)' }} />
+        <SemilacAcademieLogo height={36} />
       </div>
     </div>
   );

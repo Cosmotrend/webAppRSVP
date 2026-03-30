@@ -8,8 +8,7 @@ export function FootlogixLogo({ height = 40, className }: FootlogixLogoProps) {
     <img
       src="/logos/footlogix.svg"
       alt="Footlogix Pediceuticals"
-      height={height}
-      style={{ display: 'block' }}
+      style={{ display: 'block', height: `${height}px`, width: 'auto' }}
       className={className}
     />
   );

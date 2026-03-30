@@ -99,7 +99,7 @@ export function StaffPin() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <SemilacDaysLogo height={110} />
+            <SemilacDaysLogo height={68} />
           </motion.div>
 
           <motion.div
