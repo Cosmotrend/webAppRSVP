@@ -7,6 +7,7 @@ import {
   Sparkles,
   Camera,
   RotateCcw,
+  FileText,
 } from "lucide-react";
 import { ShimmerButton } from "../components/ShimmerButton";
 import { PageTransition } from "../components/PageTransition";
