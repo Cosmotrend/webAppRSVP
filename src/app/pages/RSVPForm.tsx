@@ -220,7 +220,9 @@ export function RSVPForm() {
             transition={{ delay: 0.3, duration: 0.6 }}
             whileHover={{ scale: 1.03 }}
           >
-            <SemilacDaysLogo semilacSize={48} daysSize={40} />
+            <div style={{ filter: 'brightness(0) invert(1)' }}>
+              <SemilacDaysLogo height={80} />
+            </div>
           </motion.div>
 
           {/* Event info */}

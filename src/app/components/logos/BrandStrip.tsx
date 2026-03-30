@@ -2,6 +2,9 @@ import { SemilacLogo } from './SemilacLogo';
 import { FootlogixLogo } from './FootlogixLogo';
 import { SemilacAcademieLogo } from './SemilacAcademieLogo';
 
+// Wrapper inverts black artwork to white for dark backgrounds (CSS only, file unchanged)
+const invertWrap = { filter: 'brightness(0) invert(1)' };
+
 export function BrandStrip() {
   return (
     <div
@@ -33,11 +36,11 @@ export function BrandStrip() {
           gap: '20px',
         }}
       >
-        <SemilacLogo size={16} />
+        <div style={invertWrap}><SemilacLogo height={22} /></div>
         <div style={{ width: '1px', height: '28px', background: 'rgba(248,164,200,0.2)' }} />
-        <FootlogixLogo height={34} />
+        <div style={invertWrap}><FootlogixLogo height={32} /></div>
         <div style={{ width: '1px', height: '28px', background: 'rgba(248,164,200,0.2)' }} />
-        <SemilacAcademieLogo size={14} />
+        <div style={invertWrap}><SemilacAcademieLogo height={32} /></div>
       </div>
     </div>
   );

@@ -1,21 +1,16 @@
 interface SemilacLogoProps {
-  size?: number;
-  color?: string;
+  height?: number;
+  className?: string;
 }
 
-export function SemilacLogo({ size = 28, color = '#FFFFFF' }: SemilacLogoProps) {
+export function SemilacLogo({ height = 28, className }: SemilacLogoProps) {
   return (
-    <div
-      style={{
-        fontFamily: "'Montserrat', sans-serif",
-        fontSize: `${size}px`,
-        fontWeight: 900,
-        letterSpacing: '0.1em',
-        color,
-        lineHeight: 1,
-      }}
-    >
-      SEMILAC
-    </div>
+    <img
+      src="/logos/semilac.svg"
+      alt="Semilac"
+      height={height}
+      style={{ display: 'block' }}
+      className={className}
+    />
   );
 }
