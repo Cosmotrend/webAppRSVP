@@ -159,7 +159,7 @@ export function WheelGame() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <SemilacDaysLogo height={56} />
+              <SemilacDaysLogo height={90} />
             </motion.div>
 
             {/* ESSAI indicator */}

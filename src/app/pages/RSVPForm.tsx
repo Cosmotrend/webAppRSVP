@@ -9,6 +9,7 @@ import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { PremiumInput } from '../components/PremiumInput';
 import { PremiumSelect } from '../components/PremiumSelect';
+import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
 
@@ -220,7 +221,7 @@ export function RSVPForm() {
             transition={{ delay: 0.3, duration: 0.6 }}
             whileHover={{ scale: 1.03 }}
           >
-            <SemilacDaysLogo height={80} />
+            <SemilacDaysLogo height={120} />
           </motion.div>
 
           {/* Event info */}
@@ -438,7 +439,7 @@ export function RSVPForm() {
 
         {/* Bottom hint */}
         <motion.div
-          className="text-center mt-6 pb-4"
+          className="text-center mt-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
@@ -455,6 +456,29 @@ export function RSVPForm() {
           >
             ✨ Une expérience inoubliable vous attend ✨
           </motion.div>
+        </motion.div>
+
+        {/* Sponsored by */}
+        <motion.div
+          className="mt-6 pb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+        >
+          <div
+            style={{
+              fontSize: '8px',
+              fontWeight: 700,
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              color: 'rgba(26,16,5,0.3)',
+              textAlign: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            Sponsorisé par
+          </div>
+          <BrandStrip />
         </motion.div>
       </motion.div>
     </div>

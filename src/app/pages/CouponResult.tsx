@@ -142,7 +142,7 @@ export function CouponResult() {
       <ParticleField />
       <TopBar rightText="" />
 
-      <div className="absolute top-[44px] left-0 right-0 bottom-0 overflow-y-auto flex flex-col items-center justify-center px-5 text-center pb-6">
+      <div className="absolute top-[44px] left-0 right-0 bottom-0 overflow-y-auto flex flex-col items-center justify-start pt-6 px-5 text-center pb-8">
         <AnimatePresence>
           {showContent && (
             <>
@@ -153,7 +153,7 @@ export function CouponResult() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <SemilacDaysLogo height={56} />
+                <SemilacDaysLogo height={90} />
               </motion.div>
 
               {/* Trophy icon with rotation */}
