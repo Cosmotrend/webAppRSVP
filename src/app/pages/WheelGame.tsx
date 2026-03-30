@@ -128,129 +128,70 @@ export function WheelGame() {
         >
           {/* Title Section */}
           <motion.div
-            className="mb-6"
+            className="mb-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* ROUE DE LA FORTUNE TITLE */}
-            <motion.div
-              style={{
-                fontFamily: "'Montserrat', sans-serif",
-                fontSize: '14px',
-                fontWeight: 700,
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: '#E8007D',
-                lineHeight: '1.1',
-                marginBottom: '8px',
-              }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              Roue de la Fortune
-            </motion.div>
-
-            {/* SEMILAC DAYS LOGO officiel */}
+            {/* SEMILAC DAYS LOGO */}
             <motion.div
               className="flex justify-center mb-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
             >
               <SemilacDaysLogo height={60} />
             </motion.div>
 
-            {/* ESSAI indicator */}
-            <motion.div
-              style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                letterSpacing: '0.24em',
-                textTransform: 'uppercase',
-                color: '#E8007D',
-                marginBottom: '12px',
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              {attempt === 1 ? 'ESSAI 1' : 'ESSAI 2'}
-            </motion.div>
-
-            {/* BONNE CHANCE + NOM PRENOM */}
+            {/* Nom client — élément principal */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.4 }}
             >
               <div
                 style={{
-                  fontSize: '9px',
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: '22px',
                   fontWeight: 600,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(26,16,5,0.5)',
+                  fontStyle: 'italic',
+                  color: '#1A1005',
                   marginBottom: '4px',
+                  lineHeight: 1.2,
                 }}
               >
-                BONNE CHANCE
+                Bonne chance, <span style={{ color: '#E8007D' }}>{firstName}</span> !
               </div>
-              <div
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: '#E8007D',
-                  marginBottom: '8px',
-                }}
-              >
-                {firstName} {lastName}
-              </div>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  border: '1px solid rgba(232,0,125,0.2)',
-                  borderRadius: '100px',
-                  padding: '4px 12px',
-                  background: 'rgba(232,0,125,0.05)',
-                }}
-              >
+
+              {/* Essai + ticket sur une ligne */}
+              <div className="flex items-center justify-center gap-3 mt-2">
                 <span
                   style={{
-                    width: '3px',
-                    height: '3px',
-                    borderRadius: '50%',
-                    background: '#E8007D',
-                    boxShadow: '0 0 6px rgba(232,0,125,0.6)',
-                    display: 'inline-block',
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: '8px',
-                    fontWeight: 600,
-                    letterSpacing: '0.22em',
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: '#E8007D',
+                    color: 'rgba(26,16,5,0.4)',
                   }}
                 >
-                  {ticketNumber}
+                  {attempt === 1 ? 'Essai 1 / 2' : 'Dernier essai'}
                 </span>
-                <span
+                <div
                   style={{
-                    width: '3px',
-                    height: '3px',
-                    borderRadius: '50%',
-                    background: '#E8007D',
-                    boxShadow: '0 0 6px rgba(232,0,125,0.6)',
-                    display: 'inline-block',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    border: '1px solid rgba(232,0,125,0.2)',
+                    borderRadius: '100px',
+                    padding: '3px 10px',
+                    background: 'rgba(232,0,125,0.05)',
                   }}
-                />
+                >
+                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#E8007D', display: 'inline-block' }} />
+                  <span style={{ fontSize: '8px', fontWeight: 600, letterSpacing: '0.18em', color: '#E8007D', textTransform: 'uppercase' }}>
+                    {ticketNumber}
+                  </span>
+                </div>
               </div>
             </motion.div>
           </motion.div>

@@ -187,7 +187,7 @@ export function Confirmation() {
     setTimeout(() => setShowContent(true), 500);
 
     // Epic confetti show
-    const duration = 2000;
+    const duration = 4000;
     const animationEnd = Date.now() + duration;
     const colors = ['#E8007D', '#ff4da6', '#FFE0EF', '#C4904A', '#ffffff'];
 
@@ -231,18 +231,21 @@ export function Confirmation() {
       title: 'Coupon -25% exclusif',
       desc: 'Sur commandes durant l\'événement',
       color: '#E8007D',
+      badge: '-25%',
     },
     {
       icon: <Ticket size={22} />,
       title: 'Ticket tombola offert',
       desc: 'Participez au grand tirage',
       color: '#ff4da6',
+      badge: null,
     },
     {
       icon: <Car size={22} />,
       title: 'VTC privé offert',
       desc: 'Transport premium inclus',
       color: '#C4904A',
+      badge: null,
     },
   ];
 
@@ -338,17 +341,26 @@ export function Confirmation() {
               <motion.div
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '32px',
+                  fontSize: '30px',
                   fontWeight: 400,
                   color: '#1A1005',
-                  marginBottom: '8px',
+                  marginBottom: '6px',
                   lineHeight: 1.2,
                 }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
               >
-                Votre place est réservée
+                {fullName ? (
+                  <>
+                    <span style={{ color: '#E8007D', fontStyle: 'italic' }}>
+                      {fullName.trim().split(/\s+/)[0]}
+                    </span>
+                    , votre place est réservée !
+                  </>
+                ) : (
+                  'Votre place est réservée !'
+                )}
               </motion.div>
 
               <motion.div
@@ -497,6 +509,25 @@ export function Confirmation() {
                         </div>
                       )}
                     </div>
+                    {perk.badge && (
+                      <motion.div
+                        style={{
+                          fontSize: '13px',
+                          fontWeight: 800,
+                          color: '#fff',
+                          background: 'linear-gradient(135deg, #C4157A, #E8007D)',
+                          borderRadius: '100px',
+                          padding: '4px 10px',
+                          letterSpacing: '0.04em',
+                          boxShadow: '0 4px 12px rgba(232,0,125,0.4)',
+                          flexShrink: 0,
+                        }}
+                        animate={{ scale: [1, 1.06, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        {perk.badge}
+                      </motion.div>
+                    )}
                   </motion.div>
                 ))}
               </div>
@@ -524,6 +555,39 @@ export function Confirmation() {
                     <span style={{ fontSize: '11px', color: '#1A1005', fontWeight: 600 }}>
                       CASABLANCA
                     </span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Instruction Roue — bannière proéminente */}
+              <motion.div
+                className="mb-6 px-4 py-4 rounded-2xl relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(232,0,125,0.10), rgba(196,21,122,0.08))',
+                  border: '1.5px solid rgba(232,0,125,0.3)',
+                  boxShadow: '0 4px 20px rgba(232,0,125,0.12)',
+                }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.5 }}
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.06), transparent)',
+                  }}
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+                />
+                <div className="relative flex items-center gap-3">
+                  <span style={{ fontSize: '24px' }}>🎡</span>
+                  <div className="text-left">
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#E8007D', letterSpacing: '0.04em', marginBottom: '2px' }}>
+                      N'oubliez pas votre Roue de la Fortune !
+                    </div>
+                    <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.55)', lineHeight: 1.5 }}>
+                      Présentez ce billet à votre commercial <span style={{ fontWeight: 700, color: '#C4904A' }}>le jour J</span> pour accéder au jeu
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -581,12 +645,12 @@ export function Confirmation() {
                   <motion.button
                     className="flex flex-col items-center justify-center gap-2 rounded-2xl p-4 relative overflow-hidden"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(37,211,102,0.12), rgba(37,211,102,0.06))',
-                      border: '1.5px solid rgba(37,211,102,0.3)',
-                      boxShadow: '0 8px 24px rgba(37,211,102,0.15)',
+                      background: 'linear-gradient(135deg, rgba(232,0,125,0.10), rgba(196,21,122,0.07))',
+                      border: '1.5px solid rgba(232,0,125,0.25)',
+                      boxShadow: '0 8px 24px rgba(232,0,125,0.12)',
                       minHeight: '80px',
                     }}
-                    whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(37,211,102,0.25)' }}
+                    whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(232,0,125,0.22)' }}
                     whileTap={{ scale: 0.97 }}
                     onClick={handleWhatsApp}
                   >
@@ -594,26 +658,17 @@ export function Confirmation() {
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <MessageCircle size={22} color="#25D366" />
+                      <MessageCircle size={22} color="#E8007D" />
                     </motion.div>
                     <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
                       WhatsApp
                     </div>
-                    <div style={{ fontSize: '8px', color: 'rgba(37,211,102,0.6)', letterSpacing: '0.04em' }}>
+                    <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.5)', letterSpacing: '0.04em' }}>
                       Sauvegarder
                     </div>
                   </motion.button>
                 </div>
 
-                <motion.div
-                  className="mt-3 text-center"
-                  style={{ fontSize: '9px', color: 'rgba(26,16,5,0.35)', lineHeight: 1.5 }}
-                >
-                  Présentez votre billet à votre commercial{' '}
-                  <span style={{ color: '#C4904A', fontWeight: 600 }}>le jour J</span>
-                  {' '}pour la{' '}
-                  <span style={{ color: '#E8007D', fontWeight: 600 }}>Roue de la Fortune 🎡</span>
-                </motion.div>
               </motion.div>
 
               {/* CTA Button */}
@@ -624,11 +679,11 @@ export function Confirmation() {
               >
                 <ShimmerButton className="w-full h-14" onClick={() => {
                   sounds.click();
-                  navigate('/rsvp');
+                  navigate('/');
                 }}>
                   <span className="flex items-center justify-center gap-2">
                     <Sparkles size={16} />
-                    Compris ! ✨
+                    Retour à l'accueil
                   </span>
                 </ShimmerButton>
 

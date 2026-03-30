@@ -247,6 +247,36 @@ export function RSVPForm() {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Event teaser — 3 avantages clés */}
+          <motion.div
+            className="mt-5 px-4 py-4 rounded-2xl"
+            style={{
+              background: 'rgba(255,255,255,0.7)',
+              border: '1px solid rgba(232,0,125,0.10)',
+              backdropFilter: 'blur(8px)',
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+          >
+            {[
+              { emoji: '🎁', text: 'Coupon -25% exclusif sur commandes' },
+              { emoji: '🎡', text: 'Roue de la Fortune & tombola cadeaux' },
+              { emoji: '🚗', text: 'VTC privé offert — transport premium' },
+            ].map(({ emoji, text }, i) => (
+              <motion.div
+                key={i}
+                className="flex items-center gap-3 mb-2 last:mb-0"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.0 + i * 0.1 }}
+              >
+                <span style={{ fontSize: '16px' }}>{emoji}</span>
+                <span style={{ fontSize: '11px', color: 'rgba(26,16,5,0.65)', fontWeight: 500 }}>{text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
 
         {/* Form Card */}
@@ -384,7 +414,7 @@ export function RSVPForm() {
                 animate={{ opacity: progress === 1 ? [0.5, 1, 0.5] : 1 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                {progress === 1 ? '✓ Formulaire complet' : 'Informations requises'}
+                {progress === 1 ? '✓ Prêt à confirmer !' : progress > 0 ? 'En cours...' : 'Complétez votre inscription'}
               </motion.span>
               <span
                 style={{
@@ -429,7 +459,7 @@ export function RSVPForm() {
                     exit={{ opacity: 0 }}
                     style={{ fontSize: '13px', letterSpacing: '0.14em' }}
                   >
-                    ✓ JE CONFIRME
+                    Réserver ma place VIP →
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -465,19 +495,6 @@ export function RSVPForm() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
         >
-          <div
-            style={{
-              fontSize: '8px',
-              fontWeight: 700,
-              letterSpacing: '0.28em',
-              textTransform: 'uppercase',
-              color: 'rgba(26,16,5,0.3)',
-              textAlign: 'center',
-              marginBottom: '10px',
-            }}
-          >
-            Sponsorisé par
-          </div>
           <BrandStrip />
         </motion.div>
       </motion.div>

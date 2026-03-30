@@ -7,6 +7,7 @@ import {
   Sparkles,
   Camera,
   FileText,
+  MessageCircle,
 } from "lucide-react";
 import { AuroraBackground } from "../components/AuroraBackground";
 import { ParticleField } from "../components/ParticleField";
@@ -67,7 +68,7 @@ export function CouponResult() {
     sounds.win();
 
     // Confetti celebration
-    const duration = 3000;
+    const duration = 5000;
     const animationEnd = Date.now() + duration;
     const colors = ['#E8007D', '#ff4da6', '#FFE0EF', '#C4904A', '#ffffff'];
 
@@ -267,8 +268,8 @@ export function CouponResult() {
               <motion.div
                 style={{
                   fontSize: "14px",
-                  color: "rgba(26,16,5,0.5)",
-                  marginBottom: "6px",
+                  color: "rgba(26,16,5,0.6)",
+                  marginBottom: "4px",
                   fontWeight: 600,
                 }}
                 initial={{ opacity: 0 }}
@@ -280,16 +281,31 @@ export function CouponResult() {
 
               <motion.div
                 style={{
-                  fontSize: "10px",
-                  color: "rgba(26,16,5,0.35)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "24px",
+                  fontSize: "12px",
+                  color: "rgba(26,16,5,0.45)",
+                  letterSpacing: "0.06em",
+                  marginBottom: "6px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               >
                 Sur votre prochaine commande Semilac
+              </motion.div>
+
+              <motion.div
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 600,
+                  color: '#C4904A',
+                  letterSpacing: "0.1em",
+                  marginBottom: "24px",
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.1 }}
+              >
+                Valable jusqu'au 19 Mai 2026
               </motion.div>
 
               {/* Animated divider */}
@@ -374,40 +390,51 @@ export function CouponResult() {
               <motion.div
                 className="w-full max-w-sm px-5 py-5 rounded-2xl mb-3 relative overflow-hidden"
                 style={{
-                  border: "2px dashed rgba(232,0,125,0.25)",
-                  background: "rgba(232,0,125,0.04)",
+                  border: "1.5px solid rgba(232,0,125,0.3)",
+                  background: "linear-gradient(135deg, rgba(232,0,125,0.08), rgba(196,21,122,0.05))",
+                  boxShadow: "0 4px 20px rgba(232,0,125,0.10)",
                 }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8 }}
-                whileHover={{ scale: 1.02, background: "rgba(232,0,125,0.07)" }}
+                whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(232,0,125,0.18)" }}
               >
                 <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  style={{ fontSize: "28px", marginBottom: "8px" }}
-                >
-                  <Camera size={32} color="#E8007D" />
-                </motion.div>
-                <div
+                  className="absolute inset-0"
                   style={{
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    color: "#1A1005",
-                    lineHeight: 1.5,
-                    letterSpacing: "0.02em",
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
                   }}
-                >
-                  Capture d'écran recommandée !
-                </div>
-                <div
-                  style={{
-                    fontSize: "10px",
-                    color: "rgba(26,16,5,0.4)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Conservez votre code pour l'événement
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+                />
+                <div className="relative flex items-center gap-3">
+                  <motion.div
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Camera size={28} color="#E8007D" />
+                  </motion.div>
+                  <div className="text-left">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        color: "#1A1005",
+                        letterSpacing: "0.02em",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      Faites une capture d'écran !
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        color: "rgba(26,16,5,0.45)",
+                      }}
+                    >
+                      Conservez votre code pour l'événement
+                    </div>
+                  </div>
                 </div>
               </motion.div>
 
@@ -502,9 +529,44 @@ export function CouponResult() {
                 </motion.div>
               )}
 
+              {/* Partage WhatsApp */}
+              <motion.div
+                className="w-full max-w-sm mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.2 }}
+              >
+                <motion.button
+                  className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl relative overflow-hidden"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(232,0,125,0.10), rgba(196,21,122,0.07))',
+                    border: '1.5px solid rgba(232,0,125,0.25)',
+                    boxShadow: '0 4px 16px rgba(232,0,125,0.10)',
+                  }}
+                  whileHover={{ scale: 1.02, boxShadow: '0 8px 24px rgba(232,0,125,0.2)' }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    const text = encodeURIComponent(
+                      `🎉 J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !\n\nCode : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca`
+                    );
+                    window.open(`https://wa.me/?text=${text}`, '_blank');
+                  }}
+                >
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <MessageCircle size={20} color="#E8007D" />
+                  </motion.div>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
+                    Partager mon gain
+                  </span>
+                </motion.button>
+              </motion.div>
+
               {/* Brand strip */}
               <motion.div
-                className="w-full max-w-sm mt-4"
+                className="w-full max-w-sm mt-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2.4 }}

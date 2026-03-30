@@ -182,7 +182,7 @@ export function WheelCode() {
 
         {/* Card */}
         <motion.div
-          className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden flex-1 flex flex-col justify-center"
+          className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden"
           style={{
             background: 'rgba(255,255,255,0.85)',
             border: '1px solid rgba(232,0,125,0.12)',
@@ -217,10 +217,11 @@ export function WheelCode() {
             >
               <div
                 style={{
-                  fontSize: '10px',
-                  color: 'rgba(26,16,5,0.5)',
-                  letterSpacing: '0.08em',
+                  fontSize: '12px',
+                  color: 'rgba(26,16,5,0.65)',
+                  letterSpacing: '0.04em',
                   lineHeight: '1.6',
+                  fontWeight: 500,
                 }}
               >
                 Entrez le code billet du client et le numéro de devis

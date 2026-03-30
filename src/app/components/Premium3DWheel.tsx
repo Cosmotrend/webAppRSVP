@@ -9,18 +9,18 @@ interface Premium3DWheelProps {
 }
 
 const prizes = [
-  { label: '-25%', color: '#4a1530', gradient: ['#4a1530', '#2a0818'] },
-  { label: '-30%', color: '#3d1028', gradient: ['#3d1028', '#1d0010'] },
-  { label: '-35%', color: '#5a1838', gradient: ['#5a1838', '#3a0820'] },
-  { label: '-40%', color: '#2e0815', gradient: ['#2e0815', '#1e0008'] },
-  { label: '-25%', color: '#4a1530', gradient: ['#4a1530', '#2a0818'] },
-  { label: '-30%', color: '#3d1028', gradient: ['#3d1028', '#1d0010'] },
-  { label: '-35%', color: '#5a1838', gradient: ['#5a1838', '#3a0820'] },
-  { label: '-40%', color: '#2e0815', gradient: ['#2e0815', '#1e0008'] },
-  { label: '-25%', color: '#4a1530', gradient: ['#4a1530', '#2a0818'] },
-  { label: '-30%', color: '#3d1028', gradient: ['#3d1028', '#1d0010'] },
-  { label: '-35%', color: '#5a1838', gradient: ['#5a1838', '#3a0820'] },
-  { label: '-40%', color: '#2e0815', gradient: ['#2e0815', '#1e0008'] },
+  { label: '-25%', color: '#E8007D', gradient: ['#E8007D', '#C4157A'] },
+  { label: '-30%', color: '#C4157A', gradient: ['#C4157A', '#A00060'] },
+  { label: '-35%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
+  { label: '-40%', color: '#E8007D', gradient: ['#E8007D', '#C4157A'] },
+  { label: '-25%', color: '#C4157A', gradient: ['#C4157A', '#A00060'] },
+  { label: '-30%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
+  { label: '-35%', color: '#E8007D', gradient: ['#E8007D', '#C4157A'] },
+  { label: '-40%', color: '#C4157A', gradient: ['#C4157A', '#A00060'] },
+  { label: '-25%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
+  { label: '-30%', color: '#E8007D', gradient: ['#E8007D', '#C4157A'] },
+  { label: '-35%', color: '#C4157A', gradient: ['#C4157A', '#A00060'] },
+  { label: '-40%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
 ];
 
 export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium3DWheelProps) {
@@ -96,8 +96,8 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
           className="absolute inset-0 rounded-full"
           style={{
             rotate: rotation,
-            background: 'radial-gradient(circle at 30% 30%, rgba(248,164,200,0.15), rgba(13,0,8,0.95))',
-            boxShadow: '0 10px 40px rgba(248,164,200,0.3)',
+            background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), rgba(232,0,125,0.06))',
+            boxShadow: '0 10px 40px rgba(232,0,125,0.25)',
           }}
         >
           <svg viewBox="0 0 350 350" width="350" height="350" className="absolute inset-0">
@@ -133,7 +133,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
                     <path
                       d={`M0,0 L${x1},${y1} A165,165 0 0,1 ${x2},${y2} Z`}
                       fill={`url(#seg-grad-${i})`}
-                      stroke="rgba(248,164,200,0.3)"
+                      stroke="rgba(255,255,255,0.4)"
                       strokeWidth="1.5"
                     />
                     
@@ -143,7 +143,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
                       y={(y1 + y2) / 2 * 0.65}
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      fill="#F8A4C8"
+                      fill="#FFFFFF"
                       fontSize="14"
                       fontWeight="800"
                       style={{
@@ -174,7 +174,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
                     cx={x}
                     cy={y}
                     r="3"
-                    fill="rgba(248,164,200,0.6)"
+                    fill="rgba(255,255,255,0.7)"
                     filter="url(#glow)"
                   />
                 );

@@ -56,7 +56,7 @@ export function StaffPin() {
       <TopBar rightText="Accès Staff" />
 
       <motion.div
-        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col"
+        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -121,7 +121,7 @@ export function StaffPin() {
 
         {/* Card */}
         <motion.div
-          className="rounded-3xl p-8 backdrop-blur-xl relative overflow-hidden flex-1 flex flex-col justify-center"
+          className="rounded-3xl p-8 backdrop-blur-xl relative overflow-hidden"
           style={{
             background: 'rgba(255,255,255,0.85)',
             border: '1px solid rgba(232,0,125,0.12)',
@@ -213,7 +213,7 @@ export function StaffPin() {
                 onChange={(e) => { setPin(e.target.value); setError(''); }}
                 onKeyPress={handleKeyPress}
                 maxLength={9}
-                placeholder="CODE PIN"
+                placeholder="••••••"
                 className="w-full rounded-2xl px-6 py-4 outline-none transition-all duration-200"
                 style={{
                   background: error ? 'rgba(220,50,50,0.04)' : 'rgba(255,255,255,0.7)',
@@ -232,6 +232,9 @@ export function StaffPin() {
                 }}
                 autoFocus
               />
+              <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.3)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
+                Code alphanumérique fourni par votre responsable
+              </div>
             </motion.div>
 
             <AnimatePresence>
