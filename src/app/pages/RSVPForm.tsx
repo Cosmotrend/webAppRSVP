@@ -337,14 +337,14 @@ export function RSVPForm() {
 
             <div className="grid grid-cols-2 gap-3">
               <select
-                className="w-full rounded-xl px-4 py-4 outline-none transition-transform duration-200 hover:scale-[1.02] focus:scale-[1.02]"
+                className="w-full rounded-xl px-2 py-4 outline-none transition-transform duration-200 hover:scale-[1.02] focus:scale-[1.02]"
                 style={{
                   background: 'rgba(248,164,200,0.08)',
                   border: '1px solid rgba(248,164,200,0.2)',
                   color: formData.people ? '#FFF8F5' : 'rgba(255,248,245,0.4)',
                   fontSize: '10px',
                   fontWeight: 600,
-                  letterSpacing: '0.08em',
+                  letterSpacing: 0,
                   boxShadow: '0 4px 12px rgba(248,164,200,0.1)',
                   textAlign: 'center',
                   textAlignLast: 'center',
@@ -360,14 +360,14 @@ export function RSVPForm() {
               </select>
 
               <select
-                className="w-full rounded-xl px-4 py-4 outline-none transition-transform duration-200 hover:scale-[1.02] focus:scale-[1.02]"
+                className="w-full rounded-xl px-2 py-4 outline-none transition-transform duration-200 hover:scale-[1.02] focus:scale-[1.02]"
                 style={{
                   background: 'rgba(248,164,200,0.08)',
                   border: '1px solid rgba(248,164,200,0.2)',
                   color: formData.representative ? '#FFF8F5' : 'rgba(255,248,245,0.4)',
                   fontSize: '10px',
                   fontWeight: 600,
-                  letterSpacing: '0.08em',
+                  letterSpacing: 0,
                   boxShadow: '0 4px 12px rgba(248,164,200,0.1)',
                   textAlign: 'center',
                   textAlignLast: 'center',
@@ -440,8 +440,9 @@ export function RSVPForm() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    style={{ fontSize: '13px', letterSpacing: '0.14em' }}
                   >
-                    ✓ Je confirme
+                    ✓ JE CONFIRME
                   </motion.span>
                 )}
               </AnimatePresence>
