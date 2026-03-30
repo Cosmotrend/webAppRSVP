@@ -90,7 +90,7 @@ export function WheelCode() {
     }
   };
 
-  // Format automatique pour le ticket (SD26-XXXX)
+  // Format automatique pour le ticket (SD26-001 à SD26-1000)
   const handleTicketChange = (value: string) => {
     const cleaned = value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
     if (cleaned.length <= 9) {
@@ -283,7 +283,7 @@ export function WheelCode() {
                 value={ticketNumber}
                 onChange={(e) => handleTicketChange(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="SD26-____"
+                placeholder="SD26-001"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
                   background: 'rgba(248,164,200,0.08)',
@@ -305,7 +305,7 @@ export function WheelCode() {
                   letterSpacing: '0.05em',
                 }}
               >
-                Format: SD26-XXXX (9 caractères)
+                Format: SD26-001 → SD26-1000
               </div>
             </motion.div>
 
