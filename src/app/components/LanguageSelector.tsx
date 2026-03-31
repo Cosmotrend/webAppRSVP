@@ -134,7 +134,7 @@ export function LanguageSelector() {
           >
             <svg width="60" height="40" viewBox="0 0 900 600">
               <rect fill="#C1272D" width="900" height="600" />
-              <path fill="#006233" d="M450 180l40.6 124.9h131.3L515.6 379.1l40.6 124.9L450 420l-106.2 84 40.6-124.9L278.1 304.9h131.3z" />
+              <path fillRule="evenodd" fill="#006233" d="M450,180 L520.5,397.1 L335.9,262.9 L564.1,262.9 L379.5,397.1 Z" />
             </svg>
           </div>
           <span style={{ fontSize: '13px', fontWeight: 600, color: '#1A1005', letterSpacing: '0.04em' }}>

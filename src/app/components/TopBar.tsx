@@ -92,7 +92,7 @@ function LangSwitch() {
   const { lang, setLang } = useLang();
   const nextLang = lang === 'fr' ? 'ar' : 'fr';
   const flag = lang === 'fr' ? (
-    <svg width="18" height="12" viewBox="0 0 900 600"><rect fill="#C1272D" width="900" height="600"/><path fill="#006233" d="M450 180l40.6 124.9h131.3L515.6 379.1l40.6 124.9L450 420l-106.2 84 40.6-124.9L278.1 304.9h131.3z"/></svg>
+    <svg width="18" height="12" viewBox="0 0 900 600"><rect fill="#C1272D" width="900" height="600"/><path fillRule="evenodd" fill="#006233" d="M450,180 L520.5,397.1 L335.9,262.9 L564.1,262.9 L379.5,397.1 Z"/></svg>
   ) : (
     <svg width="18" height="12" viewBox="0 0 3 2"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>
   );
