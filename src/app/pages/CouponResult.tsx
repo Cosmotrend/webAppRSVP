@@ -7,7 +7,7 @@ import {
   Sparkles,
   Camera,
   FileText,
-  MessageCircle,
+  Share2,
 } from "lucide-react";
 import { AuroraBackground } from "../components/AuroraBackground";
 import { ParticleField } from "../components/ParticleField";
@@ -16,6 +16,82 @@ import { BrandStrip } from "../components/logos/BrandStrip";
 import { SemilacDaysLogo } from "../components/logos/SemilacDaysLogo";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
+
+function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080;
+  canvas.height = 1920;
+  const ctx = canvas.getContext('2d')!;
+
+  // Background gradient
+  const bg = ctx.createLinearGradient(0, 0, 0, 1920);
+  bg.addColorStop(0, '#FAF7F2');
+  bg.addColorStop(0.5, '#FFF0F5');
+  bg.addColorStop(1, '#FAF7F2');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 1080, 1920);
+
+  // Decorative circles
+  ctx.fillStyle = 'rgba(232,0,125,0.06)';
+  ctx.beginPath(); ctx.arc(540, 400, 300, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(196,144,74,0.05)';
+  ctx.beginPath(); ctx.arc(540, 1400, 250, 0, Math.PI * 2); ctx.fill();
+
+  // Top badge
+  ctx.font = 'bold 28px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(232,0,125,0.5)';
+  ctx.textAlign = 'center';
+  ctx.fillText('SEMILAC DAYS 2026', 540, 520);
+
+  // Prize
+  ctx.font = 'italic 180px Georgia, serif';
+  ctx.fillStyle = '#E8007D';
+  ctx.fillText(prize, 540, 850);
+
+  // Subtitle
+  ctx.font = '600 36px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(26,16,5,0.6)';
+  ctx.fillText('de réduction exclusive', 540, 940);
+
+  // Divider
+  const divGrad = ctx.createLinearGradient(340, 0, 740, 0);
+  divGrad.addColorStop(0, 'transparent');
+  divGrad.addColorStop(0.5, 'rgba(232,0,125,0.4)');
+  divGrad.addColorStop(1, 'transparent');
+  ctx.fillStyle = divGrad;
+  ctx.fillRect(340, 1010, 400, 2);
+
+  // Code
+  ctx.font = 'bold 20px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(232,0,125,0.4)';
+  ctx.fillText('MON CODE', 540, 1090);
+  ctx.font = 'bold 52px "Courier New", monospace';
+  ctx.fillStyle = '#E8007D';
+  ctx.fillText(ticketNumber, 540, 1160);
+
+  // Event info
+  ctx.font = '600 26px Arial, sans-serif';
+  ctx.fillStyle = '#C4904A';
+  ctx.fillText('14-19 Mai 2026 · Casablanca', 540, 1280);
+  ctx.fillText('2ème Édition', 540, 1320);
+
+  // CTA
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillStyle = 'rgba(232,0,125,0.6)';
+  ctx.fillText('Rejoignez-nous !', 540, 1480);
+
+  // Bottom dots
+  ctx.fillStyle = '#E8007D';
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    ctx.arc(470 + i * 28, 1560, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob!), 'image/png');
+  });
+}
 
 export function CouponResult() {
   const navigate = useNavigate();
@@ -68,7 +144,7 @@ export function CouponResult() {
     sounds.win();
 
     // Confetti celebration
-    const duration = 5000;
+    const duration = 2000;
     const animationEnd = Date.now() + duration;
     const colors = ['#E8007D', '#ff4da6', '#FFE0EF', '#C4904A', '#ffffff'];
 
@@ -141,7 +217,7 @@ export function CouponResult() {
     >
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="" />
+      <TopBar />
 
       <div className="absolute top-[44px] left-0 right-0 bottom-0 overflow-y-auto flex flex-col items-center justify-start pt-6 px-5 text-center pb-8">
         <AnimatePresence>
@@ -228,7 +304,7 @@ export function CouponResult() {
                   fontWeight: 700,
                   letterSpacing: "0.36em",
                   textTransform: "uppercase",
-                  color: "rgba(232,0,125,0.6)",
+                  color: "#E8007D",
                   marginBottom: "20px",
                 }}
                 initial={{ opacity: 0 }}
@@ -282,7 +358,7 @@ export function CouponResult() {
               <motion.div
                 style={{
                   fontSize: "12px",
-                  color: "rgba(26,16,5,0.45)",
+                  color: "rgba(26,16,5,0.55)",
                   letterSpacing: "0.06em",
                   marginBottom: "6px",
                 }}
@@ -339,7 +415,7 @@ export function CouponResult() {
                       fontWeight: 700,
                       letterSpacing: "0.3em",
                       textTransform: "uppercase",
-                      color: "rgba(26,16,5,0.4)",
+                      color: "rgba(26,16,5,0.55)",
                     }}
                   >
                     Code Promo
@@ -352,8 +428,8 @@ export function CouponResult() {
                   style={{
                     padding: "16px 40px",
                     background: "rgba(232,0,125,0.06)",
-                    border: "2px solid rgba(232,0,125,0.2)",
-                    boxShadow: "0 8px 32px rgba(232,0,125,0.12)",
+                    border: "2px solid rgba(232,0,125,0.32)",
+                    boxShadow: "0 8px 32px rgba(232,0,125,0.14)",
                   }}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -388,7 +464,7 @@ export function CouponResult() {
 
               {/* CTA Box */}
               <motion.div
-                className="w-full max-w-sm px-5 py-5 rounded-2xl mb-3 relative overflow-hidden"
+                className="w-full max-w-sm px-5 py-4 rounded-2xl mb-3 relative"
                 style={{
                   border: "1.5px solid rgba(232,0,125,0.3)",
                   background: "linear-gradient(135deg, rgba(232,0,125,0.08), rgba(196,21,122,0.05))",
@@ -407,32 +483,34 @@ export function CouponResult() {
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
                 />
-                <div className="relative flex items-center gap-3">
+                <div className="relative flex items-center gap-4">
                   <motion.div
+                    className="flex-shrink-0"
                     animate={{ scale: [1, 1.15, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <Camera size={28} color="#E8007D" />
+                    <Camera size={26} color="#E8007D" />
                   </motion.div>
                   <div className="text-left">
                     <div
                       style={{
                         fontSize: "12px",
                         fontWeight: 700,
-                        color: "#1A1005",
+                        color: "#E8007D",
                         letterSpacing: "0.02em",
-                        marginBottom: "2px",
+                        marginBottom: "3px",
                       }}
                     >
-                      Faites une capture d'écran !
+                      Screenshotez maintenant !
                     </div>
                     <div
                       style={{
                         fontSize: "10px",
-                        color: "rgba(26,16,5,0.45)",
+                        color: "rgba(26,16,5,0.55)",
+                        lineHeight: 1.4,
                       }}
                     >
-                      Conservez votre code pour l'événement
+                      Gardez votre code précieusement pour le jour J
                     </div>
                   </div>
                 </div>
@@ -441,11 +519,11 @@ export function CouponResult() {
               {/* Traçabilité : Ticket + Devis */}
               {devisNumber && (
                 <motion.div
-                  className="w-full max-w-sm px-5 py-4 rounded-2xl mb-5 relative overflow-hidden"
+                  className="w-full max-w-sm px-5 py-4 rounded-2xl mb-5 relative"
                   style={{
-                    border: "1px solid rgba(232,0,125,0.12)",
-                    background: "rgba(255,255,255,0.85)",
-                    boxShadow: "0 4px 20px rgba(232,0,125,0.06)",
+                    border: "1px solid rgba(232,0,125,0.22)",
+                    background: "rgba(250,247,242,0.92)",
+                    boxShadow: "0 4px 20px rgba(232,0,125,0.10)",
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -468,7 +546,7 @@ export function CouponResult() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.4)" }}>
+                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
                         Ticket RSVP
                       </span>
                       <span
@@ -484,7 +562,7 @@ export function CouponResult() {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.4)" }}>
+                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
                         N° Devis
                       </span>
                       <span
@@ -500,7 +578,7 @@ export function CouponResult() {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.4)" }}>
+                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
                         Réduction
                       </span>
                       <span
@@ -518,7 +596,7 @@ export function CouponResult() {
                   <div
                     style={{
                       fontSize: "8px",
-                      color: "rgba(26,16,5,0.3)",
+                      color: "rgba(26,16,5,0.5)",
                       marginTop: "12px",
                       textAlign: "center",
                       letterSpacing: "0.1em",
@@ -529,7 +607,7 @@ export function CouponResult() {
                 </motion.div>
               )}
 
-              {/* Partage WhatsApp */}
+              {/* Partage Instagram Story */}
               <motion.div
                 className="w-full max-w-sm mb-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -539,27 +617,45 @@ export function CouponResult() {
                 <motion.button
                   className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl relative overflow-hidden"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(232,0,125,0.10), rgba(196,21,122,0.07))',
-                    border: '1.5px solid rgba(232,0,125,0.25)',
-                    boxShadow: '0 4px 16px rgba(232,0,125,0.10)',
+                    background: 'linear-gradient(135deg, rgba(232,0,125,0.12), rgba(196,21,122,0.08))',
+                    border: '1.5px solid rgba(232,0,125,0.3)',
+                    boxShadow: '0 4px 16px rgba(232,0,125,0.12)',
                   }}
                   whileHover={{ scale: 1.02, boxShadow: '0 8px 24px rgba(232,0,125,0.2)' }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    const text = encodeURIComponent(
-                      `🎉 J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !\n\nCode : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca`
-                    );
-                    window.open(`https://wa.me/?text=${text}`, '_blank');
+                  onClick={async () => {
+                    try {
+                      const blob = await generateStoryImage(prize, ticketNumber);
+                      const file = new File([blob], 'semilac-days-gain.png', { type: 'image/png' });
+
+                      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+                        await navigator.share({
+                          files: [file],
+                          title: 'Semilac Days 2026',
+                          text: `J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !`,
+                        });
+                      } else {
+                        // Fallback : télécharger l'image
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'semilac-days-gain.png';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                      }
+                    } catch (e) {
+                      console.log('Partage annulé', e);
+                    }
                   }}
                 >
                   <motion.div
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <MessageCircle size={20} color="#E8007D" />
+                    <Share2 size={20} color="#E8007D" />
                   </motion.div>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                    Partager mon gain
+                    Partager en Story
                   </span>
                 </motion.button>
               </motion.div>

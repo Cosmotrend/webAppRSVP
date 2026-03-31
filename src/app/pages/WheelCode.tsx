@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Ticket, FileText, AlertCircle, Sparkles } from 'lucide-react';
@@ -7,24 +7,25 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
+import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
 
 export function WheelCode() {
   const navigate = useNavigate();
-
-  // Route guard — only accessible after staff PIN
-  if (!sessionStorage.getItem('staffAuth')) {
-    navigate('/staff-pin');
-    return null;
-  }
-
   const [ticketNumber, setTicketNumber] = useState('');
   const [devisNumber, setDevisNumber] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [error, setError] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [clientName, setClientName] = useState('');
+
+  // Route guard — only accessible after staff PIN
+  useEffect(() => {
+    if (!sessionStorage.getItem('staffAuth')) {
+      navigate('/staff-pin');
+    }
+  }, [navigate]);
 
   const handleValidate = async () => {
     setIsValidating(true);
@@ -115,10 +116,10 @@ export function WheelCode() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="Roue de la Fortune" />
+      <TopBar rightAction={{ icon: <Sparkles size={18} />, label: 'Roue' }} />
 
       <motion.div
-        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-4 flex flex-col"
+        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-4 flex flex-col justify-between"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -184,9 +185,9 @@ export function WheelCode() {
         <motion.div
           className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden"
           style={{
-            background: 'rgba(255,255,255,0.85)',
-            border: '1px solid rgba(232,0,125,0.12)',
-            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
+            background: 'rgba(250,247,242,0.92)',
+            border: '1px solid rgba(232,0,125,0.22)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.14)',
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -255,7 +256,7 @@ export function WheelCode() {
                 type="text"
                 value={ticketNumber}
                 onChange={(e) => handleTicketChange(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="SD26-001"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
@@ -274,7 +275,7 @@ export function WheelCode() {
                 className="mt-1 text-right"
                 style={{
                   fontSize: '7px',
-                  color: 'rgba(26,16,5,0.35)',
+                  color: 'rgba(26,16,5,0.5)',
                   letterSpacing: '0.05em',
                 }}
               >
@@ -307,7 +308,7 @@ export function WheelCode() {
                 type="text"
                 value={devisNumber}
                 onChange={(e) => handleDevisChange(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="S26___"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
@@ -326,7 +327,7 @@ export function WheelCode() {
                 className="mt-1 text-right"
                 style={{
                   fontSize: '7px',
-                  color: 'rgba(26,16,5,0.35)',
+                  color: 'rgba(26,16,5,0.5)',
                   letterSpacing: '0.05em',
                 }}
               >
@@ -383,7 +384,7 @@ export function WheelCode() {
                       className="flex items-center gap-2"
                     >
                       <motion.div
-                        className="w-4 h-4 border-2 border-[#0D0008] border-t-transparent rounded-full"
+                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                         animate={{ rotate: 360 }}
                         transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                       />
@@ -415,13 +416,23 @@ export function WheelCode() {
           <div
             style={{
               fontSize: '7px',
-              color: 'rgba(232,0,125,0.4)',
+              color: 'rgba(232,0,125,0.55)',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
             }}
           >
             Les deux codes sont requis pour continuer
           </div>
+        </motion.div>
+
+        {/* Brand strip */}
+        <motion.div
+          className="mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+        >
+          <BrandStrip />
         </motion.div>
       </motion.div>
 

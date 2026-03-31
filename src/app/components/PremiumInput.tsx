@@ -48,7 +48,7 @@ export function PremiumInput({
           style={{
             background: isFocused
               ? 'linear-gradient(135deg, rgba(232,0,125,0.04), rgba(196,144,74,0.04))'
-              : 'rgba(255,255,255,0.7)',
+              : 'rgba(250,247,242,0.85)',
           }}
         />
 

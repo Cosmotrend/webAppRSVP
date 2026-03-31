@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
@@ -6,7 +6,6 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
-import { PageTransition } from '../components/PageTransition';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { registerResult } from '../utils/api';
 
@@ -89,28 +88,27 @@ export function WheelGame() {
     }
   };
 
-  // Route guard
-  const wheelDataStr = localStorage.getItem('wheelData');
-  if (!wheelDataStr) {
-    navigate('/staff-pin');
-    return null;
-  }
+  // Route guard — in useEffect to avoid calling navigate during render
+  useEffect(() => {
+    if (!localStorage.getItem('wheelData')) {
+      navigate('/staff-pin');
+    }
+  }, [navigate]);
 
-  const wheelData = JSON.parse(wheelDataStr);
-  
+  const wheelDataStr = localStorage.getItem('wheelData');
+  const wheelData = wheelDataStr ? JSON.parse(wheelDataStr) : {};
+
   const ticketNumber = wheelData?.ticketNumber || 'SD26-XXXX';
   const clientName = wheelData?.clientName || 'Client VIP';
-  
-  // Séparer le nom du client en firstName et lastName pour l'affichage
+
   const nameParts = clientName.split(' ');
   const firstName = nameParts[0] || 'Client';
-  const lastName = nameParts.slice(1).join(' ') || 'VIP';
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="" />
+      <TopBar />
 
       <motion.div
         className="absolute top-[44px] left-0 right-0 bottom-0 p-3"
@@ -121,9 +119,9 @@ export function WheelGame() {
         <div
           className="rounded-3xl p-4 text-center h-full backdrop-blur-xl flex flex-col"
           style={{
-            background: 'rgba(255,255,255,0.85)',
-            border: '1px solid rgba(232,0,125,0.12)',
-            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
+            background: 'rgba(250,247,242,0.92)',
+            border: '1px solid rgba(232,0,125,0.22)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.14)',
           }}
         >
           {/* Title Section */}
@@ -140,7 +138,7 @@ export function WheelGame() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <SemilacDaysLogo height={60} />
+              <SemilacDaysLogo height={68} />
             </motion.div>
 
             {/* Nom client — élément principal */}
@@ -171,7 +169,7 @@ export function WheelGame() {
                     fontWeight: 700,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(26,16,5,0.4)',
+                    color: 'rgba(26,16,5,0.55)',
                   }}
                 >
                   {attempt === 1 ? 'Essai 1 / 2' : 'Dernier essai'}

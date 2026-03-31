@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { Gift, Ticket, Car, Sparkles, Camera, Download, MessageCircle, Calendar, MapPin } from 'lucide-react';
+import { Gift, Ticket, Car, Sparkles, Download, MessageCircle, Calendar, MapPin } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
@@ -187,7 +187,7 @@ export function Confirmation() {
     setTimeout(() => setShowContent(true), 500);
 
     // Epic confetti show
-    const duration = 4000;
+    const duration = 1500;
     const animationEnd = Date.now() + duration;
     const colors = ['#E8007D', '#ff4da6', '#FFE0EF', '#C4904A', '#ffffff'];
 
@@ -253,22 +253,22 @@ export function Confirmation() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="" />
+      <TopBar />
 
       <AnimatePresence>
         {showContent && (
           <motion.div
-            className="absolute top-[44px] left-0 right-0 bottom-0 p-4"
+            className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-2 overflow-y-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
             <div
-              className="rounded-3xl p-8 text-center h-full backdrop-blur-xl overflow-y-auto relative"
+              className="rounded-3xl p-8 text-center backdrop-blur-xl relative"
               style={{
-                background: 'rgba(255,255,255,0.88)',
-                border: '1px solid rgba(232,0,125,0.12)',
-                boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
+                background: 'rgba(250,247,242,0.92)',
+                border: '1px solid rgba(232,0,125,0.22)',
+                boxShadow: '0 8px 40px rgba(232,0,125,0.14)',
               }}
             >
               {/* Logo */}
@@ -366,7 +366,7 @@ export function Confirmation() {
               <motion.div
                 style={{
                   fontSize: '12px',
-                  color: 'rgba(26,16,5,0.4)',
+                  color: 'rgba(26,16,5,0.55)',
                   marginBottom: '24px',
                   letterSpacing: '0.08em',
                 }}
@@ -407,7 +407,7 @@ export function Confirmation() {
                       fontWeight: 700,
                       letterSpacing: '0.28em',
                       textTransform: 'uppercase',
-                      color: 'rgba(232,0,125,0.45)',
+                      color: 'rgba(232,0,125,0.55)',
                     }}
                   >
                     Numéro de billet
@@ -462,7 +462,7 @@ export function Confirmation() {
                     className="relative flex items-center gap-4 px-4 py-4 rounded-2xl overflow-hidden group"
                     style={{
                       background: 'rgba(232,0,125,0.04)',
-                      border: '1px solid rgba(232,0,125,0.08)',
+                      border: '1px solid rgba(232,0,125,0.16)',
                     }}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -504,7 +504,7 @@ export function Confirmation() {
                         {perk.title}
                       </div>
                       {perk.desc && (
-                        <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.4)' }}>
+                        <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.55)' }}>
                           {perk.desc}
                         </div>
                       )}
@@ -605,7 +605,7 @@ export function Confirmation() {
                     fontWeight: 700,
                     letterSpacing: '0.22em',
                     textTransform: 'uppercase',
-                    color: 'rgba(232,0,125,0.4)',
+                    color: 'rgba(232,0,125,0.55)',
                     textAlign: 'center',
                     marginBottom: '12px',
                   }}
@@ -636,7 +636,7 @@ export function Confirmation() {
                     <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
                       Télécharger
                     </div>
-                    <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.4)', letterSpacing: '0.04em' }}>
+                    <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.04em' }}>
                       Image PNG
                     </div>
                   </motion.button>
@@ -671,35 +671,17 @@ export function Confirmation() {
 
               </motion.div>
 
-              {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.8 }}
-              >
-                <ShimmerButton className="w-full h-14" onClick={() => {
-                  sounds.click();
-                  navigate('/');
-                }}>
-                  <span className="flex items-center justify-center gap-2">
-                    <Sparkles size={16} />
-                    Retour à l'accueil
-                  </span>
-                </ShimmerButton>
-
-              </motion.div>
-
-              {/* Brand strip */}
-              <motion.div
-                className="mt-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 3.2 }}
-              >
-                <BrandStrip />
-              </motion.div>
-
             </div>
+
+            {/* Brand strip — outside the card for consistent sizing */}
+            <motion.div
+              className="mt-6 pb-6 px-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3.2 }}
+            >
+              <BrandStrip />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

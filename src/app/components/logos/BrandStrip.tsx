@@ -18,26 +18,26 @@ export function BrandStrip() {
           fontWeight: 700,
           letterSpacing: '0.3em',
           textTransform: 'uppercase',
-          color: 'rgba(26,16,5,0.3)',
+          color: 'rgba(26,16,5,0.5)',
           textAlign: 'center',
           marginBottom: '14px',
         }}
       >
-        Nos marques
+        Sponsored By
       </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '20px',
-        }}
-      >
-        <SemilacLogo height={32} />
-        <div style={{ width: '1px', height: '44px', background: 'rgba(232,0,125,0.15)' }} />
-        <FootlogixLogo height={44} />
-        <div style={{ width: '1px', height: '44px', background: 'rgba(232,0,125,0.15)' }} />
-        <SemilacAcademieLogo height={36} />
+      {/* 3 cellules égales — séparateurs équidistants des logos */}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 12px' }}>
+          <SemilacLogo height={25} />
+        </div>
+        <div style={{ width: '1px', height: '32px', flexShrink: 0, background: 'rgba(232,0,125,0.15)' }} />
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 12px' }}>
+          <FootlogixLogo height={44} />
+        </div>
+        <div style={{ width: '1px', height: '32px', flexShrink: 0, background: 'rgba(232,0,125,0.15)' }} />
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 12px' }}>
+          <SemilacAcademieLogo height={38} />
+        </div>
       </div>
     </div>
   );

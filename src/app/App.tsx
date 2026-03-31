@@ -3,7 +3,7 @@ import { router } from './routes';
 
 export default function App() {
   return (
-    <div className="w-full h-full bg-black flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center" style={{ background: '#1A1005' }}>
       {/*
         Mobile  (<768px)  : full screen, no wrapper
         Tablet  (768–1023px): centré, max 600px, padding vertical 16px, border-radius
@@ -15,7 +15,7 @@ export default function App() {
           width: '100%',
           height: '100%',
           maxHeight: 'calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
-          background: '#0D0008',
+          background: '#1A1005',
         }}
       >
         <style>{`
@@ -43,7 +43,7 @@ export default function App() {
         `}</style>
         <div
           className="app-shell relative overflow-hidden w-full h-full"
-          style={{ background: '#0D0008' }}
+          style={{ background: '#1A1005' }}
         >
           <RouterProvider router={router} />
         </div>

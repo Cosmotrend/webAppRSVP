@@ -30,7 +30,7 @@ export function Greeting() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="" />
+      <TopBar />
 
       <div className="absolute top-[44px] left-0 right-0 bottom-0 flex flex-col items-center justify-center px-6 text-center">
         {/* Glow effects */}

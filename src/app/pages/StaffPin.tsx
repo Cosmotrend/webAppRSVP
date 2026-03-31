@@ -53,7 +53,7 @@ export function StaffPin() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightText="Accès Staff" />
+      <TopBar rightAction={{ icon: <Lock size={18} />, label: 'Staff' }} />
 
       <motion.div
         className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col justify-center"
@@ -123,9 +123,9 @@ export function StaffPin() {
         <motion.div
           className="rounded-3xl p-8 backdrop-blur-xl relative overflow-hidden"
           style={{
-            background: 'rgba(255,255,255,0.85)',
-            border: '1px solid rgba(232,0,125,0.12)',
-            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
+            background: 'rgba(250,247,242,0.92)',
+            border: '1px solid rgba(232,0,125,0.22)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.14)',
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -216,7 +216,7 @@ export function StaffPin() {
                 placeholder="••••••"
                 className="w-full rounded-2xl px-6 py-4 outline-none transition-all duration-200"
                 style={{
-                  background: error ? 'rgba(220,50,50,0.04)' : 'rgba(255,255,255,0.7)',
+                  background: error ? 'rgba(220,50,50,0.04)' : 'rgba(250,247,242,0.85)',
                   border: error
                     ? '2px solid rgba(220,50,50,0.4)'
                     : '2px solid rgba(232,0,125,0.2)',
@@ -232,7 +232,7 @@ export function StaffPin() {
                 }}
                 autoFocus
               />
-              <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.3)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
+              <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.5)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
                 Code alphanumérique fourni par votre responsable
               </div>
             </motion.div>
@@ -290,7 +290,7 @@ export function StaffPin() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         >
-          <div style={{ fontSize: '7px', color: 'rgba(232,0,125,0.4)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '7px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
             Accès réservé aux commerciaux Semilac Days
           </div>
         </motion.div>

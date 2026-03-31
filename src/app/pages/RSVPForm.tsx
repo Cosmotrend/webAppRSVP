@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Calendar, MapPin, Users } from 'lucide-react';
+import { Sparkles, Calendar, MapPin, Users, Gift, Ticket, Car } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { ParticleField } from '../components/ParticleField';
@@ -240,7 +240,7 @@ export function RSVPForm() {
                 key={text}
                 className="flex items-center gap-1"
                 whileHover={{ scale: 1.1 }}
-                style={{ fontSize: '9px', color: 'rgba(232,0,125,0.6)', letterSpacing: '0.1em' }}
+                style={{ fontSize: '10px', color: '#E8007D', letterSpacing: '0.1em', fontWeight: 600, paddingTop: '2px' }}
               >
                 {icon}
                 <span>{text}</span>
@@ -252,8 +252,8 @@ export function RSVPForm() {
           <motion.div
             className="mt-5 px-4 py-4 rounded-2xl"
             style={{
-              background: 'rgba(255,255,255,0.7)',
-              border: '1px solid rgba(232,0,125,0.10)',
+              background: 'rgba(250,247,242,0.75)',
+              border: '1px solid rgba(232,0,125,0.22)',
               backdropFilter: 'blur(8px)',
             }}
             initial={{ opacity: 0, y: 10 }}
@@ -261,10 +261,10 @@ export function RSVPForm() {
             transition={{ delay: 0.9 }}
           >
             {[
-              { emoji: '🎁', text: 'Coupon -25% exclusif sur commandes' },
-              { emoji: '🎡', text: 'Roue de la Fortune & tombola cadeaux' },
-              { emoji: '🚗', text: 'VTC privé offert — transport premium' },
-            ].map(({ emoji, text }, i) => (
+              { icon: <Gift size={18} color="#E8007D" />, text: 'Coupon -25% exclusif sur commandes' },
+              { icon: <Ticket size={18} color="#ff4da6" />, text: 'Roue de la Fortune & tombola cadeaux' },
+              { icon: <Car size={18} color="#C4904A" />, text: 'VTC privé offert — transport premium' },
+            ].map(({ icon, text }, i) => (
               <motion.div
                 key={i}
                 className="flex items-center gap-3 mb-2 last:mb-0"
@@ -272,7 +272,7 @@ export function RSVPForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.0 + i * 0.1 }}
               >
-                <span style={{ fontSize: '16px' }}>{emoji}</span>
+                <span className="flex-shrink-0" style={{ opacity: 0.85 }}>{icon}</span>
                 <span style={{ fontSize: '11px', color: 'rgba(26,16,5,0.65)', fontWeight: 500 }}>{text}</span>
               </motion.div>
             ))}
@@ -283,9 +283,9 @@ export function RSVPForm() {
         <motion.div
           className="rounded-3xl p-6 backdrop-blur-xl relative overflow-hidden"
           style={{
-            background: 'rgba(255,255,255,0.85)',
-            border: '1px solid rgba(232,0,125,0.12)',
-            boxShadow: '0 8px 40px rgba(232,0,125,0.08)',
+            background: 'rgba(250,247,242,0.92)',
+            border: '1px solid rgba(232,0,125,0.22)',
+            boxShadow: '0 8px 40px rgba(232,0,125,0.14)',
           }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -332,7 +332,7 @@ export function RSVPForm() {
               value={formData.fullName}
               onChange={(value) => setFormData({ ...formData, fullName: value })}
               required
-              validate={(v) => v.trim().split(/\s+/).length >= 2 && v.length > 2}
+              validate={(v) => v.trim().split(/\s+/).length >= 2 && v.trim().length > 4}
             />
 
             <PremiumInput
@@ -358,7 +358,7 @@ export function RSVPForm() {
                 type="tel"
                 required
                 validate={(v) => isValidPhone(v)}
-                errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? 'Format invalide : 06 ou 07 XXXXXXXX' : '')}
+                errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? 'Numéro invalide' : '')}
               />
             </div>
 
@@ -392,7 +392,7 @@ export function RSVPForm() {
           <div className="mt-5 relative">
             <div
               className="relative w-full rounded-full overflow-hidden"
-              style={{ height: '3px', background: 'rgba(26,16,5,0.07)' }}
+              style={{ height: '4px', background: 'rgba(26,16,5,0.08)' }}
             >
               <motion.div
                 className="absolute inset-y-0 left-0 rounded-full"
@@ -403,24 +403,26 @@ export function RSVPForm() {
                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
               />
             </div>
-            <div className="flex justify-between mt-1">
+            <div className="flex justify-between mt-2">
               <motion.span
                 style={{
-                  fontSize: '7px',
-                  letterSpacing: '0.1em',
-                  color: 'rgba(232,0,125,0.45)',
+                  fontSize: '9px',
+                  fontWeight: progress === 1 ? 700 : 600,
+                  letterSpacing: '0.08em',
+                  color: progress === 1 ? '#E8007D' : 'rgba(232,0,125,0.65)',
                   textTransform: 'uppercase',
                 }}
-                animate={{ opacity: progress === 1 ? [0.5, 1, 0.5] : 1 }}
+                animate={{ opacity: progress === 1 ? [0.6, 1, 0.6] : 1 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {progress === 1 ? '✓ Prêt à confirmer !' : progress > 0 ? 'En cours...' : 'Complétez votre inscription'}
               </motion.span>
               <span
                 style={{
-                  fontSize: '7px',
-                  letterSpacing: '0.1em',
-                  color: 'rgba(232,0,125,0.4)',
+                  fontSize: '9px',
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
+                  color: 'rgba(232,0,125,0.65)',
                 }}
               >
                 {filledCount}/7
@@ -476,15 +478,16 @@ export function RSVPForm() {
         >
           <motion.div
             style={{
-              fontSize: '8px',
-              color: 'rgba(232,0,125,0.5)',
+              fontSize: '9px',
+              color: '#E8007D',
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
+              fontWeight: 600,
             }}
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            ✨ Une expérience inoubliable vous attend ✨
+            Une expérience inoubliable vous attend
           </motion.div>
         </motion.div>
 
