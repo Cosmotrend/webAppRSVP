@@ -119,7 +119,7 @@ export function WheelCode() {
       <TopBar rightAction={{ icon: <Sparkles size={18} />, label: 'Roue' }} />
 
       <motion.div
-        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-4 flex flex-col justify-between"
+        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-4 overflow-y-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}

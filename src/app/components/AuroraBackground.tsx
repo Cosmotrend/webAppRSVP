@@ -1,6 +1,39 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 export function AuroraBackground() {
+  const [isLowEnd, setIsLowEnd] = useState(false);
+
+  useEffect(() => {
+    const small = window.innerHeight < 700 || window.innerWidth < 375;
+    const lowMem = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
+    setIsLowEnd(small || !!lowMem);
+  }, []);
+
+  // Low-end: static gradients, no blur, no animation — saves massive GPU
+  if (isLowEnd) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute w-[250px] h-[250px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(232,0,125,0.08) 0%, transparent 70%)',
+            top: '-80px',
+            left: '-60px',
+          }}
+        />
+        <div
+          className="absolute w-[200px] h-[200px] rounded-full"
+          style={{
+            background: 'radial-gradient(ellipse, rgba(232,0,125,0.05) 0%, transparent 70%)',
+            top: '40%',
+            right: '-50px',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div

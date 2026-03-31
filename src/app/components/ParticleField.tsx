@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
-// Reduced to 8 particles (was 30) — 30 GPU composited layers crashed iOS Safari
 const PARTICLES = Array.from({ length: 8 }, (_, i) => ({
   id: i,
   size: (i % 3) * 1.5 + 2,
@@ -12,6 +12,17 @@ const PARTICLES = Array.from({ length: 8 }, (_, i) => ({
 }));
 
 export function ParticleField() {
+  const [isLowEnd, setIsLowEnd] = useState(false);
+
+  useEffect(() => {
+    const small = window.innerHeight < 700 || window.innerWidth < 375;
+    const lowMem = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
+    setIsLowEnd(small || !!lowMem);
+  }, []);
+
+  // Don't render particles on low-end devices — purely decorative, huge GPU cost
+  if (isLowEnd) return null;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {PARTICLES.map((p) => (

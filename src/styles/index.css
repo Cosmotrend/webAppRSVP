@@ -75,3 +75,12 @@ button,
     scroll-behavior: auto !important;
   }
 }
+
+/* Performance: reduce GPU load on small/old devices */
+@media (max-height: 700px) {
+  /* Kill backdrop-filter blur — very expensive on old GPUs */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
