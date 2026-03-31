@@ -8,8 +8,8 @@ import { useLang, t } from '../i18n';
 
 export function Greeting() {
   const navigate = useNavigate();
-  const [name, setName] = useState(lang === 'ar' ? 'ضيف' : 'Invité');
   const { lang } = useLang();
+  const [name, setName] = useState(lang === 'ar' ? 'ضيف' : 'Invité');
 
   useEffect(() => {
     const wheelDataRaw = localStorage.getItem('wheelData');

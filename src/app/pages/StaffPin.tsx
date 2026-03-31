@@ -7,6 +7,7 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
+import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
 import { useLang, t } from '../i18n';
@@ -58,11 +59,12 @@ export function StaffPin() {
       <TopBar rightAction={{ icon: <Lock size={18} />, label: t('staffPin', 'title', lang) }} />
 
       <motion.div
-        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col justify-center"
+        className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
+        <div className="flex-1 flex flex-col justify-center">
         {/* Hero */}
         <motion.div
           className="text-center mb-4"
@@ -295,6 +297,15 @@ export function StaffPin() {
           <div style={{ fontSize: '7px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
             {t('staffPin', 'bottomHint', lang)}
           </div>
+        </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+        >
+          <BrandStrip />
         </motion.div>
       </motion.div>
     </div>
