@@ -91,10 +91,31 @@ function ActionIcon({ action, side }: { action: TopBarAction; side: 'left' | 'ri
 function LangSwitch() {
   const { lang, setLang } = useLang();
   const nextLang = lang === 'fr' ? 'ar' : 'fr';
-  const flag = lang === 'fr' ? (
-    <svg width="18" height="12" viewBox="0 0 900 600"><rect fill="#C1272D" width="900" height="600"/><path fillRule="evenodd" fill="#006233" d="M450,180 L520.5,397.1 L335.9,262.9 L564.1,262.9 L379.5,397.1 Z"/></svg>
+  const flagSvg = lang === 'fr' ? (
+    /* Drapeau marocain — switch vers Darija */
+    <svg width="22" height="15" viewBox="0 0 90 60" style={{ display: 'block' }}>
+      <rect width="90" height="60" fill="#C1272D"/>
+      <path fillRule="evenodd" fill="#006233" d="M45,18 L52.1,39.7 L33.6,26.3 L56.4,26.3 L37.9,39.7 Z"/>
+    </svg>
   ) : (
-    <svg width="18" height="12" viewBox="0 0 3 2"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>
+    /* Drapeau français — switch vers Français */
+    <svg width="22" height="15" viewBox="0 0 90 60" style={{ display: 'block' }}>
+      <rect x="0" width="30" height="60" fill="#002395"/>
+      <rect x="30" width="30" height="60" fill="#F0F0F0"/>
+      <rect x="60" width="30" height="60" fill="#ED2939"/>
+    </svg>
+  );
+  const flag = (
+    <div style={{
+      borderRadius: '3px',
+      overflow: 'hidden',
+      lineHeight: 0,
+      boxShadow: '0 1px 3px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.07)',
+    }}>
+      <div className="flag-wave-sm">
+        {flagSvg}
+      </div>
+    </div>
   );
 
   return (

@@ -65,11 +65,13 @@ export function ShimmerButton({
         fontSize: '10px',
         fontFamily: "'Montserrat', sans-serif",
         background: isPrimary
-          ? 'linear-gradient(135deg, #C4157A, #E8007D, #ff4da6)'
+          ? 'linear-gradient(160deg, #d6188a 0%, #E8007D 50%, #f5349e 100%)'
           : 'transparent',
         color: isPrimary ? '#FFFFFF' : 'rgba(26,16,5,0.4)',
         border: isPrimary ? 'none' : '1px solid rgba(26,16,5,0.12)',
-        boxShadow: isPrimary ? '0 4px 20px rgba(232,0,125,0.30)' : 'none',
+        boxShadow: isPrimary
+          ? 'inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 4px rgba(0,0,0,0.12), 0 6px 20px rgba(232,0,125,0.38), 0 16px 40px rgba(232,0,125,0.16)'
+          : 'none',
       }}
       animate={{ x: position.x, y: position.y }}
       whileHover={

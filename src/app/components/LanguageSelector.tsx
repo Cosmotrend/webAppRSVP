@@ -88,19 +88,17 @@ export function LanguageSelector() {
               height: '90px',
               borderRadius: '50%',
               overflow: 'hidden',
-              border: '3px solid rgba(232,0,125,0.2)',
-              boxShadow: '0 8px 30px rgba(232,0,125,0.12)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#fff',
+              border: '3px solid rgba(232,0,125,0.25)',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.08), 0 8px 30px rgba(232,0,125,0.14), inset 0 1px 0 rgba(255,255,255,0.4)',
             }}
           >
-            <svg width="60" height="40" viewBox="0 0 3 2">
-              <rect width="1" height="2" fill="#002395" />
-              <rect x="1" width="1" height="2" fill="#fff" />
-              <rect x="2" width="1" height="2" fill="#ED2939" />
-            </svg>
+            <div className="flag-wave">
+              <svg width="90" height="90" viewBox="0 0 90 60" style={{ display: 'block' }}>
+                <rect x="0" width="30" height="60" fill="#002395"/>
+                <rect x="30" width="30" height="60" fill="#F0F0F0"/>
+                <rect x="60" width="30" height="60" fill="#ED2939"/>
+              </svg>
+            </div>
           </div>
           <span style={{ fontSize: '13px', fontWeight: 600, color: '#1A1005', letterSpacing: '0.04em' }}>
             Français
@@ -124,18 +122,16 @@ export function LanguageSelector() {
               height: '90px',
               borderRadius: '50%',
               overflow: 'hidden',
-              border: '3px solid rgba(232,0,125,0.2)',
-              boxShadow: '0 8px 30px rgba(232,0,125,0.12)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#fff',
+              border: '3px solid rgba(232,0,125,0.25)',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.08), 0 8px 30px rgba(232,0,125,0.14), inset 0 1px 0 rgba(255,255,255,0.4)',
             }}
           >
-            <svg width="60" height="40" viewBox="0 0 900 600">
-              <rect fill="#C1272D" width="900" height="600" />
-              <path fillRule="evenodd" fill="#006233" d="M450,180 L520.5,397.1 L335.9,262.9 L564.1,262.9 L379.5,397.1 Z" />
-            </svg>
+            <div className="flag-wave" style={{ animationDelay: '0.5s' }}>
+              <svg width="90" height="90" viewBox="0 0 90 60" style={{ display: 'block' }}>
+                <rect width="90" height="60" fill="#C1272D"/>
+                <path fillRule="evenodd" fill="#006233" d="M45,18 L52.1,39.7 L33.6,26.3 L56.4,26.3 L37.9,39.7 Z"/>
+              </svg>
+            </div>
           </div>
           <span style={{ fontSize: '13px', fontWeight: 600, color: '#1A1005', letterSpacing: '0.04em' }}>
             العربية
