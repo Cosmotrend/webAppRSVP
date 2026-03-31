@@ -10,6 +10,7 @@ import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
+import { useLang, t } from '../i18n';
 
 export function WheelCode() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export function WheelCode() {
   const [error, setError] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [clientName, setClientName] = useState('');
+  const { lang } = useLang();
 
   // Route guard — only accessible after staff PIN
   useEffect(() => {
@@ -45,13 +47,13 @@ export function WheelCode() {
 
       // Vérifier les erreurs
       if (apiData.devisUsed) {
-        setError('Ce numéro de devis a déjà été utilisé');
+        setError(t('wheelCode', 'errorDevisUsed', lang));
         sounds.error();
       } else if (apiData.alreadyUsed) {
-        setError('Ce billet a déjà participé');
+        setError(t('wheelCode', 'errorAlreadyUsed', lang));
         sounds.error();
       } else if (apiData.notFound) {
-        setError('Billet non trouvé dans le système');
+        setError(t('wheelCode', 'errorNotFound', lang));
         sounds.error();
       } else if (result.success && apiData.clientName) {
         // Succès - sauvegarder les données
@@ -63,23 +65,23 @@ export function WheelCode() {
           city: apiData.city,
         };
         localStorage.setItem('wheelData', JSON.stringify(wheelData));
-        
+
         // Afficher l'écran de bienvenue avec le vrai nom
         setClientName(apiData.clientName);
         setShowWelcome(true);
         sounds.success();
-        
+
         // Rediriger vers la page d'accueil puis la roue
         setTimeout(() => {
           navigate('/greeting');
         }, 3000);
       } else {
-        setError('Erreur de connexion, réessayez');
+        setError(t('wheelCode', 'errorConnection', lang));
         sounds.error();
       }
     } catch (error) {
       console.error('Erreur validation:', error);
-      setError('Erreur de connexion, réessayez');
+      setError(t('wheelCode', 'errorConnection', lang));
       sounds.error();
     } finally {
       setIsValidating(false);
@@ -116,7 +118,7 @@ export function WheelCode() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightAction={{ icon: <Sparkles size={18} />, label: 'Roue' }} />
+      <TopBar rightAction={{ icon: <Sparkles size={18} />, label: t('wheelCode', 'subtitle', lang) }} />
 
       <motion.div
         className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-4 pb-4 overflow-y-auto"
@@ -150,7 +152,7 @@ export function WheelCode() {
                 color: '#E8007D',
               }}
             >
-              Validation Client
+              {t('wheelCode', 'badge', lang)}
             </span>
           </motion.div>
 
@@ -177,7 +179,7 @@ export function WheelCode() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            Roue de la Fortune
+            {t('wheelCode', 'subtitle', lang)}
           </motion.div>
         </motion.div>
 
@@ -225,9 +227,9 @@ export function WheelCode() {
                   fontWeight: 500,
                 }}
               >
-                Entrez le code billet du client et le numéro de devis
+                {t('wheelCode', 'instruction', lang)}
                 <br />
-                pour déverrouiller la roue
+                {t('wheelCode', 'instruction2', lang)}
               </div>
             </motion.div>
 
@@ -249,7 +251,7 @@ export function WheelCode() {
                     color: '#E8007D',
                   }}
                 >
-                  Code Billet Client
+                  {t('wheelCode', 'ticketLabel', lang)}
                 </label>
               </div>
               <input
@@ -279,7 +281,7 @@ export function WheelCode() {
                   letterSpacing: '0.05em',
                 }}
               >
-                Format: SD26-001 → SD26-1000
+                {t('wheelCode', 'ticketHint', lang)}
               </div>
             </motion.div>
 
@@ -301,7 +303,7 @@ export function WheelCode() {
                     color: '#C4904A',
                   }}
                 >
-                  Numéro de Devis
+                  {t('wheelCode', 'devisLabel', lang)}
                 </label>
               </div>
               <input
@@ -331,7 +333,7 @@ export function WheelCode() {
                   letterSpacing: '0.05em',
                 }}
               >
-                Format: S26XXX (6 caractères)
+                {t('wheelCode', 'devisHint', lang)}
               </div>
             </motion.div>
 
@@ -388,7 +390,7 @@ export function WheelCode() {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                       />
-                      <span>Validation...</span>
+                      <span>{t('wheelCode', 'validating', lang)}</span>
                     </motion.div>
                   ) : (
                     <motion.span
@@ -397,7 +399,7 @@ export function WheelCode() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
-                      Valider et lancer la roue
+                      {t('wheelCode', 'submit', lang)}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -421,7 +423,7 @@ export function WheelCode() {
               textTransform: 'uppercase',
             }}
           >
-            Les deux codes sont requis pour continuer
+            {t('wheelCode', 'bottomHint', lang)}
           </div>
         </motion.div>
 
@@ -491,8 +493,8 @@ export function WheelCode() {
               className="relative z-10 text-center px-8"
               initial={{ scale: 0.5, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.8, 
+              transition={{
+                duration: 0.8,
                 type: 'spring',
                 bounce: 0.4,
               }}
@@ -519,7 +521,7 @@ export function WheelCode() {
                     color: '#F8A4C8',
                   }}
                 >
-                  Validation Réussie
+                  {t('wheelCode', 'welcomeBadge', lang)}
                 </span>
               </motion.div>
 
@@ -537,7 +539,7 @@ export function WheelCode() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                Bonjour
+                {t('wheelCode', 'welcomeHello', lang)}
               </motion.div>
 
               {/* Nom du client */}
@@ -577,7 +579,7 @@ export function WheelCode() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
-                Préparez-vous à tenter votre chance
+                {t('wheelCode', 'welcomeMessage', lang)}
                 <br />
                 <span
                   style={{
@@ -585,7 +587,7 @@ export function WheelCode() {
                     color: '#F8A4C8',
                   }}
                 >
-                  à la Roue de la Fortune
+                  {t('wheelCode', 'welcomeWheel', lang)}
                 </span>
               </motion.div>
 
@@ -593,11 +595,11 @@ export function WheelCode() {
               <motion.div
                 className="mb-6"
                 initial={{ opacity: 0, rotate: 0 }}
-                animate={{ 
+                animate={{
                   opacity: 1,
                   rotate: 360,
                 }}
-                transition={{ 
+                transition={{
                   delay: 1.1,
                   rotate: {
                     duration: 2,

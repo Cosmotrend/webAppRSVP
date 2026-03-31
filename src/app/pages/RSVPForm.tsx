@@ -12,6 +12,7 @@ import { PremiumSelect } from '../components/PremiumSelect';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
+import { useLang, t } from '../i18n';
 
 // Fallback local uniquement si l'API échoue
 function generateFallbackTicket(): string {
@@ -23,13 +24,6 @@ function generateFallbackTicket(): string {
   return `SD26-${code}`;
 }
 
-const PEOPLE_OPTIONS = [
-  { value: '1', label: '1 personne' },
-  { value: '2', label: '2 personnes' },
-  { value: '3', label: '3 personnes' },
-  { value: '4', label: '4 personnes' },
-];
-
 const REPRESENTATIVE_OPTIONS = [
   { value: 'Radia', label: 'Radia' },
   { value: 'Zineb', label: 'Zineb' },
@@ -40,14 +34,24 @@ const REPRESENTATIVE_OPTIONS = [
   { value: 'Wafaa', label: 'Wafaa' },
 ];
 
-const DAY_OPTIONS = [
-  { value: '14 MAI 2026', label: '14 Mai 2026' },
-  { value: '15 MAI 2026', label: '15 Mai 2026' },
-  { value: '16 MAI 2026', label: '16 Mai 2026' },
-  { value: '17 MAI 2026', label: '17 Mai 2026' },
-  { value: '18 MAI 2026', label: '18 Mai 2026' },
-  { value: '19 MAI 2026', label: '19 Mai 2026' },
-];
+function getPeopleOptions(lang: 'fr' | 'ar') {
+  const s = lang === 'fr' ? 'personne' : 'شخص';
+  const p = lang === 'fr' ? 'personnes' : 'أشخاص';
+  return [
+    { value: '1', label: `1 ${s}` },
+    { value: '2', label: `2 ${p}` },
+    { value: '3', label: `3 ${p}` },
+    { value: '4', label: `4 ${p}` },
+  ];
+}
+
+function getDayOptions(lang: 'fr' | 'ar') {
+  const month = lang === 'fr' ? 'Mai' : 'ماي';
+  return [14, 15, 16, 17, 18, 19].map((d) => ({
+    value: `${d} MAI 2026`,
+    label: `${d} ${month} 2026`,
+  }));
+}
 
 export function RSVPForm() {
   const navigate = useNavigate();
@@ -62,6 +66,7 @@ export function RSVPForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [phoneError, setPhoneError] = useState('');
+  const { lang } = useLang();
 
   const isValidPhone = (v: string) => /^0[67]\d{8}$/.test(v.replace(/\s/g, ''));
 
@@ -113,7 +118,7 @@ export function RSVPForm() {
 
       // Bloquer si numéro déjà inscrit
       if (result.data?.phoneDuplicate) {
-        setPhoneError('Ce numéro WhatsApp est déjà inscrit');
+        setPhoneError(t('rsvp', 'phoneDuplicate', lang));
         setIsSubmitting(false);
         return;
       }
@@ -209,7 +214,7 @@ export function RSVPForm() {
                 color: '#E8007D',
               }}
             >
-              Invitation Exclusive
+              {t('rsvp', 'badge', lang)}
             </span>
           </motion.div>
 
@@ -232,9 +237,9 @@ export function RSVPForm() {
             transition={{ delay: 0.7 }}
           >
             {[
-              { icon: <Calendar size={12} />, text: '14—19 MAI 2026' },
-              { icon: <MapPin size={12} />, text: 'CASABLANCA' },
-              { icon: <Users size={12} />, text: '2ÈME ÉDITION' },
+              { icon: <Calendar size={12} />, text: t('rsvp', 'dates', lang) },
+              { icon: <MapPin size={12} />, text: t('rsvp', 'location', lang) },
+              { icon: <Users size={12} />, text: t('rsvp', 'edition', lang) },
             ].map(({ icon, text }) => (
               <motion.div
                 key={text}
@@ -261,9 +266,9 @@ export function RSVPForm() {
             transition={{ delay: 0.9 }}
           >
             {[
-              { icon: <Gift size={18} color="#E8007D" />, text: 'Coupon -25% exclusif sur commandes' },
-              { icon: <Ticket size={18} color="#ff4da6" />, text: 'Roue de la Fortune & tombola cadeaux' },
-              { icon: <Car size={18} color="#C4904A" />, text: 'VTC privé offert — transport premium' },
+              { icon: <Gift size={18} color="#E8007D" />, text: t('rsvp', 'perk1', lang) },
+              { icon: <Ticket size={18} color="#ff4da6" />, text: t('rsvp', 'perk2', lang) },
+              { icon: <Car size={18} color="#C4904A" />, text: t('rsvp', 'perk3', lang) },
             ].map(({ icon, text }, i) => (
               <motion.div
                 key={i}
@@ -321,14 +326,14 @@ export function RSVPForm() {
                 color: '#E8007D',
               }}
             >
-              Confirmez votre présence
+              {t('rsvp', 'formTitle', lang)}
             </motion.h2>
           </motion.div>
 
           <div className="flex flex-col gap-2 relative">
             {/* Champ fusionné Nom complet */}
             <PremiumInput
-              placeholder="Nom complet"
+              placeholder={t('rsvp', 'fullName', lang)}
               value={formData.fullName}
               onChange={(value) => setFormData({ ...formData, fullName: value })}
               required
@@ -336,7 +341,7 @@ export function RSVPForm() {
             />
 
             <PremiumInput
-              placeholder="Salon / Institut"
+              placeholder={t('rsvp', 'salon', lang)}
               value={formData.salon}
               onChange={(value) => setFormData({ ...formData, salon: value })}
               required
@@ -345,33 +350,33 @@ export function RSVPForm() {
 
             <div className="grid grid-cols-2 gap-3">
               <PremiumInput
-                placeholder="Ville"
+                placeholder={t('rsvp', 'city', lang)}
                 value={formData.city}
                 onChange={(value) => setFormData({ ...formData, city: value })}
                 required
                 validate={(v) => v.length > 2}
               />
               <PremiumInput
-                placeholder="WhatsApp (06 ou 07...)"
+                placeholder={t('rsvp', 'whatsapp', lang)}
                 value={formData.whatsapp}
                 onChange={(value) => { setFormData({ ...formData, whatsapp: value }); setPhoneError(''); }}
                 type="tel"
                 required
                 validate={(v) => isValidPhone(v)}
-                errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? 'Numéro invalide' : '')}
+                errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? t('rsvp', 'phoneError', lang) : '')}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <PremiumSelect
-                label="Personnes"
+                label={t('rsvp', 'people', lang)}
                 value={formData.people}
                 onChange={(value) => setFormData({ ...formData, people: value })}
-                options={PEOPLE_OPTIONS}
+                options={getPeopleOptions(lang)}
                 required
               />
               <PremiumSelect
-                label="Représentant"
+                label={t('rsvp', 'representative', lang)}
                 value={formData.representative}
                 onChange={(value) => setFormData({ ...formData, representative: value })}
                 options={REPRESENTATIVE_OPTIONS}
@@ -380,10 +385,10 @@ export function RSVPForm() {
             </div>
 
             <PremiumSelect
-              label="Jour de venue"
+              label={t('rsvp', 'day', lang)}
               value={formData.day}
               onChange={(value) => setFormData({ ...formData, day: value })}
-              options={DAY_OPTIONS}
+              options={getDayOptions(lang)}
               required
             />
           </div>
@@ -415,7 +420,7 @@ export function RSVPForm() {
                 animate={{ opacity: progress === 1 ? [0.6, 1, 0.6] : 1 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                {progress === 1 ? '✓ Prêt à confirmer !' : progress > 0 ? 'En cours...' : 'Complétez votre inscription'}
+                {progress === 1 ? t('rsvp', 'progressDone', lang) : progress > 0 ? t('rsvp', 'progressActive', lang) : t('rsvp', 'progress0', lang)}
               </motion.span>
               <span
                 style={{
@@ -451,7 +456,7 @@ export function RSVPForm() {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                     />
-                    <span>Envoi...</span>
+                    <span>{t('rsvp', 'submitting', lang)}</span>
                   </motion.div>
                 ) : (
                   <motion.span
@@ -461,7 +466,7 @@ export function RSVPForm() {
                     exit={{ opacity: 0 }}
                     style={{ fontSize: '13px', letterSpacing: '0.14em' }}
                   >
-                    Réserver ma place VIP →
+                    {t('rsvp', 'submit', lang)}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -487,7 +492,7 @@ export function RSVPForm() {
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            Une expérience inoubliable vous attend
+            {t('rsvp', 'bottomHint', lang)}
           </motion.div>
         </motion.div>
 

@@ -16,12 +16,27 @@ import { BrandStrip } from "../components/logos/BrandStrip";
 import { SemilacDaysLogo } from "../components/logos/SemilacDaysLogo";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
+import { useLang, t } from '../i18n';
 
-function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> {
+function generateStoryImage(prize: string, ticketNumber: string, lang: 'fr' | 'ar'): Promise<Blob> {
   const canvas = document.createElement('canvas');
   canvas.width = 1080;
   canvas.height = 1920;
   const ctx = canvas.getContext('2d')!;
+
+  const texts = lang === 'ar' ? {
+    subtitle: 'تخفيض حصري',
+    code: 'الكود ديالي',
+    event: '14-19 ماي 2026 · الدار البيضاء',
+    edition: 'الطبعة الثانية',
+    cta: '!جيو معانا',
+  } : {
+    subtitle: 'de réduction exclusive',
+    code: 'MON CODE',
+    event: '14-19 Mai 2026 · Casablanca',
+    edition: '2ème Édition',
+    cta: 'Rejoignez-nous !',
+  };
 
   // Background gradient
   const bg = ctx.createLinearGradient(0, 0, 0, 1920);
@@ -51,7 +66,7 @@ function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> 
   // Subtitle
   ctx.font = '600 36px Arial, sans-serif';
   ctx.fillStyle = 'rgba(26,16,5,0.6)';
-  ctx.fillText('de réduction exclusive', 540, 940);
+  ctx.fillText(texts.subtitle, 540, 940);
 
   // Divider
   const divGrad = ctx.createLinearGradient(340, 0, 740, 0);
@@ -64,7 +79,7 @@ function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> 
   // Code
   ctx.font = 'bold 20px Arial, sans-serif';
   ctx.fillStyle = 'rgba(232,0,125,0.4)';
-  ctx.fillText('MON CODE', 540, 1090);
+  ctx.fillText(texts.code, 540, 1090);
   ctx.font = 'bold 52px "Courier New", monospace';
   ctx.fillStyle = '#E8007D';
   ctx.fillText(ticketNumber, 540, 1160);
@@ -72,13 +87,13 @@ function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> 
   // Event info
   ctx.font = '600 26px Arial, sans-serif';
   ctx.fillStyle = '#C4904A';
-  ctx.fillText('14-19 Mai 2026 · Casablanca', 540, 1280);
-  ctx.fillText('2ème Édition', 540, 1320);
+  ctx.fillText(texts.event, 540, 1280);
+  ctx.fillText(texts.edition, 540, 1320);
 
   // CTA
   ctx.font = 'bold 24px Arial, sans-serif';
   ctx.fillStyle = 'rgba(232,0,125,0.6)';
-  ctx.fillText('Rejoignez-nous !', 540, 1480);
+  ctx.fillText(texts.cta, 540, 1480);
 
   // Bottom dots
   ctx.fillStyle = '#E8007D';
@@ -95,6 +110,7 @@ function generateStoryImage(prize: string, ticketNumber: string): Promise<Blob> 
 
 export function CouponResult() {
   const navigate = useNavigate();
+  const { lang } = useLang();
   const [prize, setPrize] = useState("-25%");
   const [ticketNumber, setTicketNumber] = useState("");
   const [devisNumber, setDevisNumber] = useState("");
@@ -295,7 +311,7 @@ export function CouponResult() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ delay: 0.3, type: "spring" }}
               >
-                Bravo !
+                {t('couponResult', 'bravo', lang)}
               </motion.div>
 
               <motion.div
@@ -311,7 +327,7 @@ export function CouponResult() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
               >
-                Vous avez gagné
+                {t('couponResult', 'youWon', lang)}
               </motion.div>
 
               {/* Animated prize percentage */}
@@ -352,7 +368,7 @@ export function CouponResult() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
-                de réduction immédiate
+                {t('couponResult', 'reduction', lang)}
               </motion.div>
 
               <motion.div
@@ -366,7 +382,7 @@ export function CouponResult() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               >
-                Sur votre prochaine commande Semilac
+                {t('couponResult', 'onOrder', lang)}
               </motion.div>
 
               <motion.div
@@ -381,7 +397,7 @@ export function CouponResult() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.1 }}
               >
-                Valable jusqu'au 19 Mai 2026
+                {t('couponResult', 'validUntil', lang)}
               </motion.div>
 
               {/* Animated divider */}
@@ -418,7 +434,7 @@ export function CouponResult() {
                       color: "rgba(26,16,5,0.55)",
                     }}
                   >
-                    Code Promo
+                    {t('couponResult', 'codeLabel', lang)}
                   </span>
                   <Sparkles size={14} color="#E8007D" />
                 </motion.div>
@@ -501,7 +517,7 @@ export function CouponResult() {
                         marginBottom: "3px",
                       }}
                     >
-                      Screenshotez maintenant !
+                      {t('couponResult', 'screenshot', lang)}
                     </div>
                     <div
                       style={{
@@ -510,7 +526,7 @@ export function CouponResult() {
                         lineHeight: 1.4,
                       }}
                     >
-                      Gardez votre code précieusement pour le jour J
+                      {t('couponResult', 'screenshotDesc', lang)}
                     </div>
                   </div>
                 </div>
@@ -540,14 +556,14 @@ export function CouponResult() {
                         color: "#E8007D",
                       }}
                     >
-                      Traçabilité
+                      {t('couponResult', 'traceTitle', lang)}
                     </span>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        Ticket RSVP
+                        {t('couponResult', 'traceTicket', lang)}
                       </span>
                       <span
                         style={{
@@ -563,7 +579,7 @@ export function CouponResult() {
 
                     <div className="flex justify-between items-center">
                       <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        N° Devis
+                        {t('couponResult', 'traceDevis', lang)}
                       </span>
                       <span
                         style={{
@@ -579,7 +595,7 @@ export function CouponResult() {
 
                     <div className="flex justify-between items-center">
                       <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        Réduction
+                        {t('couponResult', 'traceReduction', lang)}
                       </span>
                       <span
                         style={{
@@ -602,7 +618,7 @@ export function CouponResult() {
                       letterSpacing: "0.1em",
                     }}
                   >
-                    ✓ Enregistré automatiquement
+                    {t('couponResult', 'traceAuto', lang)}
                   </div>
                 </motion.div>
               )}
@@ -625,14 +641,17 @@ export function CouponResult() {
                   whileTap={{ scale: 0.98 }}
                   onClick={async () => {
                     try {
-                      const blob = await generateStoryImage(prize, ticketNumber);
+                      const blob = await generateStoryImage(prize, ticketNumber, lang);
                       const file = new File([blob], 'semilac-days-gain.png', { type: 'image/png' });
 
                       if (navigator.share && navigator.canShare?.({ files: [file] })) {
+                        const shareText = lang === 'ar'
+                          ? `ربحت ${prize} فعجلة الحظ ديال Semilac Days!`
+                          : `J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !`;
                         await navigator.share({
                           files: [file],
                           title: 'Semilac Days 2026',
-                          text: `J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !`,
+                          text: shareText,
                         });
                       } else {
                         // Fallback : télécharger l'image
@@ -655,7 +674,7 @@ export function CouponResult() {
                     <Share2 size={20} color="#E8007D" />
                   </motion.div>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                    Partager en Story
+                    {t('couponResult', 'shareStory', lang)}
                   </span>
                 </motion.button>
               </motion.div>

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Calendar } from 'lucide-react';
+import { useLang } from '../i18n/LanguageContext';
 
 interface TopBarAction {
   icon: ReactNode;
@@ -87,6 +88,40 @@ function ActionIcon({ action, side }: { action: TopBarAction; side: 'left' | 'ri
   );
 }
 
+function LangSwitch() {
+  const { lang, setLang } = useLang();
+  const nextLang = lang === 'fr' ? 'ar' : 'fr';
+  const flag = lang === 'fr' ? (
+    <svg width="18" height="12" viewBox="0 0 900 600"><rect fill="#C1272D" width="900" height="600"/><path fill="#006233" d="M450 180l40.6 124.9h131.3L515.6 379.1l40.6 124.9L450 420l-106.2 84 40.6-124.9L278.1 304.9h131.3z"/></svg>
+  ) : (
+    <svg width="18" height="12" viewBox="0 0 3 2"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>
+  );
+
+  return (
+    <motion.button
+      onClick={() => setLang(nextLang)}
+      aria-label={`Changer en ${nextLang === 'fr' ? 'Français' : 'العربية'}`}
+      style={{
+        width: '32px',
+        height: '32px',
+        borderRadius: '50%',
+        background: 'rgba(250,247,242,0.9)',
+        border: '1px solid rgba(232,0,125,0.15)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        flexShrink: 0,
+        padding: 0,
+      }}
+      whileTap={{ scale: 0.85 }}
+      whileHover={{ borderColor: 'rgba(232,0,125,0.3)' }}
+    >
+      {flag}
+    </motion.button>
+  );
+}
+
 export function TopBar({ leftAction, rightAction }: TopBarProps) {
   const left = leftAction ?? DEFAULT_LEFT;
   const right = rightAction ?? DEFAULT_RIGHT;
@@ -104,7 +139,10 @@ export function TopBar({ leftAction, rightAction }: TopBarProps) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <ActionIcon action={left} side="left" />
+      <div className="flex items-center gap-2">
+        <ActionIcon action={left} side="left" />
+        <LangSwitch />
+      </div>
 
       {/* Animated shimmer line */}
       <div

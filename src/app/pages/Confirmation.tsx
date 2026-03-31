@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { Gift, Ticket, Car, Sparkles, Download, MessageCircle, Calendar, MapPin } from 'lucide-react';
+import { Gift, Ticket, Car, Sparkles, Download, MessageCircle, Calendar, MapPin, Settings } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
@@ -10,6 +10,7 @@ import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
+import { useLang, t } from '../i18n';
 
 function generateTicketImage(ticketNumber: string, fullName: string): string {
   const canvas = document.createElement('canvas');
@@ -146,6 +147,7 @@ export function Confirmation() {
   const [fullName, setFullName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [showContent, setShowContent] = useState(false);
+  const { lang } = useLang();
 
   const handleDownloadTicket = useCallback(() => {
     sounds.click();
@@ -159,11 +161,12 @@ export function Confirmation() {
   const handleWhatsApp = useCallback(() => {
     sounds.click();
     const phone = whatsapp.replace(/\D/g, '');
-    const text = encodeURIComponent(
-      `🎫 Mon billet Semilac Days 2026\n\nN° Billet : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca\n\nPrésentez ce message à votre commercial le jour J pour accéder à la Roue de la Fortune 🎡`
-    );
+    const msg = lang === 'ar'
+      ? `🎫 التيكي ديالي Semilac Days 2026\n\nرقم التيكي : ${ticketNumber}\n📅 14-19 ماي 2026 · الدار البيضاء\n\nوري هاد الميساج للممثل التجاري نهار الحدث باش تدخل لعجلة الحظ 🎡`
+      : `🎫 Mon billet Semilac Days 2026\n\nN° Billet : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca\n\nPrésentez ce message à votre commercial le jour J pour accéder à la Roue de la Fortune 🎡`;
+    const text = encodeURIComponent(msg);
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
-  }, [ticketNumber, whatsapp]);
+  }, [ticketNumber, whatsapp, lang]);
 
   useEffect(() => {
     // Route guard
@@ -228,22 +231,22 @@ export function Confirmation() {
   const perks = [
     {
       icon: <Gift size={22} />,
-      title: 'Coupon -25% exclusif',
-      desc: 'Sur commandes durant l\'événement',
+      title: t('confirmation', 'perk1', lang),
+      desc: t('confirmation', 'perk1Desc', lang),
       color: '#E8007D',
       badge: '-25%',
     },
     {
       icon: <Ticket size={22} />,
-      title: 'Ticket tombola offert',
-      desc: 'Participez au grand tirage',
+      title: t('confirmation', 'perk2', lang),
+      desc: t('confirmation', 'perk2Desc', lang),
       color: '#ff4da6',
       badge: null,
     },
     {
       icon: <Car size={22} />,
-      title: 'VTC privé offert',
-      desc: 'Transport premium inclus',
+      title: t('confirmation', 'perk3', lang),
+      desc: t('confirmation', 'perk3Desc', lang),
       color: '#C4904A',
       badge: null,
     },
@@ -356,10 +359,10 @@ export function Confirmation() {
                     <span style={{ color: '#E8007D', fontStyle: 'italic' }}>
                       {fullName.trim().split(/\s+/)[0]}
                     </span>
-                    , votre place est réservée !
+                    {t('confirmation', 'title', lang)}
                   </>
                 ) : (
-                  'Votre place est réservée !'
+                  t('confirmation', 'titleFallback', lang)
                 )}
               </motion.div>
 
@@ -374,7 +377,7 @@ export function Confirmation() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.1 }}
               >
-                Nous avons hâte de vous accueillir
+                {t('confirmation', 'subtitle', lang)}
               </motion.div>
 
               {/* Animated divider */}
@@ -410,7 +413,7 @@ export function Confirmation() {
                       color: 'rgba(232,0,125,0.55)',
                     }}
                   >
-                    Numéro de billet
+                    {t('confirmation', 'ticketLabel', lang)}
                   </span>
                   <Sparkles size={14} color="#E8007D" />
                 </motion.div>
@@ -547,13 +550,13 @@ export function Confirmation() {
                   <div className="flex items-center gap-2">
                     <Calendar size={16} color="#C4904A" />
                     <span style={{ fontSize: '11px', color: '#1A1005', fontWeight: 600 }}>
-                      14-19 MAI 2026
+                      {t('rsvp', 'dates', lang)}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin size={16} color="#C4904A" />
                     <span style={{ fontSize: '11px', color: '#1A1005', fontWeight: 600 }}>
-                      CASABLANCA
+                      {t('rsvp', 'location', lang)}
                     </span>
                   </div>
                 </div>
@@ -583,10 +586,10 @@ export function Confirmation() {
                   <span style={{ fontSize: '24px' }}>🎡</span>
                   <div className="text-left">
                     <div style={{ fontSize: '11px', fontWeight: 700, color: '#E8007D', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                      N'oubliez pas votre Roue de la Fortune !
+                      {t('confirmation', 'wheelReminder', lang)}
                     </div>
                     <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.55)', lineHeight: 1.5 }}>
-                      Présentez ce billet à votre commercial <span style={{ fontWeight: 700, color: '#C4904A' }}>le jour J</span> pour accéder au jeu
+                      {t('confirmation', 'wheelReminderDesc', lang)} <span style={{ fontWeight: 700, color: '#C4904A' }}>{t('confirmation', 'dayJ', lang)}</span> {t('confirmation', 'wheelAccess', lang)}
                     </div>
                   </div>
                 </div>
@@ -610,7 +613,7 @@ export function Confirmation() {
                     marginBottom: '12px',
                   }}
                 >
-                  Sauvegardez votre billet
+                  {t('confirmation', 'saveTicket', lang)}
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -634,10 +637,10 @@ export function Confirmation() {
                       <Download size={22} color="#E8007D" />
                     </motion.div>
                     <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                      Télécharger
+                      {t('confirmation', 'download', lang)}
                     </div>
                     <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.04em' }}>
-                      Image PNG
+                      {t('confirmation', 'downloadSub', lang)}
                     </div>
                   </motion.button>
 
@@ -664,7 +667,7 @@ export function Confirmation() {
                       WhatsApp
                     </div>
                     <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.5)', letterSpacing: '0.04em' }}>
-                      Sauvegarder
+                      {t('confirmation', 'whatsappSub', lang)}
                     </div>
                   </motion.button>
                 </div>
@@ -681,6 +684,34 @@ export function Confirmation() {
               transition={{ delay: 3.2 }}
             >
               <BrandStrip />
+            </motion.div>
+
+            {/* Discreet staff access — small icon at the very bottom */}
+            <motion.div
+              className="flex justify-center pb-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.25 }}
+              transition={{ delay: 4 }}
+            >
+              <motion.button
+                onClick={() => navigate('/staff-pin')}
+                aria-label="Accès staff"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'rgba(26,16,5,0.04)',
+                  border: '1px solid rgba(26,16,5,0.06)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+                whileTap={{ scale: 0.85 }}
+              >
+                <Settings size={14} color="rgba(26,16,5,0.3)" />
+              </motion.button>
             </motion.div>
           </motion.div>
         )}

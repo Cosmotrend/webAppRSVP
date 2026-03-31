@@ -1,8 +1,10 @@
 import { SemilacLogo } from './SemilacLogo';
 import { FootlogixLogo } from './FootlogixLogo';
 import { SemilacAcademieLogo } from './SemilacAcademieLogo';
+import { useLang, t } from '../../i18n';
 
 export function BrandStrip() {
+  const { lang } = useLang();
   return (
     <div
       style={{
@@ -23,7 +25,7 @@ export function BrandStrip() {
           marginBottom: '14px',
         }}
       >
-        Sponsored By
+        {t('shared', 'sponsoredBy', lang)}
       </div>
       {/* 3 cellules égales — séparateurs équidistants des logos */}
       <div style={{ display: 'flex', alignItems: 'center' }}>

@@ -4,10 +4,12 @@ import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
+import { useLang, t } from '../i18n';
 
 export function Greeting() {
   const navigate = useNavigate();
-  const [name, setName] = useState('Invité');
+  const [name, setName] = useState(lang === 'ar' ? 'ضيف' : 'Invité');
+  const { lang } = useLang();
 
   useEffect(() => {
     const wheelDataRaw = localStorage.getItem('wheelData');
@@ -70,7 +72,7 @@ export function Greeting() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          BIENVENUE
+          {t('greeting', 'welcome', lang)}
         </motion.div>
 
         {/* Greeting text */}
@@ -88,7 +90,7 @@ export function Greeting() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          Bonjour,
+          {t('greeting', 'hello', lang)}
         </motion.div>
 
         {/* Client name */}
@@ -162,7 +164,7 @@ export function Greeting() {
           transition={{ delay: 1.5, duration: 0.8 }}
         >
           <motion.span animate={{ opacity: [0.35, 0.6, 0.35] }} transition={{ duration: 2, repeat: Infinity }}>
-            Votre roue vous attend
+            {t('greeting', 'wheelAwaits', lang)}
           </motion.span>
           {' '}
           <motion.span

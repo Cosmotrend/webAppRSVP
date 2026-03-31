@@ -1,14 +1,14 @@
 import { RouterProvider } from 'react-router';
+import { AnimatePresence } from 'motion/react';
 import { router } from './routes';
+import { LanguageProvider, useLang } from './i18n/LanguageContext';
+import { LanguageSelector } from './components/LanguageSelector';
 
-export default function App() {
+function AppContent() {
+  const { isReady } = useLang();
+
   return (
     <div className="w-full h-full flex items-center justify-center" style={{ background: '#1A1005' }}>
-      {/*
-        Mobile  (<768px)  : full screen, no wrapper
-        Tablet  (768–1023px): centré, max 600px, padding vertical 16px, border-radius
-        Desktop (≥1024px) : phone mockup 430×900px centré avec ombre
-      */}
       <div
         className="relative overflow-hidden"
         style={{
@@ -45,9 +45,20 @@ export default function App() {
           className="app-shell relative overflow-hidden w-full h-full"
           style={{ background: '#1A1005' }}
         >
+          <AnimatePresence>
+            {!isReady && <LanguageSelector />}
+          </AnimatePresence>
           <RouterProvider router={router} />
         </div>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }

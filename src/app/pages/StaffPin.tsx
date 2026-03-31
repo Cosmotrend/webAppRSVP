@@ -9,12 +9,14 @@ import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
+import { useLang, t } from '../i18n';
 
 export function StaffPin() {
   const navigate = useNavigate();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [isValidating, setIsValidating] = useState(false);
+  const { lang } = useLang();
 
   const handleSubmit = async () => {
     setIsValidating(true);
@@ -32,12 +34,12 @@ export function StaffPin() {
         sounds.success();
         navigate('/wheel-code');
       } else {
-        setError('Code incorrect');
+        setError(t('staffPin', 'errorWrong', lang));
         sounds.error();
         setIsValidating(false);
       }
     } catch {
-      setError('Erreur de connexion');
+      setError(t('staffPin', 'errorWrong', lang));
       sounds.error();
       setIsValidating(false);
     }
@@ -53,7 +55,7 @@ export function StaffPin() {
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
-      <TopBar rightAction={{ icon: <Lock size={18} />, label: 'Staff' }} />
+      <TopBar rightAction={{ icon: <Lock size={18} />, label: t('staffPin', 'title', lang) }} />
 
       <motion.div
         className="absolute top-[44px] left-0 right-0 bottom-0 px-4 pt-6 pb-4 flex flex-col justify-center"
@@ -88,7 +90,7 @@ export function StaffPin() {
                 color: '#E8007D',
               }}
             >
-              Zone Sécurisée
+              {t('staffPin', 'badge', lang)}
             </span>
           </motion.div>
 
@@ -115,7 +117,7 @@ export function StaffPin() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            2026
+            {t('staffPin', 'year', lang)}
           </motion.div>
         </motion.div>
 
@@ -179,7 +181,7 @@ export function StaffPin() {
                   color: '#1A1005',
                 }}
               >
-                Accès Staff
+                {t('staffPin', 'title', lang)}
               </div>
             </motion.div>
 
@@ -196,7 +198,7 @@ export function StaffPin() {
                   letterSpacing: '0.08em',
                 }}
               >
-                Entrez le code d'accès commercial
+                {t('staffPin', 'subtitle', lang)}
               </div>
             </motion.div>
 
@@ -211,7 +213,7 @@ export function StaffPin() {
                 type="password"
                 value={pin}
                 onChange={(e) => { setPin(e.target.value); setError(''); }}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 maxLength={9}
                 placeholder="••••••"
                 className="w-full rounded-2xl px-6 py-4 outline-none transition-all duration-200"
@@ -233,7 +235,7 @@ export function StaffPin() {
                 autoFocus
               />
               <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.5)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
-                Code alphanumérique fourni par votre responsable
+                {t('staffPin', 'hint', lang)}
               </div>
             </motion.div>
 
@@ -271,11 +273,11 @@ export function StaffPin() {
                   {isValidating ? (
                     <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
                       <motion.div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }} />
-                      <span>Vérification...</span>
+                      <span>{t('staffPin', 'validating', lang)}</span>
                     </motion.div>
                   ) : (
                     <motion.span key="text" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      Accéder
+                      {t('staffPin', 'submit', lang)}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -291,7 +293,7 @@ export function StaffPin() {
           transition={{ delay: 1.2 }}
         >
           <div style={{ fontSize: '7px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-            Accès réservé aux commerciaux Semilac Days
+            {t('staffPin', 'bottomHint', lang)}
           </div>
         </motion.div>
       </motion.div>

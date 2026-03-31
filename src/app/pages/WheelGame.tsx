@@ -8,9 +8,11 @@ import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { registerResult } from '../utils/api';
+import { useLang, t } from '../i18n';
 
 export function WheelGame() {
   const navigate = useNavigate();
+  const { lang } = useLang();
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
   const [attempt, setAttempt] = useState(1);
@@ -95,8 +97,12 @@ export function WheelGame() {
     }
   }, [navigate]);
 
-  const wheelDataStr = localStorage.getItem('wheelData');
-  const wheelData = wheelDataStr ? JSON.parse(wheelDataStr) : {};
+  const [wheelData] = useState(() => {
+    try {
+      const str = localStorage.getItem('wheelData');
+      return str ? JSON.parse(str) : {};
+    } catch { return {}; }
+  });
 
   const ticketNumber = wheelData?.ticketNumber || 'SD26-XXXX';
   const clientName = wheelData?.clientName || 'Client VIP';
@@ -158,7 +164,7 @@ export function WheelGame() {
                   lineHeight: 1.2,
                 }}
               >
-                Bonne chance, <span style={{ color: '#E8007D' }}>{firstName}</span> !
+                {t('wheelGame', 'greeting', lang)} <span style={{ color: '#E8007D' }}>{firstName}</span> !
               </div>
 
               {/* Essai + ticket sur une ligne */}
@@ -172,7 +178,7 @@ export function WheelGame() {
                     color: 'rgba(26,16,5,0.55)',
                   }}
                 >
-                  {attempt === 1 ? 'Essai 1 / 2' : 'Dernier essai'}
+                  {attempt === 1 ? t('wheelGame', 'attemptStatus', lang) : t('wheelGame', 'lastAttempt', lang)}
                 </span>
                 <div
                   style={{
@@ -246,28 +252,28 @@ export function WheelGame() {
                 >
                   {attempt === 1 ? (
                     <>
-                      <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span> Tournez la roue pour découvrir{' '}
+                      <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span> {t('wheelGame', 'instruction', lang)}{' '}
                       <br />
-                      <span style={{ 
+                      <span style={{
                         fontFamily: "'Montserrat', sans-serif",
                         color: '#E8007D',
                         fontWeight: 800,
                         fontSize: '13px',
                       }}>
-                        votre réduction spécial VIP
+                        {t('wheelGame', 'instructionBold', lang)}
                       </span>{' '}
                       <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span>
                     </>
                   ) : (
                     <>
-                      <span style={{ fontSize: '14px', fontWeight: 700 }}>🎰</span> Dernier essai !{' '}
+                      <span style={{ fontSize: '14px', fontWeight: 700 }}>🎰</span> {t('wheelGame', 'lastAttemptInstruction', lang)}{' '}
                       <br />
-                      <span style={{ 
+                      <span style={{
                         fontFamily: "'Montserrat', sans-serif",
                         color: '#C4904A',
                         fontWeight: 800,
                       }}>
-                        Améliorez votre gain de {firstPrize}
+                        {t('wheelGame', 'improveGain', lang)} {firstPrize}
                       </span>
                     </>
                   )}
@@ -308,14 +314,14 @@ export function WheelGame() {
                 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                Vous avez gagné {firstPrize} !
+                {t('wheelGame', 'resultTitle', lang)} {firstPrize} !
               </motion.div>
               
               <ShimmerButton
                 className="w-full py-3"
                 onClick={handleTryAgain}
               >
-                Retenter ma chance (Essai 2)
+                {t('wheelGame', 'retryButton', lang)}
               </ShimmerButton>
               
               <ShimmerButton
@@ -323,7 +329,7 @@ export function WheelGame() {
                 className="w-full py-3"
                 onClick={handleKeepPrize}
               >
-                Conserver ce gain
+                {t('wheelGame', 'keepButton', lang)}
               </ShimmerButton>
             </motion.div>
           )}
