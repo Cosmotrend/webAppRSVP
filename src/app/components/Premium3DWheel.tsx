@@ -32,9 +32,31 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
     
     setHasSpun(true);
     sounds.spin();
-    
-    // Random prize
-    const prizeIndex = Math.floor(Math.random() * prizes.length);
+
+    // Weighted random selection — probabilités contrôlées
+    // -40% : 7.5% | -35% : 12.5% | -30% : 30% | -25% : 50%
+    const weights: Array<{ label: string; weight: number }> = [
+      { label: '-40%', weight: 0.075 },
+      { label: '-35%', weight: 0.125 },
+      { label: '-30%', weight: 0.30 },
+      { label: '-25%', weight: 0.50 },
+    ];
+    const r = Math.random();
+    let cumulative = 0;
+    let selectedLabel = '-25%';
+    for (const w of weights) {
+      cumulative += w.weight;
+      if (r <= cumulative) {
+        selectedLabel = w.label;
+        break;
+      }
+    }
+    // Trouver un segment visuel correspondant au label gagnant
+    const matchingIndices = prizes
+      .map((p, i) => (p.label === selectedLabel ? i : -1))
+      .filter((i) => i !== -1);
+    const prizeIndex = matchingIndices[Math.floor(Math.random() * matchingIndices.length)];
+
     const degreesPerSegment = 360 / prizes.length;
     const targetRotation = rotation.get() + (360 * 7) + (360 - prizeIndex * degreesPerSegment - degreesPerSegment / 2);
     
