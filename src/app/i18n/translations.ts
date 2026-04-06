@@ -61,7 +61,7 @@ export const translations = {
     wheelReminderDesc: { fr: 'Présentez ce billet à votre commercial', ar: 'وري هاد التيكي للممثل التجاري ديالك' },
     dayJ: { fr: 'le jour J', ar: 'نهار الحدث' },
     wheelAccess: { fr: 'pour accéder au jeu', ar: 'باش تدخل للعبة' },
-    masterclassTitle: { fr: 'Masterclass quotidiennes à 14h00', ar: 'ماستركلاس كل نهار على 14h00' },
+    masterclassTitle: { fr: 'Masterclass quotidiennes à 14h00', ar: 'ماستركلاس كل نهار فـ 14h00' },
     masterclassDesc: { fr: 'Amenez vos esthéticiennes ! Formations exclusives offertes chaque jour.', ar: 'جيبو الإستيتسيان ديالكم معاكم! تكوينات حصرية مجانية كل نهار.' },
     saveTicket: { fr: 'Sauvegardez votre billet', ar: 'حفظ التيكي ديالك' },
     screenshotHint: { fr: 'Screenshotez ce billet pour le conserver', ar: 'دير سكرينشوت لهاد التيكي باش تحافظ عليه' },
