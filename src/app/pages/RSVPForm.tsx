@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Calendar, MapPin, Users, Gift, Ticket, Car } from 'lucide-react';
+import { Sparkles, Calendar, MapPin, Users, Gift, Ticket, Car, GraduationCap } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { ParticleField } from '../components/ParticleField';
@@ -269,6 +269,7 @@ export function RSVPForm() {
               { icon: <Gift size={18} color="#E8007D" />, text: t('rsvp', 'perk1', lang) },
               { icon: <Ticket size={18} color="#ff4da6" />, text: t('rsvp', 'perk2', lang) },
               { icon: <Car size={18} color="#C4904A" />, text: t('rsvp', 'perk3', lang) },
+              { icon: <GraduationCap size={18} color="#8B5CF6" />, text: t('rsvp', 'perk4', lang) },
             ].map(({ icon, text }, i) => (
               <motion.div
                 key={i}

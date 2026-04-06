@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { Gift, Ticket, Car, Sparkles, Download, MessageCircle, Calendar, MapPin, Settings } from 'lucide-react';
+import { Gift, Ticket, Car, GraduationCap, Sparkles, MessageCircle, Calendar, MapPin, Settings, Camera } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
@@ -12,135 +12,6 @@ import { BrandStrip } from '../components/logos/BrandStrip';
 import { sounds } from '../utils/sounds';
 import { useLang, t } from '../i18n';
 
-function generateTicketImage(ticketNumber: string, fullName: string): string {
-  const canvas = document.createElement('canvas');
-  canvas.width = 800;
-  canvas.height = 420;
-  const ctx = canvas.getContext('2d')!;
-
-  // Background ivoire
-  ctx.fillStyle = '#FAF7F2';
-  ctx.fillRect(0, 0, 800, 420);
-
-  // Magenta glow top center
-  const glow = ctx.createRadialGradient(400, 0, 0, 400, 0, 300);
-  glow.addColorStop(0, 'rgba(232,0,125,0.07)');
-  glow.addColorStop(1, 'rgba(232,0,125,0)');
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, 800, 420);
-
-  // Border
-  ctx.strokeStyle = 'rgba(232,0,125,0.3)';
-  ctx.lineWidth = 2;
-  roundRect(ctx, 16, 16, 768, 388, 24);
-  ctx.stroke();
-
-  // Dashed separator
-  ctx.setLineDash([8, 6]);
-  ctx.strokeStyle = 'rgba(232,0,125,0.18)';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(200, 16);
-  ctx.lineTo(200, 404);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // LEFT SECTION — Logo texte
-  ctx.save();
-  ctx.font = 'italic 300 52px Georgia, serif';
-  ctx.fillStyle = '#1A1005';
-  ctx.fillText('Semilac', 30, 130);
-  ctx.restore();
-
-  ctx.font = 'bold 16px Montserrat, Arial, sans-serif';
-  ctx.fillStyle = '#E8007D';
-  ctx.letterSpacing = '6px';
-  ctx.fillText('DAYS', 38, 158);
-
-  ctx.font = '10px Arial, sans-serif';
-  ctx.fillStyle = 'rgba(232,0,125,0.45)';
-  ctx.fillText('14–19 MAI 2026  ·  CASABLANCA', 30, 195);
-  ctx.fillText('2ÈME ÉDITION', 30, 214);
-
-  // Little dots
-  ctx.fillStyle = '#E8007D';
-  for (let i = 0; i < 5; i++) {
-    ctx.beginPath();
-    ctx.arc(30 + i * 16, 370, 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  // RIGHT SECTION
-  // "BILLET D'INVITATION" label
-  ctx.font = 'bold 9px Arial, sans-serif';
-  ctx.fillStyle = 'rgba(232,0,125,0.4)';
-  ctx.fillText('BILLET D\'INVITATION', 225, 60);
-
-  // Client name
-  ctx.font = 'italic 300 28px Georgia, serif';
-  ctx.fillStyle = '#1A1005';
-  ctx.fillText(fullName || 'Invité(e)', 225, 140);
-
-  // Divider
-  const divGrad = ctx.createLinearGradient(225, 0, 750, 0);
-  divGrad.addColorStop(0, 'rgba(232,0,125,0.3)');
-  divGrad.addColorStop(1, 'transparent');
-  ctx.fillStyle = divGrad;
-  ctx.fillRect(225, 155, 520, 1);
-
-  // Ticket number label
-  ctx.font = 'bold 8px Arial, sans-serif';
-  ctx.fillStyle = 'rgba(232,0,125,0.4)';
-  ctx.fillText('NUMÉRO DE BILLET', 225, 185);
-
-  // Ticket number
-  ctx.font = 'bold 32px "Courier New", monospace';
-  ctx.fillStyle = '#E8007D';
-  ctx.fillText(ticketNumber, 225, 225);
-
-  // Validity notice
-  ctx.font = '10px Arial, sans-serif';
-  ctx.fillStyle = 'rgba(232,0,125,0.3)';
-  ctx.fillText('Valable uniquement sur place · En présence du commercial', 225, 260);
-
-  // Stamp circle
-  ctx.save();
-  ctx.translate(680, 320);
-  ctx.beginPath();
-  ctx.arc(0, 0, 52, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(232,0,125,0.3)';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, 0, 44, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.font = 'bold 9px Arial';
-  ctx.fillStyle = 'rgba(232,0,125,0.6)';
-  ctx.textAlign = 'center';
-  ctx.fillText('SEMILAC', 0, -6);
-  ctx.fillText('DAYS 2026', 0, 8);
-  ctx.restore();
-
-  return canvas.toDataURL('image/png');
-}
-
-function roundRect(
-  ctx: CanvasRenderingContext2D,
-  x: number, y: number, w: number, h: number, r: number
-) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
 export function Confirmation() {
   const navigate = useNavigate();
   const [ticketNumber, setTicketNumber] = useState('');
@@ -148,15 +19,6 @@ export function Confirmation() {
   const [whatsapp, setWhatsapp] = useState('');
   const [showContent, setShowContent] = useState(false);
   const { lang } = useLang();
-
-  const handleDownloadTicket = useCallback(() => {
-    sounds.click();
-    const imgData = generateTicketImage(ticketNumber, fullName);
-    const link = document.createElement('a');
-    link.download = `ticket-semilac-${ticketNumber}.png`;
-    link.href = imgData;
-    link.click();
-  }, [ticketNumber, fullName]);
 
   const handleWhatsApp = useCallback(() => {
     sounds.click();
@@ -248,6 +110,13 @@ export function Confirmation() {
       title: t('confirmation', 'perk3', lang),
       desc: t('confirmation', 'perk3Desc', lang),
       color: '#C4904A',
+      badge: null,
+    },
+    {
+      icon: <GraduationCap size={22} />,
+      title: t('confirmation', 'perk4', lang),
+      desc: t('confirmation', 'perk4Desc', lang),
+      color: '#8B5CF6',
       badge: null,
     },
   ];
@@ -595,12 +464,36 @@ export function Confirmation() {
                 </div>
               </motion.div>
 
-              {/* Save ticket — download + WhatsApp */}
+              {/* Masterclass block */}
+              <motion.div
+                className="mb-6 px-4 py-4 rounded-2xl relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(139,92,246,0.04))',
+                  border: '1.5px solid rgba(139,92,246,0.25)',
+                }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.6 }}
+              >
+                <div className="flex items-center gap-3">
+                  <GraduationCap size={22} color="#8B5CF6" style={{ flexShrink: 0 }} />
+                  <div className="text-left">
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#8B5CF6', letterSpacing: '0.04em', marginBottom: '2px' }}>
+                      {t('confirmation', 'masterclassTitle', lang)}
+                    </div>
+                    <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.6)', lineHeight: 1.5 }}>
+                      {t('confirmation', 'masterclassDesc', lang)}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Save ticket — screenshot + WhatsApp */}
               <motion.div
                 className="mb-6"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.6, type: 'spring', stiffness: 200 }}
+                transition={{ delay: 2.8, type: 'spring', stiffness: 200 }}
               >
                 <div
                   style={{
@@ -617,32 +510,20 @@ export function Confirmation() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  {/* Télécharger image */}
-                  <motion.button
-                    className="flex flex-col items-center justify-center gap-2 rounded-2xl p-4 relative overflow-hidden"
+                  {/* Screenshot hint */}
+                  <div
+                    className="flex flex-col items-center justify-center gap-2 rounded-2xl p-4"
                     style={{
                       background: 'linear-gradient(135deg, rgba(248,164,200,0.15), rgba(212,165,116,0.1))',
                       border: '1.5px solid rgba(232,0,125,0.25)',
-                      boxShadow: '0 8px 24px rgba(248,164,200,0.2)',
                       minHeight: '80px',
                     }}
-                    whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(232,0,125,0.25)' }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={handleDownloadTicket}
                   >
-                    <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <Download size={22} color="#E8007D" />
-                    </motion.div>
-                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                      {t('confirmation', 'download', lang)}
+                    <Camera size={22} color="#E8007D" />
+                    <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em', textAlign: 'center' }}>
+                      {t('confirmation', 'screenshotHint', lang)}
                     </div>
-                    <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.04em' }}>
-                      {t('confirmation', 'downloadSub', lang)}
-                    </div>
-                  </motion.button>
+                  </div>
 
                   {/* WhatsApp */}
                   <motion.button
@@ -664,7 +545,7 @@ export function Confirmation() {
                       <MessageCircle size={22} color="#E8007D" />
                     </motion.div>
                     <div style={{ fontSize: '10px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                      WhatsApp
+                      {t('confirmation', 'whatsappSave', lang)}
                     </div>
                     <div style={{ fontSize: '8px', color: 'rgba(232,0,125,0.5)', letterSpacing: '0.04em' }}>
                       {t('confirmation', 'whatsappSub', lang)}

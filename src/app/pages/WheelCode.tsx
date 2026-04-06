@@ -14,7 +14,7 @@ import { useLang, t } from '../i18n';
 
 export function WheelCode() {
   const navigate = useNavigate();
-  const [ticketNumber, setTicketNumber] = useState('');
+  const [ticketNumber, setTicketNumber] = useState('SD26-');
   const [devisNumber, setDevisNumber] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [error, setError] = useState('');
@@ -94,11 +94,18 @@ export function WheelCode() {
     }
   };
 
-  // Format automatique pour le ticket (SD26-001 à SD26-1000)
+  // Format automatique pour le ticket — préfixe SD26- protégé
   const handleTicketChange = (value: string) => {
-    const cleaned = value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
-    if (cleaned.length <= 9) {
-      setTicketNumber(cleaned);
+    const PREFIX = 'SD26-';
+    const upper = value.toUpperCase();
+    if (!upper.startsWith(PREFIX)) {
+      // L'utilisateur a effacé le préfixe — on le remet
+      setTicketNumber(PREFIX);
+      return;
+    }
+    const suffix = upper.slice(PREFIX.length).replace(/[^A-Z0-9]/g, '');
+    if (suffix.length <= 4) {
+      setTicketNumber(PREFIX + suffix);
       setError('');
     }
   };
@@ -311,7 +318,7 @@ export function WheelCode() {
                 value={devisNumber}
                 onChange={(e) => handleDevisChange(e.target.value)}
                 onKeyDown={handleKeyPress}
-                placeholder="S26___"
+                placeholder="S_____"
                 className="w-full rounded-xl px-5 py-4 outline-none transition-all duration-200"
                 style={{
                   background: 'rgba(196,144,74,0.06)',

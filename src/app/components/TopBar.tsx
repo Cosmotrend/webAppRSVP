@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, Calendar } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { useLang } from '../i18n/LanguageContext';
 
 interface TopBarAction {
@@ -17,11 +17,6 @@ interface TopBarProps {
 const DEFAULT_LEFT: TopBarAction = {
   icon: <MapPin size={18} />,
   href: 'https://maps.app.goo.gl/AnabacGETpG8W5UD9',
-};
-
-const DEFAULT_RIGHT: TopBarAction = {
-  icon: <Calendar size={18} />,
-  href: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Semilac+Days+2026&dates=20260514/20260520&location=Casablanca,+Morocco&details=Semilac+Days+2%C3%A8me+%C3%89dition',
 };
 
 function ActionIcon({ action, side }: { action: TopBarAction; side: 'left' | 'right' }) {
@@ -145,7 +140,6 @@ function LangSwitch() {
 
 export function TopBar({ leftAction, rightAction }: TopBarProps) {
   const left = leftAction ?? DEFAULT_LEFT;
-  const right = rightAction ?? DEFAULT_RIGHT;
 
   return (
     <motion.div
@@ -160,10 +154,7 @@ export function TopBar({ leftAction, rightAction }: TopBarProps) {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="flex items-center gap-2">
-        <ActionIcon action={left} side="left" />
-        <LangSwitch />
-      </div>
+      <ActionIcon action={left} side="left" />
 
       {/* Animated shimmer line */}
       <div
@@ -189,7 +180,7 @@ export function TopBar({ leftAction, rightAction }: TopBarProps) {
         />
       </div>
 
-      <ActionIcon action={right} side="right" />
+      {rightAction ? <ActionIcon action={rightAction} side="right" /> : <LangSwitch />}
     </motion.div>
   );
 }

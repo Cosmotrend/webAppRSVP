@@ -99,6 +99,15 @@ button,
   line-height: 0;
 }
 
+/* Arabic (Darija) readability — letter-spacing breaks ligatures
+   and makes Arabic text unreadable. Force zero tracking everywhere. */
+html[lang="ar"],
+html[lang="ar"] *,
+html[lang="ar"] *::before,
+html[lang="ar"] *::after {
+  letter-spacing: 0 !important;
+}
+
 /* Accessibility: respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

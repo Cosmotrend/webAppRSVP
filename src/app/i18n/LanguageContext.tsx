@@ -26,6 +26,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // If no saved lang, isReady stays false → show selector
   }, []);
 
+  // Sync <html lang="..."> so CSS can disable letter-spacing for Arabic
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   const setLang = (newLang: Lang) => {
     setLangState(newLang);
     localStorage.setItem('semilac-lang', newLang);
