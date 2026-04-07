@@ -290,7 +290,7 @@ export function WheelGame() {
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 100 }}
             >
-              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} key={wheelKey} />
+              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} key={wheelKey} lang={lang} />
             </motion.div>
           </div>
 

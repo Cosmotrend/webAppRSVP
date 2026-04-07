@@ -99,6 +99,14 @@ button,
   line-height: 0;
 }
 
+/* BUG-01 fix: prevent iOS Safari auto-zoom on focus (inline styles override @supports)
+   Force 16px on all inputs/selects/textareas on iOS, then visually scale back down. */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 /* Arabic (Darija) readability — letter-spacing breaks ligatures
    and makes Arabic text unreadable. Force zero tracking everywhere. */
 html[lang="ar"],

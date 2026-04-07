@@ -55,7 +55,7 @@ export const translations = {
     perk2Desc: { fr: 'Participez au grand tirage', ar: 'شارك فالسحب الكبير' },
     perk3: { fr: 'Navette privée offerte', ar: 'نافيط خاصة مجانية' },
     perk3Desc: { fr: 'Transport premium inclus', ar: 'النقل البريميوم داخل' },
-    perk4: { fr: 'Masterclass quotidiennes', ar: 'ماستركلاس كل نهار' },
+    perk4: { fr: 'Masterclass quotidiennes', ar: 'ماستر كلاس كل نهار' },
     perk4Desc: { fr: 'Chaque jour à 14h00', ar: 'كل نهار على 14:00' },
     wheelReminder: { fr: "N'oubliez pas votre Roue de la Fortune !", ar: 'ما تنساش عجلة الحظ ديالك!' },
     wheelReminderDesc: { fr: 'Présentez ce billet à votre commercial', ar: 'وري هاد التيكي للممثل التجاري ديالك' },

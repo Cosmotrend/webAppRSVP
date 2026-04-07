@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'motion/react';
 import { sounds } from '../utils/sounds';
+import type { Lang } from '../i18n/translations';
 
 interface Premium3DWheelProps {
   onSpinComplete: (prizeIndex: number) => void;
   isSpinning: boolean;
-  resetKey?: number; // Add a key to force reset
-  size?: number | string; // Responsive size override
+  resetKey?: number;
+  size?: number | string;
+  lang?: Lang;
 }
 
 const prizes = [
@@ -24,7 +26,7 @@ const prizes = [
   { label: '-40%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
 ];
 
-export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'min(86vw, 56vh, 520px)' }: Premium3DWheelProps) {
+export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'min(86vw, 56vh, 520px)', lang = 'fr' }: Premium3DWheelProps) {
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
@@ -255,7 +257,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'm
                 textShadow: '0 1px 2px rgba(255,255,255,0.5)',
               }}
             >
-              {hasSpun ? '...' : 'SPIN'}
+              {hasSpun ? '...' : (lang === 'ar' ? 'دور' : 'SPIN')}
             </span>
           </motion.button>
         </motion.div>

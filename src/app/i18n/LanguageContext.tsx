@@ -26,9 +26,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     // If no saved lang, isReady stays false → show selector
   }, []);
 
-  // Sync <html lang="..."> so CSS can disable letter-spacing for Arabic
+  // Sync <html lang="..." dir="..."> for RTL layout and CSS
   useEffect(() => {
     document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   }, [lang]);
 
   const setLang = (newLang: Lang) => {

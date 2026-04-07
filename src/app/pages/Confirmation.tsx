@@ -230,12 +230,21 @@ export function Confirmation() {
                 transition={{ delay: 0.9 }}
               >
                 {fullName ? (
-                  <>
-                    <span style={{ color: '#E8007D', fontStyle: 'italic' }}>
-                      {fullName.trim().split(/\s+/)[0]}
-                    </span>
-                    {t('confirmation', 'title', lang)}
-                  </>
+                  lang === 'ar' ? (
+                    <>
+                      {t('confirmation', 'title', lang)}
+                      <span style={{ color: '#E8007D', fontStyle: 'italic' }}>
+                        {fullName.trim().split(/\s+/)[0]}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span style={{ color: '#E8007D', fontStyle: 'italic' }}>
+                        {fullName.trim().split(/\s+/)[0]}
+                      </span>
+                      {t('confirmation', 'title', lang)}
+                    </>
+                  )
                 ) : (
                   t('confirmation', 'titleFallback', lang)
                 )}
@@ -369,7 +378,7 @@ export function Confirmation() {
                       {perk.icon}
                     </motion.div>
 
-                    <div className="flex-1 text-left relative">
+                    <div className="flex-1 text-start relative">
                       <div
                         style={{
                           fontSize: '12px',
@@ -459,7 +468,7 @@ export function Confirmation() {
                 />
                 <div className="relative flex items-center gap-3">
                   <span style={{ fontSize: '24px' }}>🎡</span>
-                  <div className="text-left">
+                  <div className="text-start">
                     <div style={{ fontSize: '11px', fontWeight: 700, color: '#E8007D', letterSpacing: '0.04em', marginBottom: '2px' }}>
                       {t('confirmation', 'wheelReminder', lang)}
                     </div>
@@ -483,7 +492,7 @@ export function Confirmation() {
               >
                 <div className="flex items-center gap-3">
                   <GraduationCap size={22} color="#8B5CF6" style={{ flexShrink: 0 }} />
-                  <div className="text-left">
+                  <div className="text-start">
                     <div style={{ fontSize: '11px', fontWeight: 700, color: '#8B5CF6', letterSpacing: '0.04em', marginBottom: '2px' }}>
                       {t('confirmation', 'masterclassTitle', lang)}
                     </div>

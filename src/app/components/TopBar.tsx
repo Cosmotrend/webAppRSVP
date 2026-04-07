@@ -118,8 +118,8 @@ function LangSwitch() {
       onClick={() => setLang(nextLang)}
       aria-label={`Changer en ${nextLang === 'fr' ? 'Français' : 'العربية'}`}
       style={{
-        width: '32px',
-        height: '32px',
+        width: '44px',
+        height: '44px',
         borderRadius: '50%',
         background: 'rgba(250,247,242,0.9)',
         border: '1px solid rgba(232,0,125,0.15)',
