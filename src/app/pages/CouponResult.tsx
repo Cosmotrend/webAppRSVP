@@ -118,7 +118,7 @@ export function CouponResult() {
   const [prize, setPrize] = useState("-25%");
   const [ticketNumber, setTicketNumber] = useState("");
   const [devisNumber, setDevisNumber] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [showContent, setShowContent] = useState(false);
   const [counter, setCounter] = useState(0);
   const [registered, setRegistered] = useState(false);
@@ -149,7 +149,7 @@ export function CouponResult() {
       if (rsvpRaw) {
         const rsvp = JSON.parse(rsvpRaw);
         const full: string = rsvp?.fullName || rsvp?.name || "";
-        setFirstName(full.trim().split(/\s+/)[0] || "");
+        setFullName(full.trim());
       }
     } catch {
       // firstName stays empty
@@ -706,7 +706,7 @@ export function CouponResult() {
                           try {
                             const blob = await generateShareImage({
                               prize,
-                              firstName,
+                              fullName,
                               lang,
                               format,
                             });
