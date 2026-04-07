@@ -22,7 +22,13 @@ export function Confirmation() {
 
   const handleWhatsApp = useCallback(() => {
     sounds.click();
-    const phone = whatsapp.replace(/\D/g, '');
+    const digits = whatsapp.replace(/\D/g, '');
+    // Normalize Moroccan number: 06XXXXXXXX or 07XXXXXXXX → 2126XXXXXXXX / 2127XXXXXXXX
+    const phone = digits.startsWith('212')
+      ? digits
+      : digits.startsWith('0')
+      ? '212' + digits.slice(1)
+      : '212' + digits;
     const msg = lang === 'ar'
       ? `🎫 التيكي ديالي Semilac Days 2026\n\nرقم التيكي : ${ticketNumber}\n📅 14-19 ماي 2026 · الدار البيضاء\n\nوري هاد الميساج للممثل التجاري نهار الحدث باش تدخل لعجلة الحظ 🎡`
       : `🎫 Mon billet Semilac Days 2026\n\nN° Billet : ${ticketNumber}\n📅 14-19 Mai 2026 · Casablanca\n\nPrésentez ce message à votre commercial le jour J pour accéder à la Roue de la Fortune 🎡`;
