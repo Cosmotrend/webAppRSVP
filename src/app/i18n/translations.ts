@@ -142,6 +142,13 @@ export const translations = {
     traceReduction: { fr: 'Réduction', ar: 'التخفيض' },
     traceAuto: { fr: '✓ Enregistré automatiquement', ar: '✓ تسجل أوتوماتيك' },
     shareStory: { fr: 'Partager en Story', ar: 'شارك فالستوري' },
+    shareInstagram: { fr: 'Story Instagram', ar: 'ستوري Instagram' },
+    shareWhatsapp: { fr: 'Statut WhatsApp', ar: 'حالة WhatsApp' },
+    shareSquare: { fr: 'Feed Instagram', ar: 'فيد Instagram' },
+    shareCaption: {
+      fr: "J'ai gagné aux Semilac Days 2026 ! 💅 #SemilacDays2026",
+      ar: 'ربحت فـ Semilac Days 2026 ! 💅 #SemilacDays2026',
+    },
   },
 
   // ===== Shared =====

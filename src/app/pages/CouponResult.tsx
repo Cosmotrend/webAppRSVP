@@ -7,7 +7,9 @@ import {
   Sparkles,
   Camera,
   FileText,
-  Share2,
+  Instagram,
+  MessageCircle,
+  Square,
 } from "lucide-react";
 import { AuroraBackground } from "../components/AuroraBackground";
 import { ParticleField } from "../components/ParticleField";
@@ -17,8 +19,10 @@ import { SemilacDaysLogo } from "../components/logos/SemilacDaysLogo";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
 import { useLang, t } from '../i18n';
+import { generateShareImage, shareImage, type ShareFormat } from '../utils/storyImage';
 
-function generateStoryImage(prize: string, ticketNumber: string, lang: 'fr' | 'ar'): Promise<Blob> {
+// Legacy stub kept to minimise diff churn — unused.
+function _legacyGenerateStoryImage(prize: string, ticketNumber: string, lang: 'fr' | 'ar'): Promise<Blob> {
   const canvas = document.createElement('canvas');
   canvas.width = 1080;
   canvas.height = 1920;
@@ -114,9 +118,11 @@ export function CouponResult() {
   const [prize, setPrize] = useState("-25%");
   const [ticketNumber, setTicketNumber] = useState("");
   const [devisNumber, setDevisNumber] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [showContent, setShowContent] = useState(false);
   const [counter, setCounter] = useState(0);
   const [registered, setRegistered] = useState(false);
+  const [sharing, setSharing] = useState<ShareFormat | null>(null);
 
   useEffect(() => {
     // Route guard
@@ -135,6 +141,18 @@ export function CouponResult() {
       clientData = JSON.parse(wheelDataRaw);
       setTicketNumber(clientData.ticketNumber || "SD26-XXXX");
       setDevisNumber(clientData.devisNumber || "");
+    }
+
+    // Extract first name from RSVP data for share image
+    try {
+      const rsvpRaw = localStorage.getItem("rsvpData");
+      if (rsvpRaw) {
+        const rsvp = JSON.parse(rsvpRaw);
+        const full: string = rsvp?.fullName || rsvp?.name || "";
+        setFirstName(full.trim().split(/\s+/)[0] || "");
+      }
+    } catch {
+      // firstName stays empty
     }
 
     // Register result in Google Sheets ONCE
@@ -623,60 +641,98 @@ export function CouponResult() {
                 </motion.div>
               )}
 
-              {/* Partage Instagram Story */}
+              {/* Share Story — 3 buttons */}
               <motion.div
                 className="w-full max-w-sm mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 2.2 }}
               >
-                <motion.button
-                  className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl relative overflow-hidden"
+                <div
                   style={{
-                    background: 'linear-gradient(135deg, rgba(232,0,125,0.12), rgba(196,21,122,0.08))',
-                    border: '1.5px solid rgba(232,0,125,0.3)',
-                    boxShadow: '0 4px 16px rgba(232,0,125,0.12)',
-                  }}
-                  whileHover={{ scale: 1.02, boxShadow: '0 8px 24px rgba(232,0,125,0.2)' }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={async () => {
-                    try {
-                      const blob = await generateStoryImage(prize, ticketNumber, lang);
-                      const file = new File([blob], 'semilac-days-gain.png', { type: 'image/png' });
-
-                      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-                        const shareText = lang === 'ar'
-                          ? `ربحت ${prize} فعجلة الحظ ديال Semilac Days!`
-                          : `J'ai gagné ${prize} à la Roue de la Fortune Semilac Days !`;
-                        await navigator.share({
-                          files: [file],
-                          title: 'Semilac Days 2026',
-                          text: shareText,
-                        });
-                      } else {
-                        // Fallback : télécharger l'image
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = 'semilac-days-gain.png';
-                        a.click();
-                        URL.revokeObjectURL(url);
-                      }
-                    } catch (e) {
-                      console.log('Partage annulé', e);
-                    }
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.25em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(26,16,5,0.45)',
+                    textAlign: 'center',
+                    marginBottom: '10px',
                   }}
                 >
-                  <motion.div
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Share2 size={20} color="#E8007D" />
-                  </motion.div>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1005', letterSpacing: '0.06em' }}>
-                    {t('couponResult', 'shareStory', lang)}
-                  </span>
-                </motion.button>
+                  {t('couponResult', 'shareStory', lang)}
+                </div>
+
+                <div className="flex gap-2">
+                  {/* Instagram Story (9:16) */}
+                  {(['story', 'story', 'square'] as const).map((fmt, idx) => {
+                    const isIg = idx === 0;
+                    const isWa = idx === 1;
+                    const isSq = idx === 2;
+                    const format: ShareFormat = fmt;
+                    const isLoading = sharing === (isIg ? 'story-ig' as any : isWa ? 'story-wa' as any : 'square');
+                    const label = isIg
+                      ? t('couponResult', 'shareInstagram', lang)
+                      : isWa
+                      ? t('couponResult', 'shareWhatsapp', lang)
+                      : t('couponResult', 'shareSquare', lang);
+                    const icon = isIg
+                      ? <Instagram size={16} color={isIg ? '#E8007D' : isWa ? '#25D366' : '#C4904A'} />
+                      : isWa
+                      ? <MessageCircle size={16} color="#25D366" />
+                      : <Square size={16} color="#C4904A" />;
+                    const accentColor = isIg ? '#E8007D' : isWa ? '#25D366' : '#C4904A';
+                    const filename = isIg
+                      ? 'semilac-days-story.png'
+                      : isWa
+                      ? 'semilac-days-status.png'
+                      : 'semilac-days-feed.png';
+                    const sharingKey = isIg ? 'story-ig' : isWa ? 'story-wa' : 'square';
+
+                    return (
+                      <motion.button
+                        key={idx}
+                        className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl relative overflow-hidden"
+                        style={{
+                          background: `rgba(${isIg ? '232,0,125' : isWa ? '37,211,102' : '196,144,74'},0.08)`,
+                          border: `1.5px solid rgba(${isIg ? '232,0,125' : isWa ? '37,211,102' : '196,144,74'},0.25)`,
+                          opacity: sharing && sharing !== (sharingKey as any) ? 0.5 : 1,
+                        }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                        disabled={!!sharing}
+                        onClick={async () => {
+                          if (sharing) return;
+                          setSharing(sharingKey as any);
+                          try {
+                            const blob = await generateShareImage({
+                              prize,
+                              firstName,
+                              lang,
+                              format,
+                            });
+                            const caption = t('couponResult', 'shareCaption', lang);
+                            await shareImage(blob, filename, caption);
+                          } catch (e) {
+                            console.log('Partage annulé', e);
+                          } finally {
+                            setSharing(null);
+                          }
+                        }}
+                      >
+                        {isLoading
+                          ? <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                              style={{ width: 16, height: 16, border: `2px solid ${accentColor}`, borderTopColor: 'transparent', borderRadius: '50%' }}
+                            />
+                          : icon}
+                        <span style={{ fontSize: '9px', fontWeight: 700, color: accentColor, letterSpacing: '0.04em', textAlign: 'center', lineHeight: 1.3 }}>
+                          {label}
+                        </span>
+                      </motion.button>
+                    );
+                  })}
+                </div>
               </motion.div>
 
               {/* Brand strip */}
