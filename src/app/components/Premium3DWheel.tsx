@@ -6,6 +6,7 @@ interface Premium3DWheelProps {
   onSpinComplete: (prizeIndex: number) => void;
   isSpinning: boolean;
   resetKey?: number; // Add a key to force reset
+  size?: number | string; // Responsive size override
 }
 
 const prizes = [
@@ -23,7 +24,7 @@ const prizes = [
   { label: '-40%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
 ];
 
-export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium3DWheelProps) {
+export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'min(86vw, 56vh, 520px)' }: Premium3DWheelProps) {
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
@@ -95,8 +96,9 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
       <div
         className="relative select-none"
         style={{
-          width: '350px',
-          height: '350px',
+          width: size,
+          height: size,
+          aspectRatio: '1 / 1',
         }}
       >
         {/* Outer glow ring */}
@@ -122,7 +124,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
             boxShadow: '0 10px 40px rgba(232,0,125,0.25)',
           }}
         >
-          <svg viewBox="0 0 350 350" width="350" height="350" className="absolute inset-0">
+          <svg viewBox="0 0 350 350" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" className="absolute inset-0">
             <defs>
               {prizes.map((prize, i) => (
                 <linearGradient key={`grad-${i}`} id={`seg-grad-${i}`} x1="0%" y1="0%" x2="100%" y2="100%">
@@ -220,8 +222,10 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey }: Premium
             className="absolute top-1/2 left-1/2 rounded-full flex items-center justify-center overflow-hidden"
             style={{
               transform: 'translate(-50%, -50%)',
-              width: '80px',
-              height: '80px',
+              width: '23%',
+              height: '23%',
+              minWidth: '64px',
+              minHeight: '64px',
               background: 'linear-gradient(135deg, #c47090, #F8A4C8, #ffc8de)',
               boxShadow: '0 6px 30px rgba(248,164,200,0.6), inset 0 -2px 10px rgba(0,0,0,0.3)',
               border: '3px solid rgba(255,255,255,0.3)',

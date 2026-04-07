@@ -111,19 +111,20 @@ export function WheelGame() {
   const firstName = nameParts[0] || 'Client';
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+    <div className="relative w-full h-full overflow-y-auto overflow-x-hidden" style={{ background: '#FAF7F2', WebkitOverflowScrolling: 'touch' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar />
 
       <motion.div
-        className="absolute top-[44px] left-0 right-0 bottom-0 p-3"
+        className="relative pt-[52px] px-3 pb-6"
+        style={{ minHeight: '100%' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
         <div
-          className="rounded-3xl p-4 text-center h-full backdrop-blur-xl flex flex-col"
+          className="rounded-3xl p-4 text-center backdrop-blur-xl flex flex-col"
           style={{
             background: 'rgba(250,247,242,0.92)',
             border: '1px solid rgba(232,0,125,0.22)',
@@ -283,7 +284,7 @@ export function WheelGame() {
           )}
 
           {/* Wheel Container */}
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex items-center justify-center py-2">
             <motion.div
               initial={{ scale: 0, rotate: -180, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
