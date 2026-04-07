@@ -362,6 +362,8 @@ export function RSVPForm() {
                 value={formData.whatsapp}
                 onChange={(value) => { setFormData({ ...formData, whatsapp: value }); setPhoneError(''); }}
                 type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 required
                 validate={(v) => isValidPhone(v)}
                 errorMessage={phoneError || (formData.whatsapp.length > 5 && !isValidPhone(formData.whatsapp) ? t('rsvp', 'phoneError', lang) : '')}

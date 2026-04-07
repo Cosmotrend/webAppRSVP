@@ -7,6 +7,8 @@ interface PremiumInputProps {
   value: string;
   onChange: (value: string) => void;
   type?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  pattern?: string;
   required?: boolean;
   validate?: (value: string) => boolean;
   errorMessage?: string;
@@ -17,6 +19,8 @@ export function PremiumInput({
   value,
   onChange,
   type = 'text',
+  inputMode,
+  pattern,
   required = false,
   validate,
   errorMessage,
@@ -62,6 +66,8 @@ export function PremiumInput({
             fontFamily: "'Montserrat', sans-serif",
           }}
           type={type}
+          inputMode={inputMode}
+          pattern={pattern}
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
