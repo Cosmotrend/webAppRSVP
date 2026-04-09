@@ -19,6 +19,7 @@ const DEFAULT_LEFT: TopBarAction = {
   href: 'https://maps.app.goo.gl/AnabacGETpG8W5UD9',
 };
 
+
 function ActionIcon({ action, side }: { action: TopBarAction; side: 'left' | 'right' }) {
   const iconStyle = {
     width: '36px',

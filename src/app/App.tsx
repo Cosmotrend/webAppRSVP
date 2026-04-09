@@ -7,6 +7,19 @@ import { LanguageSelector } from './components/LanguageSelector';
 function AppContent() {
   const { isReady } = useLang();
 
+  // Mode kiosque : ?kiosk=1 ou ?tv=1 dans l'URL → plein écran, pas de shell
+  const isKiosk =
+    typeof window !== 'undefined' &&
+    (new URLSearchParams(window.location.search).get('kiosk') === '1' ||
+      new URLSearchParams(window.location.search).get('tv') === '1' ||
+      window.sessionStorage.getItem('kioskMode') === '1');
+
+  // Persiste le mode kiosque pendant toute la session (survit aux navigations)
+  if (typeof window !== 'undefined' && isKiosk) {
+    window.sessionStorage.setItem('kioskMode', '1');
+    document.documentElement.classList.add('kiosk-mode');
+  }
+
   return (
     <div className="w-full min-h-full flex items-center justify-center" style={{ background: '#1A1005' }}>
       <div
@@ -39,15 +52,35 @@ function AppContent() {
               margin: auto !important;
             }
           }
-          /* TV 62" portrait HD — projection roue */
-          @media (min-width: 1080px) and (orientation: portrait), (min-height: 1600px) {
+          /* TV 58/62" portrait HD — détection par ratio (marche quand le navigateur voit directement la TV) */
+          @media (min-width: 1080px) and (orientation: portrait), (min-aspect-ratio: 9/16) and (min-height: 1600px) {
             .app-shell {
-              width: min(1080px, 92vw) !important;
+              width: min(1080px, 96vw) !important;
               height: min(calc(100dvh - 48px), 1920px) !important;
               max-width: none !important;
               border-radius: 48px !important;
               margin: auto !important;
             }
+          }
+          /* Mode KIOSQUE (?kiosk=1) — override TOUT, plein écran HD pour TV encastrée */
+          html.kiosk-mode,
+          html.kiosk-mode body,
+          html.kiosk-mode #root {
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            overflow: hidden !important;
+            background: #1A1005 !important;
+          }
+          html.kiosk-mode .app-shell {
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+            max-width: none !important;
+            max-height: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
           }
         `}</style>
         <div

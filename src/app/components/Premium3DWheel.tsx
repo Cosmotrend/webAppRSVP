@@ -26,7 +26,11 @@ const prizes = [
   { label: '-40%', color: '#ff4da6', gradient: ['#ff4da6', '#E8007D'] },
 ];
 
-export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'min(86vw, 56vh, 520px)', lang = 'fr' }: Premium3DWheelProps) {
+export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lang = 'fr' }: Premium3DWheelProps) {
+  // En mode kiosque TV portrait, la roue doit remplir la largeur
+  const isKioskMode =
+    typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
+  const resolvedSize = size ?? (isKioskMode ? 'min(92vw, 70vh, 1400px)' : 'min(86vw, 56vh, 520px)');
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
@@ -98,8 +102,8 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size = 'm
       <div
         className="relative select-none"
         style={{
-          width: size,
-          height: size,
+          width: resolvedSize,
+          height: resolvedSize,
           aspectRatio: '1 / 1',
         }}
       >
