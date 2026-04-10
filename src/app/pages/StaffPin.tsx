@@ -8,16 +8,26 @@ import { TopBar } from '../components/TopBar';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
+import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 import { sounds } from '../utils/sounds';
 import { callAPI } from '../utils/api';
-import { useLang, t } from '../i18n';
+import { useKioskMode } from '../utils/useKioskMode';
+import { t } from '../i18n';
+
+// Étape 2 — Français uniquement
+const lang = 'fr' as const;
+
+// Code staff pré-rempli — l'animatrice n'a qu'à cliquer "Accéder".
+// Peut être surchargé via l'env var VITE_STAFF_PIN dans Vercel.
+const DEFAULT_STAFF_PIN = (import.meta.env.VITE_STAFF_PIN as string) || 'COSMO2026';
 
 export function StaffPin() {
+  useKioskMode();
   const navigate = useNavigate();
-  const [pin, setPin] = useState('');
+  const [pin, setPin] = useState(DEFAULT_STAFF_PIN);
   const [error, setError] = useState('');
   const [isValidating, setIsValidating] = useState(false);
-  const { lang } = useLang();
+
 
   const handleSubmit = async () => {
     setIsValidating(true);
@@ -54,6 +64,7 @@ export function StaffPin() {
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+      <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
       <TopBar rightAction={{ icon: <Lock size={18} />, label: t('staffPin', 'title', lang) }} />
@@ -214,10 +225,9 @@ export function StaffPin() {
               <input
                 type="password"
                 value={pin}
-                onChange={(e) => { setPin(e.target.value); setError(''); }}
-                onKeyDown={handleKeyPress}
-                maxLength={9}
-                placeholder="••••••"
+                readOnly
+                inputMode="none"
+                onFocus={(e) => e.target.blur()}
                 className="w-full rounded-2xl px-6 py-4 outline-none transition-all duration-200"
                 style={{
                   background: error ? 'rgba(220,50,50,0.04)' : 'rgba(250,247,242,0.85)',
@@ -233,8 +243,8 @@ export function StaffPin() {
                   boxShadow: error
                     ? '0 4px 20px rgba(220,50,50,0.1)'
                     : '0 4px 20px rgba(232,0,125,0.08)',
+                  cursor: 'default',
                 }}
-                autoFocus
               />
               <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.5)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
                 {t('staffPin', 'hint', lang)}

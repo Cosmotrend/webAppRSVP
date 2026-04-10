@@ -30,7 +30,9 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
   // En mode kiosque TV portrait, la roue doit remplir la largeur
   const isKioskMode =
     typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
-  const resolvedSize = size ?? (isKioskMode ? 'min(92vw, 70vh, 1400px)' : 'min(86vw, 56vh, 520px)');
+  // En kiosque, le parent est le shell pivoté (vh/vw inversés), donc on utilise
+  // vh comme référence de "largeur visuelle" (puisque width = 100vh après rotation).
+  const resolvedSize = size ?? (isKioskMode ? 'min(78vh, 65vw)' : 'min(86vw, 56vh, 520px)');
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 

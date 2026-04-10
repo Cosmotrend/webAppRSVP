@@ -5,11 +5,7 @@ import confetti from "canvas-confetti";
 import {
   Trophy,
   Sparkles,
-  Camera,
   FileText,
-  Instagram,
-  MessageCircle,
-  Square,
 } from "lucide-react";
 import { AuroraBackground } from "../components/AuroraBackground";
 import { ParticleField } from "../components/ParticleField";
@@ -18,8 +14,10 @@ import { BrandStrip } from "../components/logos/BrandStrip";
 import { SemilacDaysLogo } from "../components/logos/SemilacDaysLogo";
 import { sounds } from "../utils/sounds";
 import { callAPI } from "../utils/api";
-import { useLang, t } from '../i18n';
-import { generateShareImage, shareImage, type ShareFormat } from '../utils/storyImage';
+import { t } from '../i18n';
+
+// Étape 2 — Français uniquement
+const lang = 'fr' as const;
 
 // Legacy stub kept to minimise diff churn — unused.
 function _legacyGenerateStoryImage(prize: string, ticketNumber: string, lang: 'fr' | 'ar'): Promise<Blob> {
@@ -112,17 +110,18 @@ function _legacyGenerateStoryImage(prize: string, ticketNumber: string, lang: 'f
   });
 }
 
+import { useKioskMode } from '../utils/useKioskMode';
+
 export function CouponResult() {
+  useKioskMode();
   const navigate = useNavigate();
-  const { lang } = useLang();
   const [prize, setPrize] = useState("-25%");
   const [ticketNumber, setTicketNumber] = useState("");
   const [devisNumber, setDevisNumber] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [devisList, setDevisList] = useState<string[]>([]);
   const [showContent, setShowContent] = useState(false);
   const [counter, setCounter] = useState(0);
   const [registered, setRegistered] = useState(false);
-  const [sharing, setSharing] = useState<ShareFormat | null>(null);
 
   useEffect(() => {
     // Route guard
@@ -141,18 +140,11 @@ export function CouponResult() {
       clientData = JSON.parse(wheelDataRaw);
       setTicketNumber(clientData.ticketNumber || "SD26-XXXX");
       setDevisNumber(clientData.devisNumber || "");
-    }
-
-    // Extract first name from RSVP data for share image
-    try {
-      const rsvpRaw = localStorage.getItem("rsvpData");
-      if (rsvpRaw) {
-        const rsvp = JSON.parse(rsvpRaw);
-        const full: string = rsvp?.fullName || rsvp?.name || "";
-        setFullName(full.trim());
-      }
-    } catch {
-      // firstName stays empty
+      // Support multi-devis : lit le tableau devisNumbers s'il existe, sinon split la string
+      const list: string[] = Array.isArray(clientData.devisNumbers) && clientData.devisNumbers.length > 0
+        ? clientData.devisNumbers
+        : (clientData.devisNumber || "").split(',').map((d: string) => d.trim()).filter(Boolean);
+      setDevisList(list);
     }
 
     // Register result in Google Sheets ONCE
@@ -177,52 +169,82 @@ export function CouponResult() {
 
     sounds.win();
 
-    // Confetti celebration
-    const duration = 2000;
-    const animationEnd = Date.now() + duration;
-    const colors = ['#E8007D', '#ff4da6', '#FFE0EF', '#C4904A', '#ffffff'];
+    // ═══════════════════════════════════════════════════════════
+    // Confetti premium — cascade symétrique depuis les deux côtés
+    // Palette rose-or-nacré, formes variées, rythme élégant
+    // ═══════════════════════════════════════════════════════════
+    // Palette DA : rose Semilac, rose clair, nacré, or champagne, blanc (pas de jaune criard)
+    const palette = ['#E8007D', '#ff4da6', '#FFE0EF', '#D4A574', '#ffffff', '#F8A4C8'];
 
-    const frame = () => {
+    // 1) Grande explosion centrale initiale (étoiles uniquement, lumineuses)
+    confetti({
+      particleCount: 60,
+      spread: 360,
+      startVelocity: 28,
+      origin: { x: 0.5, y: 0.5 },
+      colors: palette,
+      scalar: 1.4,
+      ticks: 220,
+      shapes: ['star'],
+      gravity: 0.6,
+    });
+
+    // 2) Cascades symétriques depuis les côtés inférieurs (effet coupe de champagne)
+    const duration = 2800;
+    const animationEnd = Date.now() + duration;
+    const cascadeInterval = setInterval(() => {
+      const remaining = animationEnd - Date.now();
+      if (remaining <= 0) {
+        clearInterval(cascadeInterval);
+        return;
+      }
+      const intensity = remaining / duration; // fade out progressif
+      const particleCount = Math.max(6, Math.floor(40 * intensity));
+
+      // Canon gauche
       confetti({
-        particleCount: 6,
+        particleCount,
         angle: 60,
-        spread: 90,
-        origin: { x: 0, y: 0.5 },
-        colors: colors,
-        gravity: 1.2,
-        ticks: 400,
-        scalar: 1.2,
-        shapes: ["circle", "square"],
+        spread: 65,
+        startVelocity: 55,
+        origin: { x: 0.08, y: 0.9 },
+        colors: palette,
+        scalar: 1,
+        ticks: 360,
+        gravity: 1.1,
+        drift: 0.2,
+        shapes: ['circle', 'square'],
       });
+
+      // Canon droit
       confetti({
-        particleCount: 6,
+        particleCount,
         angle: 120,
-        spread: 90,
-        origin: { x: 1, y: 0.5 },
-        colors: colors,
-        gravity: 1.2,
-        ticks: 400,
-        scalar: 1.2,
-        shapes: ["circle", "square"],
+        spread: 65,
+        startVelocity: 55,
+        origin: { x: 0.92, y: 0.9 },
+        colors: palette,
+        scalar: 1,
+        ticks: 360,
+        gravity: 1.1,
+        drift: -0.2,
+        shapes: ['circle', 'square'],
       });
+
+      // Pluie d'étoiles douce au centre
       confetti({
-        particleCount: 4,
+        particleCount: Math.floor(particleCount * 0.4),
         angle: 90,
         spread: 120,
-        origin: { x: 0.5, y: 0.2 },
-        colors: colors,
-        gravity: 0.8,
-        ticks: 500,
-        scalar: 1.5,
-        shapes: ["star"],
+        startVelocity: 32,
+        origin: { x: 0.5, y: 0.15 },
+        colors: ['#D4A574', '#ffffff', '#FFE0EF'],
+        scalar: 1.6,
+        ticks: 460,
+        gravity: 0.7,
+        shapes: ['star'],
       });
-
-      if (Date.now() < animationEnd) {
-        requestAnimationFrame(frame);
-      }
-    };
-
-    frame();
+    }, 220);
 
     // Reveal content after brief delay
     setTimeout(() => setShowContent(true), 300);
@@ -241,7 +263,10 @@ export function CouponResult() {
       }
     }, 30);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearInterval(cascadeInterval);
+    };
   }, []); // ✅ Dependency array vide
 
   return (
@@ -253,23 +278,25 @@ export function CouponResult() {
       <ParticleField />
       <TopBar />
 
-      <div className="absolute top-[44px] left-0 right-0 bottom-0 overflow-y-auto flex flex-col items-center justify-start pt-6 px-5 text-center pb-8">
-        <AnimatePresence>
-          {showContent && (
-            <>
-              {/* Logo */}
+      <div className="absolute top-[44px] left-0 right-0 bottom-0 flex flex-col">
+        {/* Contenu scrollable */}
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col items-center px-5 pt-3 pb-2 text-center">
+          <AnimatePresence>
+            {showContent && (
+              <>
+                {/* Logo */}
               <motion.div
-                className="mb-5"
+                className="mb-3"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <SemilacDaysLogo height={68} />
+                <SemilacDaysLogo height={54} />
               </motion.div>
 
               {/* Trophy icon with rotation */}
               <motion.div
-                className="mb-5"
+                className="mb-3"
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{
@@ -283,7 +310,7 @@ export function CouponResult() {
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Trophy size={60} color="#E8007D" strokeWidth={1.5} />
+                  <Trophy size={48} color="#E8007D" strokeWidth={1.5} />
 
                   {/* Orbiting sparkles */}
                   {[0, 1, 2, 3].map((i) => {
@@ -318,12 +345,12 @@ export function CouponResult() {
               <motion.div
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "64px",
+                  fontSize: "52px",
                   fontWeight: 300,
                   fontStyle: "italic",
                   color: "#1A1005",
                   lineHeight: 1,
-                  marginBottom: "12px",
+                  marginBottom: "6px",
                 }}
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -339,7 +366,7 @@ export function CouponResult() {
                   letterSpacing: "0.36em",
                   textTransform: "uppercase",
                   color: "#E8007D",
-                  marginBottom: "20px",
+                  marginBottom: "12px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -358,7 +385,7 @@ export function CouponResult() {
                 <motion.div
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "92px",
+                    fontSize: "76px",
                     fontWeight: 300,
                     background: "linear-gradient(135deg, #C4157A, #E8007D, #ff4da6, #C4904A)",
                     WebkitBackgroundClip: "text",
@@ -409,7 +436,7 @@ export function CouponResult() {
                   fontWeight: 600,
                   color: '#C4904A',
                   letterSpacing: "0.1em",
-                  marginBottom: "24px",
+                  marginBottom: "14px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -424,152 +451,50 @@ export function CouponResult() {
                   width: "180px",
                   height: "2px",
                   background: "linear-gradient(90deg, transparent, rgba(232,0,125,0.3), transparent)",
-                  margin: "0 auto 24px",
+                  margin: "0 auto 14px",
                 }}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 1.2, duration: 0.8 }}
               />
 
-              {/* Coupon code */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.4 }}
-              >
+              {/* Traçabilité — toujours visible : CODE PROMO = ticket joué */}
+              {ticketNumber && (
                 <motion.div
-                  className="flex items-center justify-center gap-2 mb-3"
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Sparkles size={14} color="#E8007D" />
-                  <span
-                    style={{
-                      fontSize: "9px",
-                      fontWeight: 700,
-                      letterSpacing: "0.3em",
-                      textTransform: "uppercase",
-                      color: "rgba(26,16,5,0.55)",
-                    }}
-                  >
-                    {t('couponResult', 'codeLabel', lang)}
-                  </span>
-                  <Sparkles size={14} color="#E8007D" />
-                </motion.div>
-
-                <motion.div
-                  className="inline-block rounded-2xl relative overflow-hidden mb-6"
+                  className="w-full max-w-sm rounded-2xl mb-4 relative overflow-hidden"
                   style={{
-                    padding: "16px 40px",
-                    background: "rgba(232,0,125,0.06)",
-                    border: "2px solid rgba(232,0,125,0.32)",
-                    boxShadow: "0 8px 32px rgba(232,0,125,0.14)",
-                  }}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.6, type: "spring" }}
-                  whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(232,0,125,0.2)" }}
-                >
-                  {/* Shimmer effect */}
-                  <motion.div
-                    className="absolute inset-0"
-                    style={{
-                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
-                    }}
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-                  />
-
-                  <motion.div
-                    style={{
-                      fontFamily: "'Courier New', monospace",
-                      fontSize: "22px",
-                      fontWeight: 700,
-                      letterSpacing: "0.28em",
-                      color: "#E8007D",
-                      textShadow: "0 0 20px rgba(232,0,125,0.3)",
-                      position: "relative",
-                    }}
-                  >
-                    {ticketNumber}
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-
-              {/* CTA Box */}
-              <motion.div
-                className="w-full max-w-sm px-5 py-4 rounded-2xl mb-3 relative"
-                style={{
-                  border: "1.5px solid rgba(232,0,125,0.3)",
-                  background: "linear-gradient(135deg, rgba(232,0,125,0.08), rgba(196,21,122,0.05))",
-                  boxShadow: "0 4px 20px rgba(232,0,125,0.10)",
-                }}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.8 }}
-                whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(232,0,125,0.18)" }}
-              >
-                <motion.div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
-                  }}
-                  animate={{ x: ["-100%", "200%"] }}
-                  transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
-                />
-                <div className="relative flex items-center gap-4">
-                  <motion.div
-                    className="flex-shrink-0"
-                    animate={{ scale: [1, 1.15, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Camera size={26} color="#E8007D" />
-                  </motion.div>
-                  <div className="text-left">
-                    <div
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        color: "#E8007D",
-                        letterSpacing: "0.02em",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      {t('couponResult', 'screenshot', lang)}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "10px",
-                        color: "rgba(26,16,5,0.55)",
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {t('couponResult', 'screenshotDesc', lang)}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Traçabilité : Ticket + Devis */}
-              {devisNumber && (
-                <motion.div
-                  className="w-full max-w-sm px-5 py-4 rounded-2xl mb-5 relative"
-                  style={{
-                    border: "1px solid rgba(232,0,125,0.22)",
-                    background: "rgba(250,247,242,0.92)",
-                    boxShadow: "0 4px 20px rgba(232,0,125,0.10)",
+                    border: "1.5px solid rgba(232,0,125,0.28)",
+                    background: "linear-gradient(135deg, rgba(250,247,242,0.96), rgba(255,240,248,0.92))",
+                    boxShadow: "0 10px 32px rgba(232,0,125,0.12), inset 0 1px 0 rgba(255,255,255,0.6)",
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2 }}
+                  transition={{ delay: 1.6 }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <FileText size={16} color="#E8007D" />
+                  {/* Shimmer premium */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+                    }}
+                    animate={{ x: ["-100%", "200%"] }}
+                    transition={{ duration: 4, repeat: Infinity, repeatDelay: 2 }}
+                  />
+
+                  {/* Header */}
+                  <div
+                    className="flex items-center justify-center gap-2 px-5 py-3"
+                    style={{
+                      borderBottom: "1px solid rgba(232,0,125,0.15)",
+                      background: "rgba(232,0,125,0.04)",
+                    }}
+                  >
+                    <FileText size={14} color="#E8007D" />
                     <span
                       style={{
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        letterSpacing: "0.2em",
+                        fontSize: "9px",
+                        fontWeight: 800,
+                        letterSpacing: "0.28em",
                         textTransform: "uppercase",
                         color: "#E8007D",
                       }}
@@ -578,175 +503,154 @@ export function CouponResult() {
                     </span>
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        {t('couponResult', 'traceTicket', lang)}
-                      </span>
+                  {/* Corps — grille compacte */}
+                  <div className="px-5 py-4 relative">
+                    {/* CODE PROMO — toujours affiché, = ticket joué */}
+                    <div
+                      className="flex items-center justify-between mb-3 pb-3"
+                      style={{ borderBottom: devisList.length > 0 ? "1px dashed rgba(232,0,125,0.2)" : "none" }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Sparkles size={12} color="#E8007D" />
+                        <span
+                          style={{
+                            fontSize: "8px",
+                            fontWeight: 700,
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            color: "rgba(26,16,5,0.55)",
+                          }}
+                        >
+                          {t('couponResult', 'codeLabel', lang)}
+                        </span>
+                      </div>
                       <span
                         style={{
-                          fontSize: "11px",
                           fontFamily: "'Courier New', monospace",
-                          fontWeight: 600,
-                          color: "#1A1005",
+                          fontSize: "15px",
+                          fontWeight: 800,
+                          letterSpacing: "0.22em",
+                          color: "#E8007D",
+                          textShadow: "0 0 12px rgba(232,0,125,0.25)",
                         }}
                       >
                         {ticketNumber}
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        {t('couponResult', 'traceDevis', lang)}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "11px",
-                          fontFamily: "'Courier New', monospace",
-                          fontWeight: 600,
-                          color: "#C4904A",
-                        }}
-                      >
-                        {devisNumber}
-                      </span>
-                    </div>
+                    {/* Lignes — uniquement si des bons de commande existent */}
+                    {devisList.length > 0 && (
+                      <div className="space-y-1.5">
+                        {/* Bons de commande */}
+                        <div>
+                          <div style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em", marginBottom: "4px" }}>
+                            {devisList.length > 1
+                              ? `Bons de commande (${devisList.length})`
+                              : t('couponResult', 'traceDevis', lang)}
+                          </div>
+                          <div className="flex flex-wrap gap-1.5 justify-end">
+                            {devisList.map((d, i) => (
+                              <span
+                                key={i}
+                                style={{
+                                  fontSize: "10px",
+                                  fontFamily: "'Courier New', monospace",
+                                  fontWeight: 700,
+                                  color: "#C4904A",
+                                  letterSpacing: "0.08em",
+                                  padding: "3px 8px",
+                                  borderRadius: "6px",
+                                  background: "rgba(196,144,74,0.08)",
+                                  border: "1px solid rgba(196,144,74,0.22)",
+                                }}
+                              >
+                                {d}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
 
-                    <div className="flex justify-between items-center">
-                      <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)" }}>
-                        {t('couponResult', 'traceReduction', lang)}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 700,
-                          color: "#E8007D",
-                        }}
-                      >
-                        {prize}
-                      </span>
-                    </div>
-                  </div>
+                        <div className="flex justify-between items-center">
+                          <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em" }}>
+                            {t('couponResult', 'traceReduction', lang)}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 800,
+                              color: "#E8007D",
+                            }}
+                          >
+                            {prize}
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
-                  <div
-                    style={{
-                      fontSize: "8px",
-                      color: "rgba(26,16,5,0.5)",
-                      marginTop: "12px",
-                      textAlign: "center",
-                      letterSpacing: "0.1em",
-                    }}
-                  >
-                    {t('couponResult', 'traceAuto', lang)}
+                    <div
+                      className="flex items-center justify-center gap-1.5 mt-3 pt-2"
+                      style={{
+                        borderTop: "1px dashed rgba(232,0,125,0.15)",
+                        fontSize: "8px",
+                        color: "rgba(26,16,5,0.5)",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      <Sparkles size={9} color="rgba(196,144,74,0.7)" />
+                      {t('couponResult', 'traceAuto', lang)}
+                      <Sparkles size={9} color="rgba(196,144,74,0.7)" />
+                    </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* Share Story — 3 buttons */}
-              <motion.div
-                className="w-full max-w-sm mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.2 }}
-              >
-                <div
-                  style={{
-                    fontSize: '9px',
-                    fontWeight: 700,
-                    letterSpacing: '0.25em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(26,16,5,0.45)',
-                    textAlign: 'center',
-                    marginBottom: '10px',
-                  }}
-                >
-                  {t('couponResult', 'shareStory', lang)}
-                </div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
 
-                <div className="flex gap-2">
-                  {/* Instagram Story (9:16) */}
-                  {(['story', 'story', 'square'] as const).map((fmt, idx) => {
-                    const isIg = idx === 0;
-                    const isWa = idx === 1;
-                    const isSq = idx === 2;
-                    const format: ShareFormat = fmt;
-                    const isLoading = sharing === (isIg ? 'story-ig' as any : isWa ? 'story-wa' as any : 'square');
-                    const label = isIg
-                      ? t('couponResult', 'shareInstagram', lang)
-                      : isWa
-                      ? t('couponResult', 'shareWhatsapp', lang)
-                      : t('couponResult', 'shareSquare', lang);
-                    const icon = isIg
-                      ? <Instagram size={16} color={isIg ? '#E8007D' : isWa ? '#25D366' : '#C4904A'} />
-                      : isWa
-                      ? <MessageCircle size={16} color="#25D366" />
-                      : <Square size={16} color="#C4904A" />;
-                    const accentColor = isIg ? '#E8007D' : isWa ? '#25D366' : '#C4904A';
-                    const filename = isIg
-                      ? 'semilac-days-story.png'
-                      : isWa
-                      ? 'semilac-days-status.png'
-                      : 'semilac-days-feed.png';
-                    const sharingKey = isIg ? 'story-ig' : isWa ? 'story-wa' : 'square';
+        {/* Footer — flex-shrink-0 garantit qu'il ne sera jamais écrasé */}
+        <div className="flex-shrink-0 flex flex-col items-center px-5 pb-3 pt-2" style={{ background: '#FAF7F2' }}>
+        <motion.button
+          type="button"
+          onClick={() => {
+            localStorage.removeItem('wheelData');
+            localStorage.removeItem('wheelPrize');
+            navigate('/staff-pin');
+          }}
+          whileTap={{ scale: 0.96 }}
+          className="w-full max-w-sm rounded-2xl flex items-center justify-center gap-2"
+          style={{
+            padding: "12px",
+            background: "linear-gradient(135deg, #E8007D, #ff4da6)",
+            border: "none",
+            color: "#ffffff",
+            fontSize: "12px",
+            fontWeight: 800,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            cursor: "pointer",
+            boxShadow: "0 8px 24px rgba(232,0,125,0.35)",
+            marginBottom: "12px",
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8 }}
+        >
+          <Sparkles size={14} />
+          Nouveau client
+        </motion.button>
 
-                    return (
-                      <motion.button
-                        key={idx}
-                        className="flex-1 flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl relative overflow-hidden"
-                        style={{
-                          background: `rgba(${isIg ? '232,0,125' : isWa ? '37,211,102' : '196,144,74'},0.08)`,
-                          border: `1.5px solid rgba(${isIg ? '232,0,125' : isWa ? '37,211,102' : '196,144,74'},0.25)`,
-                          opacity: sharing && sharing !== (sharingKey as any) ? 0.5 : 1,
-                        }}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        disabled={!!sharing}
-                        onClick={async () => {
-                          if (sharing) return;
-                          setSharing(sharingKey as any);
-                          try {
-                            const blob = await generateShareImage({
-                              prize,
-                              fullName,
-                              lang,
-                              format,
-                            });
-                            const caption = t('couponResult', 'shareCaption', lang);
-                            await shareImage(blob, filename, caption);
-                          } catch (e) {
-                            console.log('Partage annulé', e);
-                          } finally {
-                            setSharing(null);
-                          }
-                        }}
-                      >
-                        {isLoading
-                          ? <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                              style={{ width: 16, height: 16, border: `2px solid ${accentColor}`, borderTopColor: 'transparent', borderRadius: '50%' }}
-                            />
-                          : icon}
-                        <span style={{ fontSize: '9px', fontWeight: 700, color: accentColor, letterSpacing: '0.04em', textAlign: 'center', lineHeight: 1.3 }}>
-                          {label}
-                        </span>
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-
-              {/* Brand strip */}
-              <motion.div
-                className="w-full max-w-sm mt-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2.4 }}
-              >
-                <BrandStrip />
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2 }}
+        >
+          <BrandStrip />
+        </motion.div>
+      </div>
       </div>
     </div>
   );

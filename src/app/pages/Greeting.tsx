@@ -4,12 +4,16 @@ import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
-import { useLang, t } from '../i18n';
+import { useKioskMode } from '../utils/useKioskMode';
+import { t } from '../i18n';
+
+// Étape 2 — Français uniquement
+const lang = 'fr' as const;
 
 export function Greeting() {
+  useKioskMode();
   const navigate = useNavigate();
-  const { lang } = useLang();
-  const [name, setName] = useState(lang === 'ar' ? 'ضيف' : 'Invité');
+  const [name, setName] = useState('Invité');
 
   useEffect(() => {
     const wheelDataRaw = localStorage.getItem('wheelData');

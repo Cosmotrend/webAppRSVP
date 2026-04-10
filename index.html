@@ -34,6 +34,60 @@
         };
       }
     </script>
+
+    <!--
+      KIOSQUE TV — applique la classe kiosk-mode SYNCHRONIQUEMENT avant React.
+      Ça évite le flash / décalage au premier rendu et garantit que le CSS
+      @media (orientation: landscape) + rotation s'active au tout premier frame.
+    -->
+    <script>
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          // Détection tolérante : accepte "kiosk=1", " kiosk=1", "tv=1", etc.
+          var urlKiosk = false;
+          params.forEach(function(value, key) {
+            var k = key.trim().toLowerCase();
+            var v = (value || '').trim();
+            if ((k === 'kiosk' || k === 'tv') && v === '1') urlKiosk = true;
+          });
+          if (urlKiosk) {
+            window.sessionStorage.setItem('kioskMode', '1');
+          }
+          var isKiosk = urlKiosk || window.sessionStorage.getItem('kioskMode') === '1';
+          var path = window.location.pathname;
+          var isStep2 = /(staff-pin|wheel-code|wheel|result|greeting)/.test(path);
+          if (isKiosk && isStep2) {
+            document.documentElement.classList.add('kiosk-mode');
+          }
+          // Protection : réapplique la classe si quelque chose la retire
+          // (React StrictMode cleanup, navigation, etc.)
+          var observer = new MutationObserver(function() {
+            var stillKiosk = window.sessionStorage.getItem('kioskMode') === '1';
+            var stillStep2 = /(staff-pin|wheel-code|wheel|result|greeting)/.test(window.location.pathname);
+            if (stillKiosk && stillStep2 && !document.documentElement.classList.contains('kiosk-mode')) {
+              document.documentElement.classList.add('kiosk-mode');
+            }
+            if ((!stillKiosk || !stillStep2) && document.documentElement.classList.contains('kiosk-mode')) {
+              document.documentElement.classList.remove('kiosk-mode');
+            }
+          });
+          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+          // Re-check à chaque navigation SPA (History API)
+          var _push = history.pushState;
+          var _replace = history.replaceState;
+          function recheck() {
+            var k = window.sessionStorage.getItem('kioskMode') === '1';
+            var s2 = /(staff-pin|wheel-code|wheel|result|greeting)/.test(window.location.pathname);
+            if (k && s2) document.documentElement.classList.add('kiosk-mode');
+            else document.documentElement.classList.remove('kiosk-mode');
+          }
+          history.pushState = function() { _push.apply(this, arguments); setTimeout(recheck, 0); };
+          history.replaceState = function() { _replace.apply(this, arguments); setTimeout(recheck, 0); };
+          window.addEventListener('popstate', recheck);
+        } catch (e) {}
+      })();
+    </script>
     <style>
       @layer base {
         * {

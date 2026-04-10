@@ -8,11 +8,14 @@ import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
 import { ShimmerButton } from '../components/ShimmerButton';
 import { registerResult } from '../utils/api';
-import { useLang, t } from '../i18n';
+import { useKioskMode } from '../utils/useKioskMode';
+import { t } from '../i18n';
+
+const lang = 'fr' as const;
 
 export function WheelGame() {
+  useKioskMode();
   const navigate = useNavigate();
-  const { lang } = useLang();
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
   const [attempt, setAttempt] = useState(1);
@@ -296,7 +299,7 @@ export function WheelGame() {
 
           {/* Choice buttons after first attempt */}
           {showChoiceButtons && (
-            <motion.div 
+            <motion.div
               className="mt-6 space-y-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -317,14 +320,14 @@ export function WheelGame() {
               >
                 {t('wheelGame', 'resultTitle', lang)} {firstPrize} !
               </motion.div>
-              
+
               <ShimmerButton
                 className="w-full py-3"
                 onClick={handleTryAgain}
               >
                 {t('wheelGame', 'retryButton', lang)}
               </ShimmerButton>
-              
+
               <ShimmerButton
                 variant="secondary"
                 className="w-full py-3"

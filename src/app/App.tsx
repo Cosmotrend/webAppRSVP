@@ -7,17 +7,14 @@ import { LanguageSelector } from './components/LanguageSelector';
 function AppContent() {
   const { isReady } = useLang();
 
-  // Mode kiosque : ?kiosk=1 ou ?tv=1 dans l'URL → plein écran, pas de shell
-  const isKiosk =
-    typeof window !== 'undefined' &&
-    (new URLSearchParams(window.location.search).get('kiosk') === '1' ||
-      new URLSearchParams(window.location.search).get('tv') === '1' ||
-      window.sessionStorage.getItem('kioskMode') === '1');
-
-  // Persiste le mode kiosque pendant toute la session (survit aux navigations)
-  if (typeof window !== 'undefined' && isKiosk) {
-    window.sessionStorage.setItem('kioskMode', '1');
-    document.documentElement.classList.add('kiosk-mode');
+  // Mode kiosque : ?kiosk=1 ou ?tv=1 dans l'URL → persiste en sessionStorage
+  // La classe kiosk-mode est appliquée PAR PAGE (uniquement StaffPin/WheelCode/WheelGame/CouponResult)
+  // → l'étape 1 (RSVP + Confirmation) n'est JAMAIS affectée
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('kiosk') === '1' || params.get('tv') === '1') {
+      window.sessionStorage.setItem('kioskMode', '1');
+    }
   }
 
   return (
@@ -72,6 +69,7 @@ function AppContent() {
             overflow: hidden !important;
             background: #1A1005 !important;
           }
+          /* Portrait kiosk (tablette tenue en portrait, usage direct) */
           html.kiosk-mode .app-shell {
             width: 100vw !important;
             height: 100vh !important;
@@ -81,6 +79,61 @@ function AppContent() {
             border-radius: 0 !important;
             box-shadow: none !important;
             margin: 0 !important;
+          }
+          /*
+           * Landscape kiosk — TV Samsung montée en portrait (pivotée 90°)
+           *
+           * Principe : la TV affiche toujours en paysage natif (1920×1080).
+           * On CSS-pivote l'app de 90° pour que, vue sur la TV pivotée,
+           * le contenu apparaisse en portrait.
+           *
+           * MODE D'EMPLOI :
+           *   1. Tenir la tablette Huawei en PAYSAGE (couchée)
+           *   2. Ouvrir l'URL kiosque dans Chrome
+           *   3. Lancer le cast vers la Samsung TV
+           *   → L'app remplit tout l'écran, le contenu s'affiche en portrait sur la TV
+           *
+           * Si le contenu apparaît à l'envers, changer rotate(90deg) → rotate(-90deg)
+           */
+          @media (orientation: landscape) {
+            html.kiosk-mode,
+            html.kiosk-mode body,
+            html.kiosk-mode #root {
+              overflow: hidden !important;
+              background: #1A1005 !important;
+            }
+            /*
+             * TV portrait (TV physiquement pivotée 90°) :
+             * La tablette est en paysage (ex: 1280×800 ou 1920×1080).
+             * On crée un "canvas" virtuel de dimensions INVERSÉES (hauteur × largeur)
+             * puis on le pivote de 90°. Le contenu rend donc dans un viewport
+             * "portrait" qui devient paysage visuellement, et s'affiche droit
+             * sur la TV pivotée.
+             *
+             * IMPORTANT : on utilise 100vh et 100vw qui sont figés par le navigateur
+             * au chargement et ne changent pas quand la barre d'URL bouge.
+             */
+            html.kiosk-mode .app-shell {
+              position: fixed !important;
+              top: 0 !important;
+              left: 0 !important;
+              /* Shell dimensionné avec vw/vh INVERSÉS :
+                 - width  = 100vh (deviendra la hauteur visuelle après rotation)
+                 - height = 100vw (deviendra la largeur visuelle après rotation) */
+              width: 100vh !important;
+              height: 100vw !important;
+              max-width: none !important;
+              max-height: none !important;
+              border-radius: 0 !important;
+              box-shadow: none !important;
+              margin: 0 !important;
+              /* Pivot 90° autour du coin haut-gauche (0,0), puis translation
+                 en X de +100vw pour ramener l'élément dans le viewport.
+                 Ordre CSS : transforms appliqués de DROITE à GAUCHE,
+                 donc rotate() d'abord, translateX() ensuite. */
+              transform-origin: 0 0 !important;
+              transform: translateX(100vw) rotate(90deg) !important;
+            }
           }
         `}</style>
         <div
