@@ -33,6 +33,7 @@ export interface APIResponse {
     devisUsed?: boolean;
     alreadyUsed?: boolean;
     notFound?: boolean;
+    phoneDuplicate?: boolean;
     ticket?: string;
     ticketNumber?: string;
     discount?: string;

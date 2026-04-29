@@ -96,70 +96,76 @@ export function RSVPForm() {
     setIsSubmitting(true);
     sounds.click();
 
-    try {
-      // Séparer fullName pour l'API (prénom = premier mot, nom = reste)
-      const nameParts = formData.fullName.trim().split(/\s+/);
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || '';
+    const nameParts = formData.fullName.trim().split(/\s+/);
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
 
-      // Appeler l'API — le ticket est généré côté serveur
-      const result = await callAPI({
-        action: 'registerRSVP',
-        clientName: formData.fullName.trim(),
-        firstName,
-        lastName,
-        salon: formData.salon,
+    const persistAndGo = (ticketNumber: string) => {
+      localStorage.setItem('rsvpData', JSON.stringify({
+        fullName: formData.fullName.trim(),
+        salonName: formData.salon,
         city: formData.city,
-        phone: formData.whatsapp,
-        representative: formData.representative,
+        whatsapp: formData.whatsapp,
         people: formData.people,
+        representative: formData.representative,
         day: formData.day,
-      });
+        ticketNumber,
+      }));
+      sounds.success();
+      navigate('/confirmation');
+    };
 
-      // Bloquer si numéro déjà inscrit
-      if (result.data?.phoneDuplicate) {
+    // Lance l'appel API (peut prendre 5-20s sur cold start Google Apps Script)
+    const apiPromise = callAPI({
+      action: 'registerRSVP',
+      clientName: formData.fullName.trim(),
+      firstName,
+      lastName,
+      salon: formData.salon,
+      city: formData.city,
+      phone: formData.whatsapp,
+      representative: formData.representative,
+      people: formData.people,
+      day: formData.day,
+    });
+
+    // Race : si l'API répond <3.5s on respecte le flux normal (anti-doublon),
+    // sinon optimistic UI — navigation immédiate, MAJ ticket en arrière-plan.
+    const TIMEOUT = Symbol('timeout');
+    const timeoutPromise = new Promise<typeof TIMEOUT>((resolve) =>
+      setTimeout(() => resolve(TIMEOUT), 3500)
+    );
+
+    const winner = await Promise.race([apiPromise, timeoutPromise]);
+
+    if (winner !== TIMEOUT) {
+      if (winner.data?.phoneDuplicate) {
         setPhoneError(t('rsvp', 'phoneDuplicate', lang));
         setIsSubmitting(false);
         return;
       }
-
-      // Utiliser le ticket retourné par le serveur, sinon fallback local
-      const ticketNumber =
-        (result.success && result.ticketNumber) ? result.ticketNumber : generateFallbackTicket();
-
-      // Sauvegarder dans localStorage
-      localStorage.setItem('rsvpData', JSON.stringify({
-        fullName: formData.fullName.trim(),
-        salonName: formData.salon,
-        city: formData.city,
-        whatsapp: formData.whatsapp,
-        people: formData.people,
-        representative: formData.representative,
-        day: formData.day,
-        ticketNumber,
-      }));
-
-      sounds.success();
-      navigate('/confirmation');
-    } catch (error) {
-      console.error('Erreur RSVP:', error);
-      // Mode offline : ticket local + navigation quand même
-      const ticketNumber = generateFallbackTicket();
-      localStorage.setItem('rsvpData', JSON.stringify({
-        fullName: formData.fullName.trim(),
-        salonName: formData.salon,
-        city: formData.city,
-        whatsapp: formData.whatsapp,
-        people: formData.people,
-        representative: formData.representative,
-        day: formData.day,
-        ticketNumber,
-      }));
-      sounds.success();
-      navigate('/confirmation');
-    } finally {
-      setIsSubmitting(false);
+      const ticketNumber = (winner.success && winner.ticketNumber) ? winner.ticketNumber : generateFallbackTicket();
+      persistAndGo(ticketNumber);
+      return;
     }
+
+    // Cold start détecté : navigation optimiste avec ticket fallback
+    const fallbackTicket = generateFallbackTicket();
+    persistAndGo(fallbackTicket);
+
+    // L'appel API continue en arrière-plan ; si le serveur retourne un vrai ticket,
+    // on remplace silencieusement le fallback dans localStorage.
+    apiPromise
+      .then((result) => {
+        if (result.success && result.ticketNumber && result.ticketNumber !== fallbackTicket) {
+          try {
+            const stored = JSON.parse(localStorage.getItem('rsvpData') || '{}');
+            stored.ticketNumber = result.ticketNumber;
+            localStorage.setItem('rsvpData', JSON.stringify(stored));
+          } catch {}
+        }
+      })
+      .catch((err) => console.error('Background RSVP API error:', err));
   };
 
   return (
