@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { useState, useEffect, type CSSProperties } from 'react';
 
 const PARTICLES = Array.from({ length: 8 }, (_, i) => ({
   id: i,
@@ -26,26 +25,18 @@ export function ParticleField() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {PARTICLES.map((p) => (
-        <motion.div
+        <div
           key={p.id}
-          className="absolute rounded-full"
+          className="absolute rounded-full gpu-layer"
           style={{
             width: p.size,
             height: p.size,
             left: `${p.x}%`,
             top: `${p.y}%`,
             background: `rgba(248,164,200,${p.opacity})`,
-          }}
-          animate={{
-            y: [0, -80, 0],
-            opacity: [0, p.opacity, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: 'easeInOut',
-          }}
+            animation: `particle-float ${p.duration}s ease-in-out ${p.delay}s infinite`,
+            ['--peak-opacity' as any]: p.opacity,
+          } as CSSProperties}
         />
       ))}
     </div>

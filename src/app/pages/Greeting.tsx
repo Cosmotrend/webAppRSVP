@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
@@ -9,6 +9,10 @@ import { t } from '../i18n';
 
 // Étape 2 — Français uniquement
 const lang = 'fr' as const;
+
+const GLOW_KEYFRAMES = ['glow-pulse-1', 'glow-pulse-2', 'glow-pulse-3'] as const;
+const ORBITAL_COUNT = 8;
+const ORBITAL_RADIUS = 140;
 
 export function Greeting() {
   useKioskMode();
@@ -39,11 +43,11 @@ export function Greeting() {
       <TopBar />
 
       <div className="absolute top-[44px] left-0 right-0 bottom-0 flex flex-col items-center justify-center px-6 text-center">
-        {/* Glow effects */}
-        {[1, 2, 3].map((i) => (
-          <motion.div
+        {/* Glow effects — pure CSS animation, GPU-composited */}
+        {[1, 2, 3].map((i, idx) => (
+          <div
             key={i}
-            className="absolute"
+            className="absolute gpu-layer"
             style={{
               top: '35%',
               left: '50%',
@@ -51,13 +55,9 @@ export function Greeting() {
               height: `${240 + i * 40}px`,
               background: `radial-gradient(ellipse, rgba(232,0,125,${0.08 - i * 0.02}) 0%, transparent 70%)`,
               filter: `blur(${40 + i * 10}px)`,
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate3d(-50%, -50%, 0)',
+              animation: `${GLOW_KEYFRAMES[idx]} ${4 + i}s ease-in-out infinite`,
             }}
-            animate={{
-              scale: [1, 1.2 + i * 0.1, 1],
-              opacity: [0.5, 0.9, 0.5],
-            }}
-            transition={{ duration: 4 + i, repeat: Infinity, ease: 'easeInOut' }}
           />
         ))}
 
@@ -97,8 +97,9 @@ export function Greeting() {
           {t('greeting', 'hello', lang)}
         </motion.div>
 
-        {/* Client name */}
+        {/* Client name — Framer one-shot entrance, CSS-driven gradient shift */}
         <motion.div
+          className="gpu-layer"
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: '56px',
@@ -113,18 +114,11 @@ export function Greeting() {
             marginBottom: '28px',
             position: 'relative',
             perspective: '1000px',
+            animation: 'gradient-shift 5s linear infinite',
           }}
           initial={{ opacity: 0, scale: 0.7, rotateX: -20 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            rotateX: 0,
-            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-          }}
-          transition={{
-            scale: { delay: 0.7, duration: 0.8, type: 'spring' },
-            backgroundPosition: { duration: 5, repeat: Infinity },
-          }}
+          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+          transition={{ delay: 0.7, duration: 0.8, type: 'spring' }}
         >
           {name}
         </motion.div>
@@ -142,20 +136,18 @@ export function Greeting() {
           animate={{ width: '80px', opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
         >
-          {[-1, 0, 1].map((pos) => (
-            <motion.div
+          {[-1, 0, 1].map((pos, idx) => (
+            <div
               key={pos}
-              className="absolute top-1/2 rounded-full"
+              className="absolute top-1/2 rounded-full gpu-layer"
               style={{
                 width: '6px',
                 height: '6px',
                 background: '#E8007D',
                 left: pos === -1 ? '0%' : pos === 0 ? '50%' : '100%',
-                transform: 'translate(-50%, -50%)',
                 boxShadow: '0 0 12px rgba(232,0,125,0.6)',
+                animation: `dot-pulse 1.5s ease-in-out ${idx * 0.2}s infinite`,
               }}
-              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: pos * 0.2 }}
             />
           ))}
         </motion.div>
@@ -167,39 +159,41 @@ export function Greeting() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
         >
-          <motion.span animate={{ opacity: [0.35, 0.6, 0.35] }} transition={{ duration: 2, repeat: Infinity }}>
+          <span
+            className="gpu-layer"
+            style={{ display: 'inline-block', animation: 'text-shimmer 2s ease-in-out infinite' }}
+          >
             {t('greeting', 'wheelAwaits', lang)}
-          </motion.span>
+          </span>
           {' '}
-          <motion.span
-            className="inline-block"
-            animate={{ rotate: [0, 14, -14, 0], scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <span
+            className="inline-block gpu-layer"
+            style={{ animation: 'sparkle-wiggle 2s ease-in-out infinite' }}
           >
             ✨
-          </motion.span>
+          </span>
         </motion.div>
 
-        {/* Orbiting particles */}
-        {[...Array(8)].map((_, i) => {
-          const angle = (360 / 8) * i;
-          const radius = 140;
-          const x = Math.cos((angle * Math.PI) / 180) * radius;
-          const y = Math.sin((angle * Math.PI) / 180) * radius;
+        {/* Orbiting particles — CSS-driven, parameterized via CSS variables */}
+        {[...Array(ORBITAL_COUNT)].map((_, i) => {
+          const angle = (360 / ORBITAL_COUNT) * i;
+          const x = Math.cos((angle * Math.PI) / 180) * ORBITAL_RADIUS;
+          const y = Math.sin((angle * Math.PI) / 180) * ORBITAL_RADIUS;
           return (
-            <motion.div
+            <div
               key={i}
-              className="absolute rounded-full"
+              className="absolute rounded-full gpu-layer"
               style={{
                 width: '6px',
                 height: '6px',
-                background: `rgba(232,0,125,${0.3 + Math.random() * 0.3})`,
+                background: `rgba(232,0,125,${0.3 + (i % 3) * 0.15})`,
                 boxShadow: '0 0 10px rgba(232,0,125,0.4)',
                 top: '50%',
                 left: '50%',
-              }}
-              animate={{ x: [0, x, 0], y: [0, y, 0], scale: [0, 1, 0], opacity: [0, 1, 0] }}
-              transition={{ duration: 3, repeat: Infinity, delay: i * 0.2, ease: 'easeInOut' }}
+                ['--ox' as any]: `${x}px`,
+                ['--oy' as any]: `${y}px`,
+                animation: `orbit-pulse 3s ease-in-out ${i * 0.2}s infinite`,
+              } as CSSProperties}
             />
           );
         })}
@@ -214,12 +208,13 @@ export function Greeting() {
         >
           <div className="flex gap-2">
             {[0, 1, 2].map((i) => (
-              <motion.div
+              <div
                 key={i}
-                className="w-2 h-2 rounded-full"
-                style={{ background: 'rgba(232,0,125,0.4)' }}
-                animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                className="w-2 h-2 rounded-full gpu-layer"
+                style={{
+                  background: 'rgba(232,0,125,0.4)',
+                  animation: `dot-pulse-plain 1s ease-in-out ${i * 0.2}s infinite`,
+                }}
               />
             ))}
           </div>
