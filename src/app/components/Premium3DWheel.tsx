@@ -43,12 +43,12 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
     sounds.spin();
 
     // Weighted random selection — probabilités contrôlées
-    // -40% : 7.5% | -35% : 12.5% | -30% : 30% | -25% : 50%
+    // -25% : 60% | -30% : 25% | -35% : 10% | -40% : 5%
     const weights: Array<{ label: string; weight: number }> = [
-      { label: '-40%', weight: 0.075 },
-      { label: '-35%', weight: 0.125 },
-      { label: '-30%', weight: 0.30 },
-      { label: '-25%', weight: 0.50 },
+      { label: '-40%', weight: 0.05 },
+      { label: '-35%', weight: 0.10 },
+      { label: '-30%', weight: 0.25 },
+      { label: '-25%', weight: 0.60 },
     ];
     const r = Math.random();
     let cumulative = 0;

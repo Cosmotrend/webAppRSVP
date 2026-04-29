@@ -18,20 +18,27 @@ export function WheelGame() {
   const navigate = useNavigate();
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
-  const [attempt, setAttempt] = useState(1);
-  const [firstPrize, setFirstPrize] = useState<string | null>(null);
-  const [wheelKey, setWheelKey] = useState(0);
-  const [showChoiceButtons, setShowChoiceButtons] = useState(false); // Show choice after attempt 1
+  const [prize, setPrize] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
 
-  // Enregistre le résultat final dans Google Sheets
-  const saveResultToAPI = async (finalPrize: string, attempts: number) => {
+  const handleSpinComplete = (prizeIndex: number) => {
+    setIsSpinning(false);
+    setHasSpun(true);
+
+    const prizes = ['-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%'];
+    const wonPrize = prizes[prizeIndex];
+    setPrize(wonPrize);
+    localStorage.setItem('wheelPrize', wonPrize);
+    setTimeout(() => setShowConfirm(true), 1500);
+  };
+
+  const handleConfirm = async () => {
+    const finalPrize = prize || localStorage.getItem('wheelPrize') || '-25%';
     setIsRegistering(true);
     try {
       const wheelDataStr = localStorage.getItem('wheelData');
-      if (!wheelDataStr) return;
-      const wheelData = JSON.parse(wheelDataStr);
-
+      const wheelData = wheelDataStr ? JSON.parse(wheelDataStr) : {};
       await registerResult({
         ticket: wheelData.ticketNumber || 'SD26-XXXX',
         devisNumber: wheelData.devisNumber || 'S26XXX',
@@ -40,57 +47,14 @@ export function WheelGame() {
         city: wheelData.city || '',
         discount: finalPrize,
         representative: '',
-        attempts,
+        attempts: 1,
       });
     } catch (error) {
       console.error('Erreur enregistrement résultat:', error);
     } finally {
       setIsRegistering(false);
     }
-  };
-
-  const handleSpinComplete = (prizeIndex: number) => {
-    setIsSpinning(false);
-    setHasSpun(true);
-
-    const prizes = ['-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%', '-25%', '-30%', '-35%', '-40%'];
-    const currentPrize = prizes[prizeIndex];
-
-    if (attempt === 1) {
-      setFirstPrize(currentPrize);
-      localStorage.setItem('wheelPrize', currentPrize);
-      setTimeout(() => setShowChoiceButtons(true), 1500);
-    } else {
-      // Essai 2 — garder le meilleur
-      const firstValue = parseInt(firstPrize?.replace(/[^0-9]/g, '') || '0');
-      const currentValue = parseInt(currentPrize.replace(/[^0-9]/g, ''));
-      const finalPrize = currentValue > firstValue ? currentPrize : (firstPrize || currentPrize);
-      localStorage.setItem('wheelPrize', finalPrize);
-
-      // 2 tentatives utilisées
-      saveResultToAPI(finalPrize, 2);
-      setTimeout(() => navigate('/result'), 1500);
-    }
-  };
-
-  const handleTryAgain = () => {
-    setShowChoiceButtons(false);
-    setHasSpun(false);
-    setAttempt(2);
-    setWheelKey(prev => prev + 1);
-  };
-
-  const handleKeepPrize = async () => {
-    // Client conserve après seulement 1 essai
-    const prize = localStorage.getItem('wheelPrize') || firstPrize || '-25%';
-    await saveResultToAPI(prize, 1);
     navigate('/result');
-  };
-
-  const handleSpinStart = () => {
-    if (!isSpinning && !hasSpun) {
-      setIsSpinning(true);
-    }
   };
 
   // Route guard — in useEffect to avoid calling navigate during render
@@ -141,7 +105,6 @@ export function WheelGame() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* SEMILAC DAYS LOGO */}
             <motion.div
               className="flex justify-center mb-3"
               initial={{ opacity: 0 }}
@@ -151,7 +114,6 @@ export function WheelGame() {
               <SemilacDaysLogo height={68} />
             </motion.div>
 
-            {/* Nom client — élément principal */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -171,19 +133,8 @@ export function WheelGame() {
                 {t('wheelGame', 'greeting', lang)} <span style={{ color: '#E8007D' }}>{firstName}</span> !
               </div>
 
-              {/* Essai + ticket sur une ligne */}
-              <div className="flex items-center justify-center gap-3 mt-2">
-                <span
-                  style={{
-                    fontSize: '9px',
-                    fontWeight: 700,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(26,16,5,0.55)',
-                  }}
-                >
-                  {attempt === 1 ? t('wheelGame', 'attemptStatus', lang) : t('wheelGame', 'lastAttempt', lang)}
-                </span>
+              {/* Ticket badge centré */}
+              <div className="flex items-center justify-center mt-2">
                 <div
                   style={{
                     display: 'inline-flex',
@@ -204,8 +155,8 @@ export function WheelGame() {
             </motion.div>
           </motion.div>
 
-          {/* Instructions Box - Positioned prominently */}
-          {!showChoiceButtons && (
+          {/* Instructions Box */}
+          {!showConfirm && (
             <motion.div
               className="mb-6 mx-4"
               initial={{ opacity: 0, y: 20 }}
@@ -229,7 +180,6 @@ export function WheelGame() {
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                {/* Corner accents */}
                 <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-pink-300/40 rounded-tl" />
                 <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-pink-300/40 rounded-tr" />
                 <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-pink-300/40 rounded-bl" />
@@ -245,42 +195,20 @@ export function WheelGame() {
                     textAlign: 'center',
                     lineHeight: '1.6',
                   }}
-                  animate={
-                    !isSpinning && !hasSpun
-                      ? {
-                          scale: [1, 1.02, 1],
-                        }
-                      : {}
-                  }
+                  animate={!isSpinning && !hasSpun ? { scale: [1, 1.02, 1] } : {}}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  {attempt === 1 ? (
-                    <>
-                      <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span> {t('wheelGame', 'instruction', lang)}{' '}
-                      <br />
-                      <span style={{
-                        fontFamily: "'Montserrat', sans-serif",
-                        color: '#E8007D',
-                        fontWeight: 800,
-                        fontSize: '13px',
-                      }}>
-                        {t('wheelGame', 'instructionBold', lang)}
-                      </span>{' '}
-                      <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span>
-                    </>
-                  ) : (
-                    <>
-                      <span style={{ fontSize: '14px', fontWeight: 700 }}>🎰</span> {t('wheelGame', 'lastAttemptInstruction', lang)}{' '}
-                      <br />
-                      <span style={{
-                        fontFamily: "'Montserrat', sans-serif",
-                        color: '#C4904A',
-                        fontWeight: 800,
-                      }}>
-                        {t('wheelGame', 'improveGain', lang)} {firstPrize}
-                      </span>
-                    </>
-                  )}
+                  <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span> {t('wheelGame', 'instruction', lang)}{' '}
+                  <br />
+                  <span style={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    color: '#E8007D',
+                    fontWeight: 800,
+                    fontSize: '13px',
+                  }}>
+                    {t('wheelGame', 'instructionBold', lang)}
+                  </span>{' '}
+                  <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span>
                 </motion.div>
               </motion.div>
             </motion.div>
@@ -293,12 +221,12 @@ export function WheelGame() {
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 100 }}
             >
-              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} key={wheelKey} lang={lang} />
+              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} lang={lang} />
             </motion.div>
           </div>
 
-          {/* Choice buttons after first attempt */}
-          {showChoiceButtons && (
+          {/* Confirmation button after spin */}
+          {showConfirm && (
             <motion.div
               className="mt-6 space-y-3"
               initial={{ opacity: 0, y: 20 }}
@@ -313,25 +241,16 @@ export function WheelGame() {
                   letterSpacing: '0.1em',
                   marginBottom: '12px',
                 }}
-                animate={{
-                  scale: [1, 1.05, 1],
-                }}
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
-                {t('wheelGame', 'resultTitle', lang)} {firstPrize} !
+                {t('wheelGame', 'resultTitle', lang)} {prize} !
               </motion.div>
 
               <ShimmerButton
                 className="w-full py-3"
-                onClick={handleTryAgain}
-              >
-                {t('wheelGame', 'retryButton', lang)}
-              </ShimmerButton>
-
-              <ShimmerButton
-                variant="secondary"
-                className="w-full py-3"
-                onClick={handleKeepPrize}
+                onClick={handleConfirm}
+                disabled={isRegistering}
               >
                 {t('wheelGame', 'keepButton', lang)}
               </ShimmerButton>
