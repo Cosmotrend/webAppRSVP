@@ -6,12 +6,15 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
-import { ShimmerButton } from '../components/ShimmerButton';
 import { registerResult } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
 
 const lang = 'fr' as const;
+
+// Délais après le spin
+const RESULT_REVEAL_DELAY = 1500;     // attente avant d'afficher "Vous avez gagné"
+const NAVIGATE_AFTER_RESULT = 2500;   // durée d'affichage du résultat avant /result
 
 export function WheelGame() {
   useKioskMode();
@@ -19,8 +22,7 @@ export function WheelGame() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasSpun, setHasSpun] = useState(false);
   const [prize, setPrize] = useState<string | null>(null);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
   const handleSpinComplete = (prizeIndex: number) => {
     setIsSpinning(false);
@@ -30,12 +32,16 @@ export function WheelGame() {
     const wonPrize = prizes[prizeIndex];
     setPrize(wonPrize);
     localStorage.setItem('wheelPrize', wonPrize);
-    setTimeout(() => setShowConfirm(true), 1500);
+
+    // Reveal result, register in background, then auto-navigate
+    setTimeout(() => {
+      setShowResult(true);
+      registerWinResult(wonPrize);
+      setTimeout(() => navigate('/result'), NAVIGATE_AFTER_RESULT);
+    }, RESULT_REVEAL_DELAY);
   };
 
-  const handleConfirm = async () => {
-    const finalPrize = prize || localStorage.getItem('wheelPrize') || '-25%';
-    setIsRegistering(true);
+  const registerWinResult = async (finalPrize: string) => {
     try {
       const wheelDataStr = localStorage.getItem('wheelData');
       const wheelData = wheelDataStr ? JSON.parse(wheelDataStr) : {};
@@ -51,10 +57,7 @@ export function WheelGame() {
       });
     } catch (error) {
       console.error('Erreur enregistrement résultat:', error);
-    } finally {
-      setIsRegistering(false);
     }
-    navigate('/result');
   };
 
   // Route guard — in useEffect to avoid calling navigate during render
@@ -156,7 +159,7 @@ export function WheelGame() {
           </motion.div>
 
           {/* Instructions Box */}
-          {!showConfirm && (
+          {!showResult && (
             <motion.div
               className="mb-6 mx-4"
               initial={{ opacity: 0, y: 20 }}
@@ -225,35 +228,26 @@ export function WheelGame() {
             </motion.div>
           </div>
 
-          {/* Confirmation button after spin */}
-          {showConfirm && (
+          {/* Result reveal — auto-navigates to /result after a short pause */}
+          {showResult && (
             <motion.div
-              className="mt-6 space-y-3"
+              className="mt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
               <motion.div
                 style={{
-                  fontSize: '13px',
+                  fontSize: '15px',
                   color: '#E8007D',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
-                  marginBottom: '12px',
                 }}
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {t('wheelGame', 'resultTitle', lang)} {prize} !
               </motion.div>
-
-              <ShimmerButton
-                className="w-full py-3"
-                onClick={handleConfirm}
-                disabled={isRegistering}
-              >
-                {t('wheelGame', 'keepButton', lang)}
-              </ShimmerButton>
             </motion.div>
           )}
         </div>

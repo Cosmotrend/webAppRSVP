@@ -446,63 +446,6 @@ export function Confirmation() {
                 </div>
               </motion.div>
 
-              {/* Instruction Roue — bannière proéminente */}
-              <motion.div
-                className="mb-6 px-4 py-4 rounded-2xl relative overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(232,0,125,0.10), rgba(196,21,122,0.08))',
-                  border: '1.5px solid rgba(232,0,125,0.3)',
-                  boxShadow: '0 4px 20px rgba(232,0,125,0.12)',
-                }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.5 }}
-              >
-                <motion.div
-                  className="absolute inset-0"
-                  style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.06), transparent)',
-                  }}
-                  animate={{ x: ['-100%', '200%'] }}
-                  transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
-                />
-                <div className="relative flex items-center gap-3">
-                  <span style={{ fontSize: '24px' }}>🎡</span>
-                  <div className="text-start">
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#E8007D', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                      {t('confirmation', 'wheelReminder', lang)}
-                    </div>
-                    <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.55)', lineHeight: 1.5 }}>
-                      {t('confirmation', 'wheelReminderDesc', lang)} <span style={{ fontWeight: 700, color: '#C4904A' }}>{t('confirmation', 'dayJ', lang)}</span> {t('confirmation', 'wheelAccess', lang)}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Masterclass block */}
-              <motion.div
-                className="mb-6 px-4 py-4 rounded-2xl relative overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(139,92,246,0.04))',
-                  border: '1.5px solid rgba(139,92,246,0.25)',
-                }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.6 }}
-              >
-                <div className="flex items-center gap-3">
-                  <GraduationCap size={22} color="#8B5CF6" style={{ flexShrink: 0 }} />
-                  <div className="text-start">
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#8B5CF6', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                      {t('confirmation', 'masterclassTitle', lang)}
-                    </div>
-                    <div style={{ fontSize: '10px', color: 'rgba(26,16,5,0.6)', lineHeight: 1.5 }}>
-                      {t('confirmation', 'masterclassDesc', lang)}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
               {/* Save ticket — screenshot + WhatsApp */}
               <motion.div
                 className="mb-6"
