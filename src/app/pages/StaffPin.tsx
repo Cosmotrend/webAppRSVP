@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Lock, Shield, AlertCircle } from 'lucide-react';
@@ -10,7 +10,7 @@ import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 import { sounds } from '../utils/sounds';
-import { callAPI } from '../utils/api';
+import { callAPI, warmupAPI } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
 
@@ -28,6 +28,8 @@ export function StaffPin() {
   const [error, setError] = useState('');
   const [isValidating, setIsValidating] = useState(false);
 
+  // Pré-chauffe Google Apps Script — élimine le cold start sur validatePin/validate
+  useEffect(() => { warmupAPI(); }, []);
 
   const handleSubmit = async () => {
     setIsValidating(true);

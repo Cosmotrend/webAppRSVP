@@ -10,7 +10,7 @@ import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { CustomKeypad } from '../components/CustomKeypad';
 import { sounds } from '../utils/sounds';
-import { callAPI } from '../utils/api';
+import { callAPI, warmupAPI } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
 
 // Étape 2 — Français uniquement
@@ -33,7 +33,10 @@ export function WheelCode() {
   useEffect(() => {
     if (!sessionStorage.getItem('staffAuth')) {
       navigate('/staff-pin');
+      return;
     }
+    // Pré-chauffe Google Apps Script — élimine le cold start sur la validation
+    warmupAPI();
   }, [navigate]);
 
   const handleValidate = async () => {

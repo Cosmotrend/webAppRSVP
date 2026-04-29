@@ -72,6 +72,30 @@ export async function callAPI(payload: APIPayload): Promise<APIResponse> {
 }
 
 /**
+ * Warmup Google Apps Script — fire-and-forget.
+ *
+ * GAS instances cold-start in 5-20s after ~10min of inactivity. Calling this
+ * on page mount (before the user fills the form / types the PIN) ensures the
+ * instance is warm by the time the real request fires, cutting perceived
+ * latency from 20s → 1-3s. Safe to call multiple times.
+ */
+let warmupPromise: Promise<unknown> | null = null;
+export function warmupAPI(): void {
+  if (warmupPromise) return; // already warming
+  warmupPromise = fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'validate', ticket: 'WARMUP' }),
+    redirect: 'follow',
+  })
+    .catch(() => {})
+    .finally(() => {
+      // Allow re-warmup after 8 min (GAS goes cold around 10-15 min idle)
+      setTimeout(() => { warmupPromise = null; }, 8 * 60 * 1000);
+    });
+}
+
+/**
  * Enregistre le résultat de la roue
  */
 export async function registerResult(data: {
