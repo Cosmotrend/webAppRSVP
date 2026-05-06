@@ -65,6 +65,7 @@ export function RSVPForm() {
     day: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const [phoneError, setPhoneError] = useState('');
   const { lang } = useLang();
 
@@ -98,7 +99,14 @@ export function RSVPForm() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    setLoadingStep(0);
     sounds.click();
+
+    // Cycle loading messages every 2.8s pendant l'attente GAS (5-10s typique).
+    // Donne au user l'impression de progression au lieu d'un spinner muet.
+    const stepInterval = setInterval(() => {
+      setLoadingStep((s) => (s < 2 ? s + 1 : s));
+    }, 2800);
 
     try {
       // Séparer fullName pour l'API (prénom = premier mot, nom = reste)
@@ -164,6 +172,7 @@ export function RSVPForm() {
       sounds.success();
       navigate('/confirmation');
     } finally {
+      clearInterval(stepInterval);
       setIsSubmitting(false);
     }
   };
@@ -461,11 +470,22 @@ export function RSVPForm() {
                     className="flex items-center gap-2"
                   >
                     <motion.div
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full flex-shrink-0"
                       animate={{ rotate: 360 }}
                       transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                     />
-                    <span>{t('rsvp', 'submitting', lang)}</span>
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={loadingStep}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.3 }}
+                        style={{ fontSize: '12px', whiteSpace: 'nowrap' }}
+                      >
+                        {t('rsvp', (['submittingStep1', 'submittingStep2', 'submittingStep3'] as const)[loadingStep], lang)}
+                      </motion.span>
+                    </AnimatePresence>
                   </motion.div>
                 ) : (
                   <motion.span
