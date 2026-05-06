@@ -10,6 +10,7 @@ import { ShimmerButton } from '../components/ShimmerButton';
 import { PremiumInput } from '../components/PremiumInput';
 import { PremiumSelect } from '../components/PremiumSelect';
 import { BrandStrip } from '../components/logos/BrandStrip';
+import { LoadingOverlay } from '../components/LoadingOverlay';
 import { sounds } from '../utils/sounds';
 import { callAPI, warmupAPI } from '../utils/api';
 import { useLang, t } from '../i18n';
@@ -470,22 +471,11 @@ export function RSVPForm() {
                     className="flex items-center gap-2"
                   >
                     <motion.div
-                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full flex-shrink-0"
+                      className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
                       animate={{ rotate: 360 }}
                       transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                     />
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={loadingStep}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.3 }}
-                        style={{ fontSize: '12px', whiteSpace: 'nowrap' }}
-                      >
-                        {t('rsvp', (['submittingStep1', 'submittingStep2', 'submittingStep3'] as const)[loadingStep], lang)}
-                      </motion.span>
-                    </AnimatePresence>
+                    <span>{t('rsvp', 'submitting', lang)}</span>
                   </motion.div>
                 ) : (
                   <motion.span
@@ -535,6 +525,9 @@ export function RSVPForm() {
           <BrandStrip />
         </motion.div>
       </motion.div>
+
+      {/* Premium loading overlay shown while GAS submission is in flight */}
+      <LoadingOverlay visible={isSubmitting} step={loadingStep} lang={lang} />
     </div>
   );
 }
