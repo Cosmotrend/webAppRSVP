@@ -180,22 +180,13 @@ export function WheelGame() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <motion.div
-                className="relative rounded-2xl p-4"
+              <div
+                className="relative rounded-2xl p-4 gpu-layer"
                 style={{
                   background: 'linear-gradient(135deg, rgba(232,0,125,0.06), rgba(196,144,74,0.06))',
                   border: '1.5px solid rgba(232,0,125,0.2)',
-                  boxShadow: '0 8px 32px rgba(232,0,125,0.08), inset 0 1px 0 rgba(255,255,255,0.5)',
+                  animation: 'card-border-pulse 2s ease-in-out infinite',
                 }}
-                animate={{
-                  borderColor: ['rgba(232,0,125,0.2)', 'rgba(232,0,125,0.4)', 'rgba(232,0,125,0.2)'],
-                  boxShadow: [
-                    '0 8px 32px rgba(232,0,125,0.08)',
-                    '0 8px 40px rgba(232,0,125,0.15)',
-                    '0 8px 32px rgba(232,0,125,0.08)',
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
               >
                 <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-pink-300/40 rounded-tl" />
                 <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-pink-300/40 rounded-tr" />
@@ -227,7 +218,7 @@ export function WheelGame() {
                   </span>{' '}
                   <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span>
                 </motion.div>
-              </motion.div>
+              </div>
             </motion.div>
           )}
 
@@ -239,18 +230,18 @@ export function WheelGame() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <motion.div
+              <div
+                className="gpu-layer"
                 style={{
                   fontSize: '15px',
                   color: '#E8007D',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
+                  animation: 'pulse-text-scale 1.5s ease-in-out infinite',
                 }}
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
               >
                 {t('wheelGame', 'resultTitle', lang)} {prize} !
-              </motion.div>
+              </div>
             </motion.div>
           )}
         </div>

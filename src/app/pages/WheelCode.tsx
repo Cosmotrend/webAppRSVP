@@ -236,15 +236,13 @@ export function WheelCode() {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           {/* Glow */}
-          <motion.div
-            className="absolute top-0 left-1/2 w-64 h-64 rounded-full pointer-events-none"
+          <div
+            className="absolute top-0 left-1/2 w-64 h-64 rounded-full pointer-events-none gpu-layer"
             style={{
               background: 'radial-gradient(circle, rgba(232,0,125,0.08), transparent)',
               filter: 'blur(40px)',
-              transform: 'translate(-50%, -50%)',
+              animation: 'card-glow-pulse 4s ease-in-out infinite',
             }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity }}
           />
 
           <div className="relative">
@@ -472,7 +470,7 @@ export function WheelCode() {
                 <AnimatePresence mode="wait">
                   {isValidating ? (
                     <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-                      <motion.div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }} />
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
                       <span>Vérification...</span>
                     </motion.div>
                   ) : (
@@ -527,20 +525,25 @@ export function WheelCode() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <motion.div
-              className="absolute w-96 h-96 rounded-full"
-              style={{ background: 'radial-gradient(circle, rgba(248,164,200,0.3), transparent)', filter: 'blur(100px)' }}
-              animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity }}
+            <div
+              className="absolute w-96 h-96 rounded-full gpu-layer"
+              style={{
+                background: 'radial-gradient(circle, rgba(248,164,200,0.3), transparent)',
+                filter: 'blur(100px)',
+                animation: 'welcome-glow 3s ease-in-out infinite',
+              }}
             />
 
             {[...Array(20)].map((_, i) => (
-              <motion.div
+              <div
                 key={i}
-                className="absolute w-1 h-1 rounded-full"
-                style={{ background: i % 2 === 0 ? '#F8A4C8' : '#D4A574', left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-                animate={{ y: [0, -100, 0], opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
-                transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 2 }}
+                className="absolute w-1 h-1 rounded-full gpu-layer"
+                style={{
+                  background: i % 2 === 0 ? '#F8A4C8' : '#D4A574',
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animation: `welcome-particle ${(2 + Math.random() * 2).toFixed(2)}s ease-in-out ${(Math.random() * 2).toFixed(2)}s infinite`,
+                }}
               />
             ))}
 
@@ -608,12 +611,17 @@ export function WheelCode() {
               <motion.div
                 className="mb-6"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1, rotate: 360 }}
-                transition={{ delay: 1.1, rotate: { duration: 2, repeat: Infinity, ease: 'linear' } }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.1 }}
               >
                 <div
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full"
-                  style={{ background: 'linear-gradient(135deg, rgba(248,164,200,0.2), rgba(212,165,116,0.2))', border: '2px solid rgba(248,164,200,0.4)', boxShadow: '0 0 30px rgba(248,164,200,0.3)' }}
+                  className="inline-flex items-center justify-center w-16 h-16 rounded-full gpu-layer"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(248,164,200,0.2), rgba(212,165,116,0.2))',
+                    border: '2px solid rgba(248,164,200,0.4)',
+                    boxShadow: '0 0 30px rgba(248,164,200,0.3)',
+                    animation: 'ring-spin 2s linear infinite',
+                  }}
                 >
                   <Sparkles size={32} color="#F8A4C8" />
                 </div>
@@ -621,12 +629,13 @@ export function WheelCode() {
 
               <motion.div className="flex items-center justify-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
                 {[0, 1, 2].map((i) => (
-                  <motion.div
+                  <div
                     key={i}
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: '#F8A4C8' }}
-                    animate={{ scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                    className="w-2 h-2 rounded-full gpu-layer"
+                    style={{
+                      background: '#F8A4C8',
+                      animation: `dot-pulse-plain 1.5s ease-in-out ${i * 0.2}s infinite`,
+                    }}
                   />
                 ))}
               </motion.div>

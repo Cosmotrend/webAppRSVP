@@ -85,8 +85,8 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
   return (
     <div className="relative flex items-center justify-center">
       {/* Pointer with glow */}
-      <motion.div
-        className="absolute top-[-16px] left-1/2 z-20 pointer-events-none"
+      <div
+        className="absolute top-[-16px] left-1/2 z-20 pointer-events-none gpu-layer"
         style={{
           width: 0,
           height: 0,
@@ -95,9 +95,8 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
           borderTop: '24px solid #F8A4C8',
           filter: 'drop-shadow(0 4px 12px rgba(248,164,200,0.8))',
           marginLeft: '-12px',
+          animation: 'wheel-pointer 0.6s ease-in-out infinite',
         }}
-        animate={{ y: [0, 6, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 0.6, repeat: Infinity }}
       />
 
       {/* Wheel container - NO HOVER EFFECTS */}
@@ -110,17 +109,13 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
         }}
       >
         {/* Outer glow ring */}
-        <motion.div
-          className="absolute inset-0 rounded-full"
+        <div
+          className="absolute inset-0 rounded-full gpu-layer"
           style={{
             background: 'radial-gradient(circle, rgba(248,164,200,0.4), transparent 70%)',
             filter: 'blur(30px)',
+            animation: 'wheel-outer-glow 3s ease-in-out infinite',
           }}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
         />
 
         {/* Main wheel */}
@@ -243,13 +238,12 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
             disabled={hasSpun || isSpinning}
           >
             {/* Shimmer effect on button */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
+            <div
+              className="absolute inset-0 pointer-events-none gpu-layer"
               style={{
                 background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                animation: 'shimmer-slide 2.5s linear infinite',
               }}
-              animate={{ x: ['-100%', '200%'] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.5 }}
             />
 
             <span
@@ -269,13 +263,12 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
         </motion.div>
 
         {/* Reflection effect */}
-        <motion.div
-          className="absolute inset-0 rounded-full pointer-events-none"
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none gpu-layer"
           style={{
             background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)',
+            animation: 'wheel-reflection 2s ease-in-out infinite',
           }}
-          animate={{ opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity }}
         />
       </div>
     </div>

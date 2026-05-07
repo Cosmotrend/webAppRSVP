@@ -149,15 +149,13 @@ export function StaffPin() {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           {/* Glow */}
-          <motion.div
-            className="absolute top-0 left-1/2 w-64 h-64 rounded-full"
+          <div
+            className="absolute top-0 left-1/2 w-64 h-64 rounded-full gpu-layer pointer-events-none"
             style={{
               background: 'radial-gradient(circle, rgba(232,0,125,0.08), transparent)',
               filter: 'blur(40px)',
-              transform: 'translate(-50%, -50%)',
+              animation: 'card-glow-pulse 4s ease-in-out infinite',
             }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 4, repeat: Infinity }}
           />
 
           <div className="relative">
@@ -286,7 +284,7 @@ export function StaffPin() {
                 <AnimatePresence mode="wait">
                   {isValidating ? (
                     <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-                      <motion.div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }} />
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
                       <span>{t('staffPin', 'validating', lang)}</span>
                     </motion.div>
                   ) : (

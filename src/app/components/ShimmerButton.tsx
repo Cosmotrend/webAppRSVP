@@ -97,14 +97,12 @@ export function ShimmerButton({
       disabled={disabled}
     >
       {isPrimary && (
-        <motion.div
-          className="absolute inset-0"
+        <div
+          className="absolute inset-0 gpu-layer pointer-events-none"
           style={{
             background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)',
-            transform: 'translateX(-100%)',
+            animation: 'shimmer-slide 3s linear infinite',
           }}
-          animate={{ transform: ['translateX(-100%)', 'translateX(200%)'] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 1, ease: 'linear' }}
         />
       )}
       {ripples.map((ripple) => (

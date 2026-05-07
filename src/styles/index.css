@@ -223,3 +223,88 @@ html[lang="ar"] *::after {
   backface-visibility: hidden;
   transform: translateZ(0);
 }
+
+/* ==========================================================================
+   Phase 2 — animations partagées (anciennement Framer Motion repeat:Infinity)
+   Chaque keyframe reproduit pixel-près l'animation JS d'origine.
+   ========================================================================== */
+
+/* ShimmerButton : bandeau lumineux qui glisse de gauche à droite */
+@keyframes shimmer-slide {
+  0%   { transform: translateX(-100%); }
+  66%  { transform: translateX(200%); }
+  100% { transform: translateX(200%); } /* pause = repeatDelay 1s sur cycle 3s */
+}
+
+/* TopBar : ligne shimmer entre les deux icônes */
+@keyframes topbar-shimmer {
+  0%   { transform: translateX(-100%); }
+  64%  { transform: translateX(200%); } /* 3.5s / 5.5s = ratio identique */
+  100% { transform: translateX(200%); }
+}
+
+/* Spinner générique — utilisé par les boutons "validating..." */
+@keyframes spin-360 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Glow pulse "card" (StaffPin / WheelCode / Premium3DWheel) */
+@keyframes card-glow-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);   opacity: 0.3; }
+  50%      { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+}
+
+/* Roue : pointeur qui rebondit + scale */
+@keyframes wheel-pointer {
+  0%, 100% { transform: translate3d(0, 0, 0)  scale(1);   }
+  50%      { transform: translate3d(0, 6px, 0) scale(1.1); }
+}
+
+/* Roue : grand glow ring */
+@keyframes wheel-outer-glow {
+  0%, 100% { transform: scale(1);   opacity: 0.5; }
+  50%      { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Roue : reflection sur le verre */
+@keyframes wheel-reflection {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.5; }
+}
+
+/* CouponResult : welcome overlay glow */
+@keyframes welcome-glow {
+  0%, 100% { transform: scale(1);   opacity: 0.4; }
+  50%      { transform: scale(1.5); opacity: 0.7; }
+}
+
+/* CouponResult : sparkles flottantes (verticales) */
+@keyframes welcome-particle {
+  0%, 100% { transform: translate3d(0, 0, 0)    scale(0); opacity: 0; }
+  50%      { transform: translate3d(0, -100px, 0) scale(1.5); opacity: 1; }
+}
+
+/* CouponResult : checkmark ring rotation */
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Pulse text léger (utilisé dans le bouton de confirmation et le result text) */
+@keyframes pulse-text-scale {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+
+/* CouponResult : icône qui flotte verticalement */
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -10px, 0); }
+}
+
+/* Border qui pulse (utilisé dans WheelCode pour la card glassy) */
+@keyframes card-border-pulse {
+  0%, 100% { border-color: rgba(232,0,125,0.22); box-shadow: 0 8px 32px rgba(232,0,125,0.08), inset 0 1px 0 rgba(255,255,255,0.5); }
+  50%      { border-color: rgba(232,0,125,0.4);  box-shadow: 0 8px 40px rgba(232,0,125,0.15), inset 0 1px 0 rgba(255,255,255,0.5); }
+}

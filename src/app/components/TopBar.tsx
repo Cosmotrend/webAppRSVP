@@ -169,15 +169,15 @@ export function TopBar({ leftAction, rightAction }: TopBarProps) {
           position: 'relative',
         }}
       >
-        <motion.div
+        <div
+          className="gpu-layer"
           style={{
             position: 'absolute',
             inset: 0,
             background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.4), rgba(196,144,74,0.3), transparent)',
             borderRadius: '1px',
+            animation: 'topbar-shimmer 5.5s ease-in-out infinite',
           }}
-          animate={{ x: ['-100%', '200%'] }}
-          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
         />
       </div>
 

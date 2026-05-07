@@ -311,10 +311,9 @@ export function CouponResult() {
                   damping: 12,
                 }}
               >
-                <motion.div
-                  className="relative"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                <div
+                  className="relative gpu-layer"
+                  style={{ animation: 'float-y 2s ease-in-out infinite' }}
                 >
                   <Trophy size={48} color="#E8007D" strokeWidth={1.5} />
 
@@ -344,7 +343,7 @@ export function CouponResult() {
                       </motion.div>
                     );
                   })}
-                </motion.div>
+                </div>
               </motion.div>
 
               {/* Bravo text */}
@@ -388,7 +387,8 @@ export function CouponResult() {
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.7, type: "spring", stiffness: 150 }}
               >
-                <motion.div
+                <div
+                  className="gpu-layer"
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: "76px",
@@ -400,12 +400,11 @@ export function CouponResult() {
                     lineHeight: 1,
                     position: "relative",
                     backgroundSize: "200% 200%",
+                    animation: "gradient-shift 3s linear infinite",
                   }}
-                  animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                  transition={{ duration: 3, repeat: Infinity }}
                 >
                   -{counter}%
-                </motion.div>
+                </div>
               </motion.div>
 
               <motion.div
@@ -478,13 +477,12 @@ export function CouponResult() {
                   transition={{ delay: 1.6 }}
                 >
                   {/* Shimmer premium */}
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none"
+                  <div
+                    className="absolute inset-0 pointer-events-none gpu-layer"
                     style={{
                       background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+                      animation: "shimmer-slide 6s linear infinite",
                     }}
-                    animate={{ x: ["-100%", "200%"] }}
-                    transition={{ duration: 4, repeat: Infinity, repeatDelay: 2 }}
                   />
 
                   {/* Header */}
