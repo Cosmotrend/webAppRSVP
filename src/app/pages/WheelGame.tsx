@@ -158,10 +158,21 @@ export function WheelGame() {
             </motion.div>
           </motion.div>
 
-          {/* Instructions Box */}
+          {/* Wheel Container — placée juste sous le titre pour faciliter le cadrage photo en kiosque TV */}
+          <div className="flex items-center justify-center py-2">
+            <motion.div
+              initial={{ scale: 0, rotate: -180, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 100 }}
+            >
+              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} lang={lang} />
+            </motion.div>
+          </div>
+
+          {/* Instructions Box — déplacée sous la roue pour libérer l'espace au-dessus */}
           {!showResult && (
             <motion.div
-              className="mb-6 mx-4"
+              className="mt-6 mx-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
@@ -216,17 +227,6 @@ export function WheelGame() {
               </motion.div>
             </motion.div>
           )}
-
-          {/* Wheel Container */}
-          <div className="flex items-center justify-center py-2">
-            <motion.div
-              initial={{ scale: 0, rotate: -180, opacity: 0 }}
-              animate={{ scale: 1, rotate: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 100 }}
-            >
-              <Premium3DWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} lang={lang} />
-            </motion.div>
-          </div>
 
           {/* Result reveal — auto-navigates to /result after a short pause */}
           {showResult && (
