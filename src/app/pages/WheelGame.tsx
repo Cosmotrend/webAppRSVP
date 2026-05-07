@@ -7,6 +7,7 @@ import { TopBar } from '../components/TopBar';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
 import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
+import { BrandStrip } from '../components/logos/BrandStrip';
 import { registerResult } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
@@ -253,6 +254,16 @@ export function WheelGame() {
             </motion.div>
           )}
         </div>
+
+        {/* BrandStrip — same footer treatment as the other staff pages */}
+        <motion.div
+          className="mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3 }}
+        >
+          <BrandStrip />
+        </motion.div>
       </motion.div>
     </div>
   );
