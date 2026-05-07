@@ -25,15 +25,22 @@ function generateFallbackTicket(): string {
   return `SD26-${code}`;
 }
 
-const REPRESENTATIVE_OPTIONS = [
-  { value: 'Radia', label: 'Radia' },
-  { value: 'Zineb', label: 'Zineb' },
-  { value: 'Boutaina', label: 'Boutaina' },
-  { value: 'Chaimae', label: 'Chaimae' },
-  { value: 'Kamelia', label: 'Kamelia' },
-  { value: 'Maroua', label: 'Maroua' },
-  { value: 'Wafaa', label: 'Wafaa' },
+// Le `value` reste en latin pour rester cohérent avec ce qui est envoyé à
+// l'API Google Sheets (BDD Excel = noms en latin). Seul le `label` affiché
+// change selon la langue.
+const REPRESENTATIVES = [
+  { value: 'Radia',    fr: 'Radia',    ar: 'راضية' },
+  { value: 'Zineb',    fr: 'Zineb',    ar: 'زينب' },
+  { value: 'Boutaina', fr: 'Boutaina', ar: 'بثينة' },
+  { value: 'Chaimae',  fr: 'Chaimae',  ar: 'شيماء' },
+  { value: 'Kamelia',  fr: 'Kamelia',  ar: 'كاميليا' },
+  { value: 'Maroua',   fr: 'Maroua',   ar: 'مروى' },
+  { value: 'Wafaa',    fr: 'Wafaa',    ar: 'وفاء' },
 ];
+
+function getRepresentativeOptions(lang: 'fr' | 'ar') {
+  return REPRESENTATIVES.map((r) => ({ value: r.value, label: r[lang] }));
+}
 
 function getPeopleOptions(lang: 'fr' | 'ar') {
   const s = lang === 'fr' ? 'personne' : 'شخص';
@@ -398,7 +405,7 @@ export function RSVPForm() {
                 label={t('rsvp', 'representative', lang)}
                 value={formData.representative}
                 onChange={(value) => setFormData({ ...formData, representative: value })}
-                options={REPRESENTATIVE_OPTIONS}
+                options={getRepresentativeOptions(lang)}
                 required
               />
             </div>
