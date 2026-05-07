@@ -2,33 +2,26 @@ import { useEffect, useState } from 'react';
 import { Maximize2 } from 'lucide-react';
 
 /**
- * Bouton plein écran visible UNIQUEMENT en mode kiosque.
- * Cache la barre d'URL de Chrome Android et remplit tout l'écran de la tablette
- * via l'API Fullscreen native du navigateur.
+ * Bouton plein écran pour les pages staff (étape 2).
  *
- * À placer dans les pages étape 2 (StaffPin en premier, puis il persiste
- * pendant toute la session grâce au fullscreen natif du navigateur).
+ * Le composant est monté UNIQUEMENT sur les pages staff (StaffPin,
+ * WheelCode, Greeting, WheelGame, CouponResult) — il n'apparaîtra
+ * jamais sur le flow client. Plus besoin de `?kiosk=1` dans l'URL :
+ * dès qu'on est sur une page staff, le bouton s'affiche tant que le
+ * fullscreen natif n'est pas actif. Il se cache automatiquement quand
+ * le fullscreen est demandé pour ne pas polluer la TV cast.
  */
 export function KioskFullscreenButton() {
-  const [isKiosk, setIsKiosk] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    const check = () => {
-      setIsKiosk(document.documentElement.classList.contains('kiosk-mode'));
-      setIsFullscreen(!!document.fullscreenElement);
-    };
+    const check = () => setIsFullscreen(!!document.fullscreenElement);
     check();
     document.addEventListener('fullscreenchange', check);
-    const observer = new MutationObserver(check);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => {
-      document.removeEventListener('fullscreenchange', check);
-      observer.disconnect();
-    };
+    return () => document.removeEventListener('fullscreenchange', check);
   }, []);
 
-  if (!isKiosk || isFullscreen) return null;
+  if (isFullscreen) return null;
 
   const handleFullscreen = async () => {
     try {
