@@ -111,6 +111,7 @@ function _legacyGenerateStoryImage(prize: string, ticketNumber: string, lang: 'f
 }
 
 import { useKioskMode } from '../utils/useKioskMode';
+import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 
 export function CouponResult() {
   useKioskMode();
@@ -274,6 +275,7 @@ export function CouponResult() {
       className="relative w-full h-full overflow-hidden"
       style={{ background: '#FAF7F2' }}
     >
+      <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
       <TopBar />

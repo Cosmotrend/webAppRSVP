@@ -6,6 +6,7 @@ import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { Premium3DWheel } from '../components/Premium3DWheel';
+import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 import { registerResult } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
@@ -82,6 +83,7 @@ export function WheelGame() {
 
   return (
     <div className="relative w-full h-full overflow-y-auto overflow-x-hidden" style={{ background: '#FAF7F2', WebkitOverflowScrolling: 'touch' }}>
+      <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
       <TopBar />

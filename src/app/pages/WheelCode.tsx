@@ -9,6 +9,7 @@ import { ShimmerButton } from '../components/ShimmerButton';
 import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { BrandStrip } from '../components/logos/BrandStrip';
 import { CustomKeypad } from '../components/CustomKeypad';
+import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 import { sounds } from '../utils/sounds';
 import { callAPI, warmupAPI } from '../utils/api';
 import { useKioskMode } from '../utils/useKioskMode';
@@ -169,6 +170,7 @@ export function WheelCode() {
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+      <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
       <TopBar rightAction={{ icon: <Sparkles size={18} />, label: 'Roue de la Fortune' }} />

@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
+import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
 
@@ -38,6 +39,7 @@ export function Greeting() {
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+      <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
       <TopBar />
