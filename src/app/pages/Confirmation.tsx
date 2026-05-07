@@ -44,15 +44,21 @@ export function Confirmation() {
       return;
     }
 
-    sounds.success();
-
-    const rsvpData = rsvpRaw;
-    if (rsvpData) {
-      const data = JSON.parse(rsvpData);
-      setTicketNumber(data.ticketNumber);
-      setFullName(data.fullName || '');
-      setWhatsapp(data.whatsapp || '');
+    // Parse défensif — si le localStorage est corrompu (extension, manipulation
+    // manuelle, ancienne session pétée), on traite comme si la donnée n'existait
+    // pas plutôt que de crasher tout le composant.
+    let data;
+    try {
+      data = JSON.parse(rsvpRaw);
+    } catch {
+      navigate('/');
+      return;
     }
+
+    sounds.success();
+    setTicketNumber(data.ticketNumber);
+    setFullName(data.fullName || '');
+    setWhatsapp(data.whatsapp || '');
 
     // Delay content reveal
     setTimeout(() => setShowContent(true), 500);

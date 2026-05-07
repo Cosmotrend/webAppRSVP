@@ -27,7 +27,14 @@ export function Greeting() {
       return;
     }
 
-    const data = JSON.parse(wheelDataRaw);
+    // Parse défensif — corruption localStorage → on redirige plutôt que crasher
+    let data;
+    try {
+      data = JSON.parse(wheelDataRaw);
+    } catch {
+      navigate('/staff-pin');
+      return;
+    }
     if (data.clientName) setName(data.clientName);
 
     const timer = setTimeout(() => {

@@ -135,18 +135,22 @@ export function CouponResult() {
 
     setPrize(savedPrize);
 
-    // Parse wheel data
+    // Parse wheel data — défensif contre un localStorage corrompu (extension,
+    // manipulation manuelle, ancienne session). En cas d'échec, redirect home.
     let clientData = null;
-    if (wheelDataRaw) {
+    try {
       clientData = JSON.parse(wheelDataRaw);
-      setTicketNumber(clientData.ticketNumber || "SD26-XXXX");
-      setDevisNumber(clientData.devisNumber || "");
-      // Support multi-devis : lit le tableau devisNumbers s'il existe, sinon split la string
-      const list: string[] = Array.isArray(clientData.devisNumbers) && clientData.devisNumbers.length > 0
-        ? clientData.devisNumbers
-        : (clientData.devisNumber || "").split(',').map((d: string) => d.trim()).filter(Boolean);
-      setDevisList(list);
+    } catch {
+      navigate('/');
+      return;
     }
+    setTicketNumber(clientData.ticketNumber || "SD26-XXXX");
+    setDevisNumber(clientData.devisNumber || "");
+    // Support multi-devis : lit le tableau devisNumbers s'il existe, sinon split la string
+    const list: string[] = Array.isArray(clientData.devisNumbers) && clientData.devisNumbers.length > 0
+      ? clientData.devisNumbers
+      : (clientData.devisNumber || "").split(',').map((d: string) => d.trim()).filter(Boolean);
+    setDevisList(list);
 
     // Register result in Google Sheets ONCE
     const registerResult = async () => {
