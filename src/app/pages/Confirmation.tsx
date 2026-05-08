@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
-import { Gift, Ticket, Car, GraduationCap, Sparkles, MessageCircle, Calendar, MapPin, Settings, Camera } from 'lucide-react';
+import { Gift, Ticket, Car, GraduationCap, Sparkles, MessageCircle, Calendar, MapPin, Camera } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
@@ -529,34 +529,6 @@ export function Confirmation() {
               transition={{ delay: 3.2 }}
             >
               <BrandStrip />
-            </motion.div>
-
-            {/* Discreet staff access — small icon at the very bottom */}
-            <motion.div
-              className="flex justify-center pb-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.25 }}
-              transition={{ delay: 4 }}
-            >
-              <motion.button
-                onClick={() => navigate('/staff-pin')}
-                aria-label="Accès staff"
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(26,16,5,0.04)',
-                  border: '1px solid rgba(26,16,5,0.06)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  padding: 0,
-                }}
-                whileTap={{ scale: 0.85 }}
-              >
-                <Settings size={14} color="rgba(26,16,5,0.3)" />
-              </motion.button>
             </motion.div>
           </motion.div>
         )}
