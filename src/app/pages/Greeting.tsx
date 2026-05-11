@@ -5,6 +5,7 @@ import { AuroraBackground } from '../components/AuroraBackground';
 import { ParticleField } from '../components/ParticleField';
 import { TopBar } from '../components/TopBar';
 import { KioskFullscreenButton } from '../components/KioskFullscreenButton';
+import { SemilacDaysLogo } from '../components/logos/SemilacDaysLogo';
 import { useKioskMode } from '../utils/useKioskMode';
 import { t } from '../i18n';
 
@@ -13,7 +14,7 @@ const lang = 'fr' as const;
 
 const GLOW_KEYFRAMES = ['glow-pulse-1', 'glow-pulse-2', 'glow-pulse-3'] as const;
 const ORBITAL_COUNT = 8;
-const ORBITAL_RADIUS = 140;
+const ORBITAL_RADIUS = 220;
 
 export function Greeting() {
   useKioskMode();
@@ -39,7 +40,7 @@ export function Greeting() {
 
     const timer = setTimeout(() => {
       navigate('/wheel-game');
-    }, 3500);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -60,8 +61,8 @@ export function Greeting() {
             style={{
               top: '35%',
               left: '50%',
-              width: `${240 + i * 40}px`,
-              height: `${240 + i * 40}px`,
+              width: `${400 + i * 60}px`,
+              height: `${400 + i * 60}px`,
               background: `radial-gradient(ellipse, rgba(232,0,125,${0.08 - i * 0.02}) 0%, transparent 70%)`,
               filter: `blur(${40 + i * 10}px)`,
               transform: 'translate3d(-50%, -50%, 0)',
@@ -70,33 +71,25 @@ export function Greeting() {
           />
         ))}
 
-        {/* Welcome badge */}
+        {/* Logo Semilac Days */}
         <motion.div
-          style={{
-            fontSize: '9px',
-            fontWeight: 700,
-            letterSpacing: '0.42em',
-            textTransform: 'uppercase',
-            color: 'rgba(232,0,125,0.5)',
-            marginBottom: '24px',
-            position: 'relative',
-          }}
-          initial={{ opacity: 0, y: 30 }}
+          style={{ marginBottom: '48px', position: 'relative' }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {t('greeting', 'welcome', lang)}
+          <SemilacDaysLogo height={140} />
         </motion.div>
 
         {/* Greeting text */}
         <motion.div
           style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '24px',
+            fontSize: '42px',
             fontWeight: 300,
             fontStyle: 'italic',
             color: 'rgba(26,16,5,0.5)',
-            marginBottom: '8px',
+            marginBottom: '16px',
             position: 'relative',
           }}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -111,7 +104,7 @@ export function Greeting() {
           className="gpu-layer"
           style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '56px',
+            fontSize: '96px',
             fontWeight: 300,
             fontStyle: 'italic',
             lineHeight: 1.05,
@@ -120,7 +113,7 @@ export function Greeting() {
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundSize: '200% 200%',
-            marginBottom: '28px',
+            marginBottom: '40px',
             position: 'relative',
             perspective: '1000px',
             animation: 'gradient-shift 5s linear infinite',
@@ -132,17 +125,35 @@ export function Greeting() {
           {name}
         </motion.div>
 
+        {/* Glad to see you — sub-line tying name to the call-to-action */}
+        <motion.div
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: '36px',
+            fontWeight: 300,
+            fontStyle: 'italic',
+            color: 'rgba(26,16,5,0.5)',
+            marginBottom: '24px',
+            position: 'relative',
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+        >
+          {t('greeting', 'gladToSeeYou', lang)}
+        </motion.div>
+
         {/* Animated divider */}
         <motion.div
           style={{
-            width: '80px',
-            height: '2px',
+            width: '140px',
+            height: '3px',
             background: 'linear-gradient(90deg, transparent, rgba(232,0,125,0.5), transparent)',
-            margin: '0 auto 28px',
+            margin: '0 auto 32px',
             position: 'relative',
           }}
           initial={{ width: 0, opacity: 0 }}
-          animate={{ width: '80px', opacity: 1 }}
+          animate={{ width: '140px', opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
         >
           {[-1, 0, 1].map((pos, idx) => (
@@ -150,11 +161,11 @@ export function Greeting() {
               key={pos}
               className="absolute top-1/2 rounded-full gpu-layer"
               style={{
-                width: '6px',
-                height: '6px',
+                width: '10px',
+                height: '10px',
                 background: '#E8007D',
                 left: pos === -1 ? '0%' : pos === 0 ? '50%' : '100%',
-                boxShadow: '0 0 12px rgba(232,0,125,0.6)',
+                boxShadow: '0 0 16px rgba(232,0,125,0.7)',
                 animation: `dot-pulse 1.5s ease-in-out ${idx * 0.2}s infinite`,
               }}
             />
@@ -163,7 +174,7 @@ export function Greeting() {
 
         {/* Message */}
         <motion.div
-          style={{ fontSize: '12px', letterSpacing: '0.16em', color: 'rgba(26,16,5,0.35)' }}
+          style={{ fontSize: '22px', letterSpacing: '0.16em', color: 'rgba(26,16,5,0.35)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
@@ -173,13 +184,6 @@ export function Greeting() {
             style={{ display: 'inline-block', animation: 'text-shimmer 2s ease-in-out infinite' }}
           >
             {t('greeting', 'wheelAwaits', lang)}
-          </span>
-          {' '}
-          <span
-            className="inline-block gpu-layer"
-            style={{ animation: 'sparkle-wiggle 2s ease-in-out infinite' }}
-          >
-            ✨
           </span>
         </motion.div>
 
@@ -193,10 +197,10 @@ export function Greeting() {
               key={i}
               className="absolute rounded-full gpu-layer"
               style={{
-                width: '6px',
-                height: '6px',
+                width: '10px',
+                height: '10px',
                 background: `rgba(232,0,125,${0.3 + (i % 3) * 0.15})`,
-                boxShadow: '0 0 10px rgba(232,0,125,0.4)',
+                boxShadow: '0 0 16px rgba(232,0,125,0.5)',
                 top: '50%',
                 left: '50%',
                 ['--ox' as any]: `${x}px`,
@@ -219,7 +223,7 @@ export function Greeting() {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="w-2 h-2 rounded-full gpu-layer"
+                className="w-3 h-3 rounded-full gpu-layer"
                 style={{
                   background: 'rgba(232,0,125,0.4)',
                   animation: `dot-pulse-plain 1s ease-in-out ${i * 0.2}s infinite`,

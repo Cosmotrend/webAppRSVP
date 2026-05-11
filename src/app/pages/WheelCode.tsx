@@ -25,8 +25,6 @@ export function WheelCode() {
   const [devisNumbers, setDevisNumbers] = useState<string[]>(['']);
   const [isValidating, setIsValidating] = useState(false);
   const [error, setError] = useState('');
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [clientName, setClientName] = useState('');
   const [activeField, setActiveField] = useState<string>('ticket');
   const [keypadVisible, setKeypadVisible] = useState(true);
 
@@ -75,10 +73,8 @@ export function WheelCode() {
           city: apiData.city,
         };
         localStorage.setItem('wheelData', JSON.stringify(wheelData));
-        setClientName(apiData.clientName);
-        setShowWelcome(true);
         sounds.success();
-        setTimeout(() => navigate('/greeting'), 3000);
+        navigate('/greeting');
       } else {
         setError('Connexion impossible. Réessayez.');
         sounds.error();
@@ -515,135 +511,6 @@ export function WheelCode() {
         </motion.div>
       </motion.div>
 
-      {/* Écran de bienvenue */}
-      <AnimatePresence>
-        {showWelcome && (
-          <motion.div
-            className="absolute inset-0 z-50 flex items-center justify-center"
-            style={{ background: 'radial-gradient(circle at center, rgba(13,0,8,0.98), rgba(13,0,8,0.95))' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div
-              className="absolute w-96 h-96 rounded-full gpu-layer"
-              style={{
-                background: 'radial-gradient(circle, rgba(248,164,200,0.3), transparent)',
-                filter: 'blur(100px)',
-                animation: 'welcome-glow 3s ease-in-out infinite',
-              }}
-            />
-
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-1 h-1 rounded-full gpu-layer"
-                style={{
-                  background: i % 2 === 0 ? '#F8A4C8' : '#D4A574',
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animation: `welcome-particle ${(2 + Math.random() * 2).toFixed(2)}s ease-in-out ${(Math.random() * 2).toFixed(2)}s infinite`,
-                }}
-              />
-            ))}
-
-            <motion.div
-              className="relative z-10 text-center px-8"
-              initial={{ scale: 0.5, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
-            >
-              <motion.div
-                className="inline-flex items-center gap-2 border rounded-full px-6 py-2 mb-6"
-                style={{ borderColor: 'rgba(248,164,200,0.4)', background: 'rgba(248,164,200,0.12)', boxShadow: '0 0 30px rgba(248,164,200,0.3)' }}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.3, type: 'spring' }}
-              >
-                <Sparkles size={14} color="#F8A4C8" />
-                <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#F8A4C8' }}>
-                  Bienvenue
-                </span>
-              </motion.div>
-
-              <motion.div
-                style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,248,245,0.7)', marginBottom: '16px' }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                Bonjour
-              </motion.div>
-
-              <motion.div
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '48px',
-                  fontWeight: 600,
-                  fontStyle: 'italic',
-                  lineHeight: 1.1,
-                  background: 'linear-gradient(135deg, #F8A4C8, #ffc8de, #D4A574)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  marginBottom: '24px',
-                }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.7, type: 'spring', bounce: 0.5 }}
-              >
-                {clientName}
-              </motion.div>
-
-              <motion.div
-                style={{ fontSize: '12px', color: 'rgba(255,248,245,0.8)', letterSpacing: '0.08em', lineHeight: 1.6, marginBottom: '32px', maxWidth: '320px', margin: '0 auto 32px' }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.9 }}
-              >
-                Votre ticket a bien été validé.
-                <br />
-                <span style={{ fontWeight: 700, color: '#F8A4C8' }}>
-                  Préparez-vous à faire tourner la roue !
-                </span>
-              </motion.div>
-
-              <motion.div
-                className="mb-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.1 }}
-              >
-                <div
-                  className="inline-flex items-center justify-center w-16 h-16 rounded-full gpu-layer"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(248,164,200,0.2), rgba(212,165,116,0.2))',
-                    border: '2px solid rgba(248,164,200,0.4)',
-                    boxShadow: '0 0 30px rgba(248,164,200,0.3)',
-                    animation: 'ring-spin 2s linear infinite',
-                  }}
-                >
-                  <Sparkles size={32} color="#F8A4C8" />
-                </div>
-              </motion.div>
-
-              <motion.div className="flex items-center justify-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}>
-                {[0, 1, 2].map((i) => (
-                  <div
-                    key={i}
-                    className="w-2 h-2 rounded-full gpu-layer"
-                    style={{
-                      background: '#F8A4C8',
-                      animation: `dot-pulse-plain 1.5s ease-in-out ${i * 0.2}s infinite`,
-                    }}
-                  />
-                ))}
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

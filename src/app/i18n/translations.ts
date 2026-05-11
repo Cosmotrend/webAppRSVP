@@ -163,8 +163,9 @@ export const translations = {
   // ===== Greeting =====
   greeting: {
     welcome: { fr: 'BIENVENUE', ar: 'مرحبا بيك' },
-    hello: { fr: 'Bonjour,', ar: 'مرحبا،' },
-    wheelAwaits: { fr: 'Votre roue vous attend', ar: 'العجلة كتسناك' },
+    hello: { fr: 'Bonjour', ar: 'مرحبا' },
+    gladToSeeYou: { fr: 'Ravi de vous voir,', ar: 'فرحانين باش نشوفك،' },
+    wheelAwaits: { fr: 'C\'est l\'heure de tenter votre chance', ar: 'هادي هي اللحظة باش تجرب حظك' },
     getReady: { fr: 'Préparez-vous pour', ar: 'تهيأ لـ' },
     wheelOfFortune: { fr: 'La Roue de la Fortune', ar: 'عجلة الحظ' },
   },
