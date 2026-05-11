@@ -69,13 +69,20 @@ function AppContent() {
             overflow: hidden !important;
             background: #1A1005 !important;
           }
-          /* Portrait kiosk (tablette tenue en portrait, usage direct) */
+          /* Portrait kiosk (tablette tenue en portrait, usage direct).
+             Shell capé à 1080×1920 (ratio TV cible) et centré pour éviter
+             l'étirement extrême sur grandes tablettes (Galaxy Tab S11 Ultra
+             = 2960×1848, iPad Pro 13" = 2752×2064, etc.). Sur tablette plus
+             petite, le shell prend tout l'écran disponible. */
           html.kiosk-mode .app-shell {
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100dvh !important;
-            max-width: none !important;
-            max-height: none !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            width: min(100vw, 1080px) !important;
+            height: min(100vh, 1920px) !important;
+            max-width: 1080px !important;
+            max-height: 1920px !important;
+            transform: translate(-50%, -50%) !important;
             border-radius: 0 !important;
             box-shadow: none !important;
             margin: 0 !important;
@@ -115,24 +122,25 @@ function AppContent() {
              */
             html.kiosk-mode .app-shell {
               position: fixed !important;
-              top: 0 !important;
-              left: 0 !important;
-              /* Shell dimensionné avec vw/vh INVERSÉS :
-                 - width  = 100vh (deviendra la hauteur visuelle après rotation)
-                 - height = 100vw (deviendra la largeur visuelle après rotation) */
-              width: 100vh !important;
-              height: 100vw !important;
-              max-width: none !important;
-              max-height: none !important;
+              top: 50% !important;
+              left: 50% !important;
+              /* Shell logique en portrait (1080 wide × 1920 tall), capé à
+                 ces dimensions pour éviter l'étirement sur grande tablette
+                 type Galaxy Tab S11 Ultra. Le contenu de l'app rend dans
+                 ce canvas portrait, puis on tourne 90° autour du centre
+                 pour matcher l'orientation paysage de la tablette qui
+                 cast vers une TV physiquement pivotée. */
+              width: min(100vh, 1080px) !important;
+              height: min(100vw, 1920px) !important;
+              max-width: 1080px !important;
+              max-height: 1920px !important;
               border-radius: 0 !important;
               box-shadow: none !important;
               margin: 0 !important;
-              /* Pivot 90° autour du coin haut-gauche (0,0), puis translation
-                 en X de +100vw pour ramener l'élément dans le viewport.
-                 Ordre CSS : transforms appliqués de DROITE à GAUCHE,
-                 donc rotate() d'abord, translateX() ensuite. */
-              transform-origin: 0 0 !important;
-              transform: translateX(100vw) rotate(90deg) !important;
+              /* Rotation 90° autour du centre + centrage via translate.
+                 Ordre visuel CSS : rotate d'abord, translate ensuite. */
+              transform-origin: center center !important;
+              transform: translate(-50%, -50%) rotate(90deg) !important;
             }
           }
         `}</style>
