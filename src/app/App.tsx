@@ -114,13 +114,17 @@ function AppContent() {
              Toutes les unités vh/vw internes restent calculées sur le viewport
              browser, mais les composants phase 2 utilisent des dimensions
              relatives au canvas via container queries (cqh/cqw). */
+          /* Fond crème (= fond des pages staff) pour que les marges hors
+             canvas se fondent visuellement avec la card → effet "plein écran"
+             sur la TV même quand le ratio source (16:10 tablette) ne match pas
+             exactement le ratio cible (9:16 canvas). */
           .kiosk-canvas-frame {
             position: fixed;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #1A1005;
+            background: #FAF7F2;
             overflow: hidden;
             z-index: 0;
           }
@@ -133,11 +137,15 @@ function AppContent() {
             border-radius: 0 !important;
             box-shadow: none !important;
             margin: 0 !important;
-            background: #1A1005;
+            background: #FAF7F2;
             overflow: hidden;
             container-type: size;
             container-name: kiosk;
             transform-origin: center center;
+          }
+          /* Body en crème aussi pour éviter tout flash brun pendant les transitions */
+          html.kiosk-mode, html.kiosk-mode body, html.kiosk-mode #root {
+            background: #FAF7F2 !important;
           }
         `}</style>
 
