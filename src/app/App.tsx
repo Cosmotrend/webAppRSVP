@@ -34,12 +34,23 @@ function AppContent() {
     return isStaffPath(window.location.pathname);
   });
   const [scale, setScale] = useState<number>(1);
+  // En paysage (tablette couchée pour cast vers TV physiquement pivotée 90°),
+  // on rotate le canvas portrait pour qu'il s'aligne avec la TV pivotée.
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
 
   useEffect(() => {
     const recomputeScale = () => {
-      const sx = window.innerWidth / KIOSK_CANVAS_W;
-      const sy = window.innerHeight / KIOSK_CANVAS_H;
-      setScale(Math.min(sx, sy));
+      const vpW = window.innerWidth;
+      const vpH = window.innerHeight;
+      const landscape = vpW > vpH;
+      setIsLandscape(landscape);
+      if (landscape) {
+        // Canvas portrait 1080×1920 rotated 90° → 1920×1080 visuel.
+        // Scale fit : min(viewportW / canvasH, viewportH / canvasW)
+        setScale(Math.min(vpW / KIOSK_CANVAS_H, vpH / KIOSK_CANVAS_W));
+      } else {
+        setScale(Math.min(vpW / KIOSK_CANVAS_W, vpH / KIOSK_CANVAS_H));
+      }
     };
     const recomputeCanvas = () => {
       const onStaff = isStaffPath(window.location.pathname);
@@ -134,7 +145,11 @@ function AppContent() {
           <div className="kiosk-canvas-frame">
             <div
               className="app-shell kiosk-canvas-shell"
-              style={{ transform: `scale(${scale})` }}
+              style={{
+                transform: isLandscape
+                  ? `scale(${scale}) rotate(90deg)`
+                  : `scale(${scale})`,
+              }}
             >
               <AnimatePresence>
                 {!isReady && <LanguageSelector />}
