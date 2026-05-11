@@ -90,7 +90,7 @@ export function WheelGame() {
       <TopBar />
 
       <motion.div
-        className="relative pt-[52px] px-3 pb-6"
+        className="relative pt-[52px] px-3 pb-6 flex flex-col"
         style={{ minHeight: '100%' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -112,12 +112,12 @@ export function WheelGame() {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              className="flex justify-center mb-3"
+              className="flex justify-center mb-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <SemilacDaysLogo height={68} />
+              <SemilacDaysLogo height={130} />
             </motion.div>
 
             <motion.div
@@ -128,11 +128,11 @@ export function WheelGame() {
               <div
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '22px',
+                  fontSize: '42px',
                   fontWeight: 600,
                   fontStyle: 'italic',
                   color: '#1A1005',
-                  marginBottom: '4px',
+                  marginBottom: '8px',
                   lineHeight: 1.2,
                 }}
               >
@@ -140,20 +140,20 @@ export function WheelGame() {
               </div>
 
               {/* Ticket badge centré */}
-              <div className="flex items-center justify-center mt-2">
+              <div className="flex items-center justify-center mt-4">
                 <div
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '5px',
-                    border: '1px solid rgba(232,0,125,0.2)',
+                    gap: '10px',
+                    border: '1.5px solid rgba(232,0,125,0.2)',
                     borderRadius: '100px',
-                    padding: '3px 10px',
+                    padding: '8px 22px',
                     background: 'rgba(232,0,125,0.05)',
                   }}
                 >
-                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#E8007D', display: 'inline-block' }} />
-                  <span style={{ fontSize: '8px', fontWeight: 600, letterSpacing: '0.18em', color: '#E8007D', textTransform: 'uppercase' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#E8007D', display: 'inline-block' }} />
+                  <span style={{ fontSize: '16px', fontWeight: 600, letterSpacing: '0.18em', color: '#E8007D', textTransform: 'uppercase' }}>
                     {ticketNumber}
                   </span>
                 </div>
@@ -196,7 +196,7 @@ export function WheelGame() {
                 <motion.div
                   style={{
                     fontFamily: "'Montserrat', sans-serif",
-                    fontSize: '12px',
+                    fontSize: '22px',
                     color: '#1A1005',
                     letterSpacing: '0.08em',
                     fontWeight: 600,
@@ -206,17 +206,17 @@ export function WheelGame() {
                   animate={!isSpinning && !hasSpun ? { scale: [1, 1.02, 1] } : {}}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span> {t('wheelGame', 'instruction', lang)}{' '}
+                  <span style={{ fontSize: '28px', fontWeight: 700 }}>✨</span> {t('wheelGame', 'instruction', lang)}{' '}
                   <br />
                   <span style={{
                     fontFamily: "'Montserrat', sans-serif",
                     color: '#E8007D',
                     fontWeight: 800,
-                    fontSize: '13px',
+                    fontSize: '26px',
                   }}>
                     {t('wheelGame', 'instructionBold', lang)}
                   </span>{' '}
-                  <span style={{ fontSize: '14px', fontWeight: 700 }}>✨</span>
+                  <span style={{ fontSize: '28px', fontWeight: 700 }}>✨</span>
                 </motion.div>
               </div>
             </motion.div>
@@ -233,7 +233,7 @@ export function WheelGame() {
               <div
                 className="gpu-layer"
                 style={{
-                  fontSize: '15px',
+                  fontSize: '32px',
                   color: '#E8007D',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
@@ -246,9 +246,9 @@ export function WheelGame() {
           )}
         </div>
 
-        {/* BrandStrip — same footer treatment as the other staff pages */}
+        {/* BrandStrip — anchored at the bottom of the page on tall viewports */}
         <motion.div
-          className="mt-6"
+          className="mt-auto pt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}

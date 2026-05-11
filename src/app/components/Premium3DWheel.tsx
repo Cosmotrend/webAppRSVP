@@ -27,12 +27,13 @@ const prizes = [
 ];
 
 export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lang = 'fr' }: Premium3DWheelProps) {
-  // En mode kiosque TV portrait, la roue doit remplir la largeur
+  // En mode kiosque, la roue est rendue dans le canvas 1080×1920 logique
+  // (container queries). cqh/cqw se réfèrent au canvas, pas au viewport
+  // browser — donc la roue scale proportionnellement quelle que soit la
+  // taille de la tablette (Galaxy Tab S11 Ultra, Huawei MatePad, etc.).
   const isKioskMode =
     typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
-  // En kiosque, le parent est le shell pivoté (vh/vw inversés), donc on utilise
-  // vh comme référence de "largeur visuelle" (puisque width = 100vh après rotation).
-  const resolvedSize = size ?? (isKioskMode ? 'min(78vh, 65vw)' : 'min(86vw, 56vh, 520px)');
+  const resolvedSize = size ?? (isKioskMode ? 'min(82cqh, 82cqw)' : 'min(86vw, 56vh, 520px)');
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
