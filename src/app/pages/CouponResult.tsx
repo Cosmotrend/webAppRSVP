@@ -297,7 +297,7 @@ export function CouponResult() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <SemilacDaysLogo height={54} />
+                <SemilacDaysLogo height={130} />
               </motion.div>
 
               {/* Trophy icon with rotation */}
@@ -315,7 +315,7 @@ export function CouponResult() {
                   className="relative gpu-layer"
                   style={{ animation: 'float-y 2s ease-in-out infinite' }}
                 >
-                  <Trophy size={48} color="#E8007D" strokeWidth={1.5} />
+                  <Trophy size={88} color="#E8007D" strokeWidth={1.5} />
 
                   {/* Orbiting sparkles */}
                   {[0, 1, 2, 3].map((i) => {
@@ -327,19 +327,19 @@ export function CouponResult() {
                         style={{ top: "50%", left: "50%" }}
                         animate={{
                           x: [
-                            Math.cos((angle * Math.PI) / 180) * 40,
-                            Math.cos(((angle + 360) * Math.PI) / 180) * 40,
+                            Math.cos((angle * Math.PI) / 180) * 72,
+                            Math.cos(((angle + 360) * Math.PI) / 180) * 72,
                           ],
                           y: [
-                            Math.sin((angle * Math.PI) / 180) * 40,
-                            Math.sin(((angle + 360) * Math.PI) / 180) * 40,
+                            Math.sin((angle * Math.PI) / 180) * 72,
+                            Math.sin(((angle + 360) * Math.PI) / 180) * 72,
                           ],
                           scale: [1, 1.5, 1],
                           opacity: [1, 0.5, 1],
                         }}
                         transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
                       >
-                        <Sparkles size={12} color="#E8007D" />
+                        <Sparkles size={22} color="#E8007D" />
                       </motion.div>
                     );
                   })}
@@ -350,12 +350,12 @@ export function CouponResult() {
               <motion.div
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "52px",
+                  fontSize: "92px",
                   fontWeight: 300,
                   fontStyle: "italic",
                   color: "#1A1005",
                   lineHeight: 1,
-                  marginBottom: "6px",
+                  marginBottom: "16px",
                 }}
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -366,12 +366,12 @@ export function CouponResult() {
 
               <motion.div
                 style={{
-                  fontSize: "10px",
+                  fontSize: "18px",
                   fontWeight: 700,
                   letterSpacing: "0.36em",
                   textTransform: "uppercase",
                   color: "#E8007D",
-                  marginBottom: "12px",
+                  marginBottom: "24px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -391,7 +391,7 @@ export function CouponResult() {
                   className="gpu-layer"
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "76px",
+                    fontSize: "140px",
                     fontWeight: 300,
                     background: "linear-gradient(135deg, #C4157A, #E8007D, #ff4da6, #C4904A)",
                     WebkitBackgroundClip: "text",
@@ -409,9 +409,9 @@ export function CouponResult() {
 
               <motion.div
                 style={{
-                  fontSize: "14px",
+                  fontSize: "26px",
                   color: "rgba(26,16,5,0.6)",
-                  marginBottom: "4px",
+                  marginBottom: "10px",
                   fontWeight: 600,
                 }}
                 initial={{ opacity: 0 }}
@@ -423,10 +423,10 @@ export function CouponResult() {
 
               <motion.div
                 style={{
-                  fontSize: "12px",
+                  fontSize: "22px",
                   color: "rgba(26,16,5,0.55)",
                   letterSpacing: "0.06em",
-                  marginBottom: "6px",
+                  marginBottom: "14px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -437,11 +437,11 @@ export function CouponResult() {
 
               <motion.div
                 style={{
-                  fontSize: "10px",
+                  fontSize: "18px",
                   fontWeight: 600,
                   color: '#C4904A',
                   letterSpacing: "0.1em",
-                  marginBottom: "14px",
+                  marginBottom: "28px",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -453,10 +453,10 @@ export function CouponResult() {
               {/* Animated divider */}
               <motion.div
                 style={{
-                  width: "180px",
-                  height: "2px",
+                  width: "280px",
+                  height: "3px",
                   background: "linear-gradient(90deg, transparent, rgba(232,0,125,0.3), transparent)",
-                  margin: "0 auto 14px",
+                  margin: "0 auto 28px",
                 }}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -466,11 +466,11 @@ export function CouponResult() {
               {/* Traçabilité — toujours visible : CODE PROMO = ticket joué */}
               {ticketNumber && (
                 <motion.div
-                  className="w-full max-w-sm rounded-2xl mb-4 relative overflow-hidden"
+                  className="w-full max-w-xl rounded-3xl mb-6 relative overflow-hidden"
                   style={{
-                    border: "1.5px solid rgba(232,0,125,0.28)",
+                    border: "2px solid rgba(232,0,125,0.28)",
                     background: "linear-gradient(135deg, rgba(250,247,242,0.96), rgba(255,240,248,0.92))",
-                    boxShadow: "0 10px 32px rgba(232,0,125,0.12), inset 0 1px 0 rgba(255,255,255,0.6)",
+                    boxShadow: "0 16px 48px rgba(232,0,125,0.14), inset 0 1px 0 rgba(255,255,255,0.6)",
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -487,16 +487,16 @@ export function CouponResult() {
 
                   {/* Header */}
                   <div
-                    className="flex items-center justify-center gap-2 px-5 py-3"
+                    className="flex items-center justify-center gap-3 px-7 py-5"
                     style={{
                       borderBottom: "1px solid rgba(232,0,125,0.15)",
                       background: "rgba(232,0,125,0.04)",
                     }}
                   >
-                    <FileText size={14} color="#E8007D" />
+                    <FileText size={24} color="#E8007D" />
                     <span
                       style={{
-                        fontSize: "9px",
+                        fontSize: "16px",
                         fontWeight: 800,
                         letterSpacing: "0.28em",
                         textTransform: "uppercase",
@@ -508,17 +508,17 @@ export function CouponResult() {
                   </div>
 
                   {/* Corps — grille compacte */}
-                  <div className="px-5 py-4 relative">
+                  <div className="px-7 py-6 relative">
                     {/* CODE PROMO — toujours affiché, = ticket joué */}
                     <div
-                      className="flex items-center justify-between mb-3 pb-3"
+                      className="flex items-center justify-between mb-5 pb-5"
                       style={{ borderBottom: devisList.length > 0 ? "1px dashed rgba(232,0,125,0.2)" : "none" }}
                     >
-                      <div className="flex items-center gap-2">
-                        <Sparkles size={12} color="#E8007D" />
+                      <div className="flex items-center gap-3">
+                        <Sparkles size={20} color="#E8007D" />
                         <span
                           style={{
-                            fontSize: "8px",
+                            fontSize: "16px",
                             fontWeight: 700,
                             letterSpacing: "0.2em",
                             textTransform: "uppercase",
@@ -531,11 +531,11 @@ export function CouponResult() {
                       <span
                         style={{
                           fontFamily: "'Courier New', monospace",
-                          fontSize: "15px",
+                          fontSize: "30px",
                           fontWeight: 800,
                           letterSpacing: "0.22em",
                           color: "#E8007D",
-                          textShadow: "0 0 12px rgba(232,0,125,0.25)",
+                          textShadow: "0 0 18px rgba(232,0,125,0.3)",
                         }}
                       >
                         {ticketNumber}
@@ -544,26 +544,26 @@ export function CouponResult() {
 
                     {/* Lignes — uniquement si des bons de commande existent */}
                     {devisList.length > 0 && (
-                      <div className="space-y-1.5">
+                      <div className="space-y-3">
                         {/* Bons de commande */}
                         <div>
-                          <div style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em", marginBottom: "4px" }}>
+                          <div style={{ fontSize: "18px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em", marginBottom: "8px" }}>
                             {devisList.length > 1
                               ? `Bons de commande (${devisList.length})`
                               : t('couponResult', 'traceDevis', lang)}
                           </div>
-                          <div className="flex flex-wrap gap-1.5 justify-end">
+                          <div className="flex flex-wrap gap-2 justify-end">
                             {devisList.map((d, i) => (
                               <span
                                 key={i}
                                 style={{
-                                  fontSize: "10px",
+                                  fontSize: "18px",
                                   fontFamily: "'Courier New', monospace",
                                   fontWeight: 700,
                                   color: "#C4904A",
                                   letterSpacing: "0.08em",
-                                  padding: "3px 8px",
-                                  borderRadius: "6px",
+                                  padding: "6px 14px",
+                                  borderRadius: "10px",
                                   background: "rgba(196,144,74,0.08)",
                                   border: "1px solid rgba(196,144,74,0.22)",
                                 }}
@@ -575,12 +575,12 @@ export function CouponResult() {
                         </div>
 
                         <div className="flex justify-between items-center">
-                          <span style={{ fontSize: "10px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em" }}>
+                          <span style={{ fontSize: "18px", color: "rgba(26,16,5,0.55)", letterSpacing: "0.03em" }}>
                             {t('couponResult', 'traceReduction', lang)}
                           </span>
                           <span
                             style={{
-                              fontSize: "15px",
+                              fontSize: "28px",
                               fontWeight: 800,
                               color: "#E8007D",
                             }}
@@ -592,18 +592,18 @@ export function CouponResult() {
                     )}
 
                     <div
-                      className="flex items-center justify-center gap-1.5 mt-3 pt-2"
+                      className="flex items-center justify-center gap-2.5 mt-5 pt-4"
                       style={{
                         borderTop: "1px dashed rgba(232,0,125,0.15)",
-                        fontSize: "8px",
+                        fontSize: "14px",
                         color: "rgba(26,16,5,0.5)",
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
                       }}
                     >
-                      <Sparkles size={9} color="rgba(196,144,74,0.7)" />
+                      <Sparkles size={16} color="rgba(196,144,74,0.7)" />
                       {t('couponResult', 'traceAuto', lang)}
-                      <Sparkles size={9} color="rgba(196,144,74,0.7)" />
+                      <Sparkles size={16} color="rgba(196,144,74,0.7)" />
                     </div>
                   </div>
                 </motion.div>
@@ -624,25 +624,25 @@ export function CouponResult() {
             navigate('/staff-pin');
           }}
           whileTap={{ scale: 0.96 }}
-          className="w-full max-w-sm rounded-2xl flex items-center justify-center gap-2"
+          className="w-full max-w-xl rounded-3xl flex items-center justify-center gap-3"
           style={{
-            padding: "12px",
+            padding: "24px",
             background: "linear-gradient(135deg, #E8007D, #ff4da6)",
             border: "none",
             color: "#ffffff",
-            fontSize: "12px",
+            fontSize: "22px",
             fontWeight: 800,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             cursor: "pointer",
-            boxShadow: "0 8px 24px rgba(232,0,125,0.35)",
-            marginBottom: "12px",
+            boxShadow: "0 12px 32px rgba(232,0,125,0.4)",
+            marginBottom: "20px",
           }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8 }}
         >
-          <Sparkles size={14} />
+          <Sparkles size={24} />
           Nouveau client
         </motion.button>
 
