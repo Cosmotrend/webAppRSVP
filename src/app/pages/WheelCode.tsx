@@ -198,7 +198,7 @@ export function WheelCode() {
             whileHover={{ scale: 1.05 }}
           >
             <Sparkles size={12} color="#E8007D" />
-            <span style={{ fontSize: '8px', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#E8007D' }}>
+            <span style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#E8007D' }}>
               Accès Exclusif
             </span>
           </motion.div>
@@ -209,12 +209,12 @@ export function WheelCode() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <SemilacDaysLogo height={60} />
+            <SemilacDaysLogo height={130} />
           </motion.div>
 
           <motion.div
             className="mt-2"
-            style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E8007D' }}
+            style={{ fontSize: '24px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E8007D' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
@@ -247,7 +247,7 @@ export function WheelCode() {
 
           <div className="relative">
             {/* Instructions */}
-            <div className="text-center mb-4" style={{ fontSize: '11px', color: 'rgba(26,16,5,0.65)', letterSpacing: '0.04em', lineHeight: 1.6, fontWeight: 500 }}>
+            <div className="text-center mb-4" style={{ fontSize: '22px', color: 'rgba(26,16,5,0.65)', letterSpacing: '0.04em', lineHeight: 1.6, fontWeight: 500 }}>
               Entrez votre numéro de billet et vos bons de commande.
             </div>
 
@@ -260,7 +260,7 @@ export function WheelCode() {
             >
               <div className="flex items-center gap-2 mb-1.5">
                 <Ticket size={13} color="#F8A4C8" />
-                <label style={{ fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#E8007D' }}>
+                <label style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#E8007D' }}>
                   Numéro de billet
                 </label>
               </div>
@@ -278,7 +278,7 @@ export function WheelCode() {
                   background: activeField === 'ticket' ? 'rgba(232,0,125,0.10)' : 'rgba(232,0,125,0.04)',
                   border: activeField === 'ticket' ? '2px solid rgba(232,0,125,0.55)' : '2px solid rgba(232,0,125,0.2)',
                   color: '#1A1005',
-                  fontSize: '16px',
+                  fontSize: '32px',
                   fontWeight: 700,
                   letterSpacing: '0.2em',
                   textAlign: 'center',
@@ -286,7 +286,7 @@ export function WheelCode() {
                   cursor: 'pointer',
                 }}
               />
-              <div style={{ fontSize: '7px', color: 'rgba(26,16,5,0.45)', textAlign: 'right', marginTop: '3px' }}>
+              <div style={{ fontSize: '14px', color: 'rgba(26,16,5,0.45)', textAlign: 'right', marginTop: '6px' }}>
                 Format : SD26-XXXX
               </div>
             </motion.div>
@@ -300,10 +300,10 @@ export function WheelCode() {
             >
               <div className="flex items-center gap-2 mb-2">
                 <FileText size={13} color="#D4A574" />
-                <label style={{ fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4904A' }}>
+                <label style={{ fontSize: '20px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4904A' }}>
                   Bon{devisNumbers.length > 1 ? 's' : ''} de commande
                 </label>
-                <span style={{ fontSize: '8px', color: 'rgba(196,144,74,0.6)', marginLeft: 'auto' }}>
+                <span style={{ fontSize: '16px', color: 'rgba(196,144,74,0.6)', marginLeft: 'auto' }}>
                   {devisNumbers.length}/{MAX_DEVIS}
                 </span>
               </div>
@@ -325,10 +325,10 @@ export function WheelCode() {
                           <span
                             style={{
                               position: 'absolute',
-                              left: '10px',
+                              left: '14px',
                               top: '50%',
                               transform: 'translateY(-50%)',
-                              fontSize: '8px',
+                              fontSize: '16px',
                               color: 'rgba(196,144,74,0.5)',
                               fontWeight: 700,
                               zIndex: 1,
@@ -349,12 +349,12 @@ export function WheelCode() {
                           placeholder="S_____"
                           className="w-full rounded-xl py-3 outline-none transition-all duration-200"
                           style={{
-                            paddingLeft: devisNumbers.length > 1 ? '28px' : '20px',
-                            paddingRight: '20px',
+                            paddingLeft: devisNumbers.length > 1 ? '40px' : '24px',
+                            paddingRight: '24px',
                             background: activeField === `devis-${index}` ? 'rgba(196,144,74,0.15)' : 'rgba(196,144,74,0.06)',
                             border: activeField === `devis-${index}` ? '2px solid rgba(196,144,74,0.6)' : '2px solid rgba(196,144,74,0.22)',
                             color: '#1A1005',
-                            fontSize: '15px',
+                            fontSize: '28px',
                             fontWeight: 700,
                             letterSpacing: '0.25em',
                             textAlign: 'center',
@@ -427,13 +427,13 @@ export function WheelCode() {
                   transition={{ delay: 1 }}
                 >
                   <Plus size={14} color="rgba(196,144,74,0.7)" />
-                  <span style={{ fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(196,144,74,0.7)' }}>
+                  <span style={{ fontSize: '18px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(196,144,74,0.7)' }}>
                     Ajouter un bon de commande
                   </span>
                 </motion.button>
               )}
 
-              <div style={{ fontSize: '7px', color: 'rgba(26,16,5,0.45)', textAlign: 'right', marginTop: '3px' }}>
+              <div style={{ fontSize: '14px', color: 'rgba(26,16,5,0.45)', textAlign: 'right', marginTop: '6px' }}>
                 Format : SXXXXX (6 caractères)
               </div>
             </motion.div>
@@ -449,7 +449,7 @@ export function WheelCode() {
                   exit={{ opacity: 0, y: -10, scale: 0.9 }}
                 >
                   <AlertCircle size={16} color="#FF6464" />
-                  <span style={{ fontSize: '9px', color: '#FF6464', fontWeight: 600, letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '18px', color: '#FF6464', fontWeight: 600, letterSpacing: '0.05em' }}>
                     {error}
                   </span>
                 </motion.div>
@@ -463,14 +463,15 @@ export function WheelCode() {
               transition={{ delay: 1.05 }}
             >
               <ShimmerButton
-                className="w-full h-13"
+                className="w-full"
+                style={{ height: '76px', fontSize: '22px', letterSpacing: '0.12em' }}
                 onClick={handleValidate}
                 disabled={!isFormValid || isValidating}
               >
                 <AnimatePresence mode="wait">
                   {isValidating ? (
-                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-3">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
                       <span>Vérification...</span>
                     </motion.div>
                   ) : (

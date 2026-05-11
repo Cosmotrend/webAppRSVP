@@ -29,15 +29,19 @@ export function CustomKeypad({
   const row2 = ['Q', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M'];
   const row3 = ['W', 'X', 'C', 'V', 'B', 'N'];
 
+  // En mode kiosque (TV cast), le clavier doit être lisible et tappable
+  // depuis 2-3m de distance → on double toutes les dimensions.
+  const isKiosk =
+    typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
   const keyStyle = {
-    padding: '7px 0',
+    padding: isKiosk ? '18px 0' : '7px 0',
     background: `${accentColor}0d`,
     border: `1px solid ${accentColor}22`,
     color: '#1A1005',
-    fontSize: '12px',
+    fontSize: isKiosk ? '26px' : '12px',
     fontFamily: "'Montserrat', sans-serif",
     cursor: 'pointer',
-    borderRadius: '6px',
+    borderRadius: isKiosk ? '12px' : '6px',
     fontWeight: 700,
   };
 
@@ -71,22 +75,22 @@ export function CustomKeypad({
           onClick={onToggle}
           className="w-full flex items-center justify-center gap-2"
           style={{
-            padding: '6px',
+            padding: isKiosk ? '14px' : '6px',
             background: 'transparent',
             border: 'none',
             borderBottom: visible ? `1px solid ${accentColor}14` : 'none',
             cursor: 'pointer',
             color: accentColor,
-            fontSize: '9px',
+            fontSize: isKiosk ? '18px' : '9px',
             fontWeight: 700,
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
           }}
         >
-          <Keyboard size={12} />
+          <Keyboard size={isKiosk ? 22 : 12} />
           {visible ? 'Masquer le clavier' : 'Afficher le clavier'}
           <motion.div animate={{ rotate: visible ? 0 : 180 }}>
-            <ChevronDown size={12} />
+            <ChevronDown size={isKiosk ? 22 : 12} />
           </motion.div>
         </button>
       )}
@@ -117,19 +121,19 @@ export function CustomKeypad({
                 whileTap={{ scale: 0.92 }}
                 className="rounded-lg flex items-center justify-center gap-2"
                 style={{
-                  padding: '8px 0',
+                  padding: isKiosk ? '18px 0' : '8px 0',
                   background: `${accentColor}14`,
                   border: `1px solid ${accentColor}33`,
                   color: accentColor,
                   cursor: 'pointer',
-                  marginTop: '2px',
-                  fontSize: '10px',
+                  marginTop: '4px',
+                  fontSize: isKiosk ? '20px' : '10px',
                   fontWeight: 700,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                 }}
               >
-                <Delete size={14} />
+                <Delete size={isKiosk ? 26 : 14} />
                 Effacer
               </motion.button>
             </div>

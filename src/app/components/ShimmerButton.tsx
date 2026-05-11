@@ -1,4 +1,4 @@
-import { useRef, useState, MouseEvent } from 'react';
+import { useRef, useState, MouseEvent, CSSProperties } from 'react';
 import { motion } from 'motion/react';
 import { sounds } from '../utils/sounds';
 
@@ -8,6 +8,7 @@ interface ShimmerButtonProps {
   variant?: 'primary' | 'secondary';
   className?: string;
   disabled?: boolean;
+  style?: CSSProperties;
 }
 
 export function ShimmerButton({
@@ -16,6 +17,7 @@ export function ShimmerButton({
   variant = 'primary',
   className = '',
   disabled = false,
+  style,
 }: ShimmerButtonProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
@@ -72,6 +74,7 @@ export function ShimmerButton({
         boxShadow: isPrimary
           ? 'inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 4px rgba(0,0,0,0.12), 0 6px 20px rgba(232,0,125,0.38), 0 16px 40px rgba(232,0,125,0.16)'
           : 'none',
+        ...style,
       }}
       animate={{ x: position.x, y: position.y }}
       whileHover={
