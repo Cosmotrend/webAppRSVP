@@ -33,18 +33,11 @@ export function KioskFullscreenButton() {
       } else if (el.msRequestFullscreen) {
         el.msRequestFullscreen();
       }
-      // Lock orientation en PORTRAIT si supporté (Android Chrome).
-      // Le canvas kiosk est 1080×1920 → on veut la tablette en portrait pour
-      // matcher. Avant la session 2026-05-09 on lockait en paysage à cause
-      // d'une rotation CSS 90° qui n'existe plus depuis le passage au
-      // wrapper kiosk-canvas + scale.
-      try {
-        if (screen.orientation && (screen.orientation as any).lock) {
-          await (screen.orientation as any).lock('portrait');
-        }
-      } catch {
-        /* orientation lock non critique — l'utilisateur peut tenir la tablette */
-      }
+      // Pas de lock orientation : sur certaines tablettes, lock('portrait')
+      // alors que le device est physiquement en paysage rotate le contenu
+      // perpendiculairement au sens d'observation — résultat illisible.
+      // On laisse l'OS gérer l'orientation et on demande à l'utilisateur de
+      // tenir la tablette en portrait (canvas 1080×1920).
     } catch (err) {
       console.warn('Fullscreen refusé', err);
     }
