@@ -95,10 +95,10 @@ export function StaffPin() {
             }}
             whileHover={{ scale: 1.05 }}
           >
-            <Shield size={14} color="#E8007D" />
+            <Shield size={22} color="#E8007D" />
             <span
               style={{
-                fontSize: '8px',
+                fontSize: '18px',
                 fontWeight: 700,
                 letterSpacing: '0.24em',
                 textTransform: 'uppercase',
@@ -116,17 +116,17 @@ export function StaffPin() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <SemilacDaysLogo height={68} />
+            <SemilacDaysLogo height={130} />
           </motion.div>
 
           <motion.div
             style={{
-              fontSize: '8px',
+              fontSize: '16px',
               fontWeight: 600,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
               color: 'rgba(232,0,125,0.5)',
-              marginTop: '4px',
+              marginTop: '10px',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -167,14 +167,14 @@ export function StaffPin() {
               transition={{ delay: 0.7, type: 'spring', stiffness: 200 }}
             >
               <div
-                className="w-20 h-20 rounded-full flex items-center justify-center"
+                className="w-32 h-32 rounded-full flex items-center justify-center"
                 style={{
                   background: 'linear-gradient(135deg, rgba(232,0,125,0.12), rgba(196,144,74,0.08))',
-                  border: '2px solid rgba(232,0,125,0.2)',
-                  boxShadow: '0 0 30px rgba(232,0,125,0.12)',
+                  border: '3px solid rgba(232,0,125,0.2)',
+                  boxShadow: '0 0 40px rgba(232,0,125,0.15)',
                 }}
               >
-                <Lock size={32} color="#E8007D" />
+                <Lock size={56} color="#E8007D" />
               </div>
             </motion.div>
 
@@ -187,7 +187,7 @@ export function StaffPin() {
             >
               <div
                 style={{
-                  fontSize: '18px',
+                  fontSize: '32px',
                   fontWeight: 700,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
@@ -206,7 +206,7 @@ export function StaffPin() {
             >
               <div
                 style={{
-                  fontSize: '10px',
+                  fontSize: '18px',
                   color: 'rgba(26,16,5,0.5)',
                   letterSpacing: '0.08em',
                 }}
@@ -228,14 +228,14 @@ export function StaffPin() {
                 readOnly
                 inputMode="none"
                 onFocus={(e) => e.target.blur()}
-                className="w-full rounded-2xl px-6 py-4 outline-none transition-all duration-200"
+                className="w-full rounded-2xl px-7 py-5 outline-none transition-all duration-200"
                 style={{
                   background: error ? 'rgba(220,50,50,0.04)' : 'rgba(250,247,242,0.85)',
                   border: error
                     ? '2px solid rgba(220,50,50,0.4)'
                     : '2px solid rgba(232,0,125,0.2)',
                   color: '#1A1005',
-                  fontSize: '16px',
+                  fontSize: '32px',
                   fontWeight: 700,
                   letterSpacing: '0.3em',
                   textAlign: 'center',
@@ -246,7 +246,7 @@ export function StaffPin() {
                   cursor: 'default',
                 }}
               />
-              <div style={{ fontSize: '9px', color: 'rgba(26,16,5,0.5)', textAlign: 'center', marginTop: '6px', letterSpacing: '0.08em' }}>
+              <div style={{ fontSize: '16px', color: 'rgba(26,16,5,0.5)', textAlign: 'center', marginTop: '12px', letterSpacing: '0.08em' }}>
                 {t('staffPin', 'hint', lang)}
               </div>
             </motion.div>
@@ -263,8 +263,8 @@ export function StaffPin() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.9 }}
                 >
-                  <AlertCircle size={16} color="rgba(220,50,50,0.8)" />
-                  <span style={{ fontSize: '10px', color: 'rgba(220,50,50,0.8)', fontWeight: 600, letterSpacing: '0.05em' }}>
+                  <AlertCircle size={24} color="rgba(220,50,50,0.8)" />
+                  <span style={{ fontSize: '18px', color: 'rgba(220,50,50,0.8)', fontWeight: 600, letterSpacing: '0.05em' }}>
                     {error}
                   </span>
                 </motion.div>
@@ -277,14 +277,15 @@ export function StaffPin() {
               transition={{ delay: 1.1 }}
             >
               <ShimmerButton
-                className="w-full h-14"
+                className="w-full"
+                style={{ height: '80px', fontSize: '22px', letterSpacing: '0.12em' }}
                 onClick={handleSubmit}
                 disabled={pin.length < 3 || isValidating}
               >
                 <AnimatePresence mode="wait">
                   {isValidating ? (
-                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
+                    <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-3">
+                      <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full gpu-layer" style={{ animation: 'spin-360 0.8s linear infinite' }} />
                       <span>{t('staffPin', 'validating', lang)}</span>
                     </motion.div>
                   ) : (
@@ -304,7 +305,7 @@ export function StaffPin() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         >
-          <div style={{ fontSize: '7px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '14px', color: 'rgba(232,0,125,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
             {t('staffPin', 'bottomHint', lang)}
           </div>
         </motion.div>
