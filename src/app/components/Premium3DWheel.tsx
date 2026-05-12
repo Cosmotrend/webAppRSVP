@@ -33,7 +33,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
   // taille de la tablette (Galaxy Tab S11 Ultra, Huawei MatePad, etc.).
   const isKioskMode =
     typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
-  const resolvedSize = size ?? (isKioskMode ? 'min(82cqh, 82cqw)' : 'min(86vw, 56vh, 520px)');
+  const resolvedSize = size ?? (isKioskMode ? 'min(87cqh, 87cqw)' : 'min(86vw, 56vh, 520px)');
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
