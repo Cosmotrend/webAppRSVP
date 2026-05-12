@@ -186,7 +186,7 @@ export function RSVPForm() {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FFFFFF' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar />

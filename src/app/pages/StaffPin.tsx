@@ -65,7 +65,7 @@ export function StaffPin() {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FFFFFF' }}>
       <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />

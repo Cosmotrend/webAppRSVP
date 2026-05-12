@@ -124,7 +124,7 @@ function AppContent() {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #FAF7F2;
+            background: #FFFFFF;
             overflow: hidden;
             z-index: 0;
           }
@@ -137,7 +137,7 @@ function AppContent() {
             border-radius: 0 !important;
             box-shadow: none !important;
             margin: 0 !important;
-            background: #FAF7F2;
+            background: #FFFFFF;
             overflow: hidden;
             container-type: size;
             container-name: kiosk;
@@ -145,7 +145,7 @@ function AppContent() {
           }
           /* Body en crème aussi pour éviter tout flash brun pendant les transitions */
           html.kiosk-mode, html.kiosk-mode body, html.kiosk-mode #root {
-            background: #FAF7F2 !important;
+            background: #FFFFFF !important;
           }
         `}</style>
 
