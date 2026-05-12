@@ -8,7 +8,7 @@ export function LanguageSelector() {
   return (
     <motion.div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
-      style={{ background: '#FFFFFF' }}
+      style={{ background: '#FAF7F2' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

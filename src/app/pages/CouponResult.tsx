@@ -42,9 +42,9 @@ function _legacyGenerateStoryImage(prize: string, ticketNumber: string, lang: 'f
 
   // Background gradient
   const bg = ctx.createLinearGradient(0, 0, 0, 1920);
-  bg.addColorStop(0, '#FFFFFF');
+  bg.addColorStop(0, '#FAF7F2');
   bg.addColorStop(0.5, '#FFF0F5');
-  bg.addColorStop(1, '#FFFFFF');
+  bg.addColorStop(1, '#FAF7F2');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, 1080, 1920);
 
@@ -277,7 +277,7 @@ export function CouponResult() {
   return (
     <div
       className="relative w-full h-full overflow-hidden"
-      style={{ background: '#FFFFFF' }}
+      style={{ background: '#FAF7F2' }}
     >
       <KioskFullscreenButton />
       <AuroraBackground />
@@ -615,7 +615,7 @@ export function CouponResult() {
         </div>
 
         {/* Footer — flex-shrink-0 garantit qu'il ne sera jamais écrasé */}
-        <div className="flex-shrink-0 flex flex-col items-center px-5 pb-3 pt-2" style={{ background: '#FFFFFF' }}>
+        <div className="flex-shrink-0 flex flex-col items-center px-5 pb-3 pt-2" style={{ background: '#FAF7F2' }}>
         <motion.button
           type="button"
           onClick={() => {

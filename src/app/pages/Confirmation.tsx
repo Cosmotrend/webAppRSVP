@@ -134,7 +134,7 @@ export function Confirmation() {
   ];
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FFFFFF' }}>
+    <div className="relative w-full h-full overflow-hidden" style={{ background: '#FAF7F2' }}>
       <AuroraBackground />
       <ParticleField />
       <TopBar />

@@ -83,7 +83,7 @@ export function WheelGame() {
   const firstName = nameParts[0] || 'Client';
 
   return (
-    <div className="relative w-full h-full overflow-y-auto overflow-x-hidden" style={{ background: '#FFFFFF', WebkitOverflowScrolling: 'touch' }}>
+    <div className="relative w-full h-full overflow-y-auto overflow-x-hidden" style={{ background: '#FAF7F2', WebkitOverflowScrolling: 'touch' }}>
       <KioskFullscreenButton />
       <AuroraBackground />
       <ParticleField />
