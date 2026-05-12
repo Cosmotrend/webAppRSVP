@@ -33,7 +33,7 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
   // taille de la tablette (Galaxy Tab S11 Ultra, Huawei MatePad, etc.).
   const isKioskMode =
     typeof document !== 'undefined' && document.documentElement.classList.contains('kiosk-mode');
-  const resolvedSize = size ?? (isKioskMode ? 'min(82cqh, 82cqw)' : 'min(86vw, 56vh, 520px)');
+  const resolvedSize = size ?? (isKioskMode ? 'min(90cqh, 90cqw)' : 'min(86vw, 56vh, 520px)');
   const [hasSpun, setHasSpun] = useState(false);
   const rotation = useMotionValue(0);
 
@@ -226,13 +226,13 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
             className="absolute top-1/2 left-1/2 rounded-full flex items-center justify-center overflow-hidden"
             style={{
               transform: 'translate(-50%, -50%)',
-              width: '23%',
-              height: '23%',
-              minWidth: '64px',
-              minHeight: '64px',
+              width: '28%',
+              height: '28%',
+              minWidth: '110px',
+              minHeight: '110px',
               background: 'linear-gradient(135deg, #c47090, #F8A4C8, #ffc8de)',
-              boxShadow: '0 6px 30px rgba(248,164,200,0.6), inset 0 -2px 10px rgba(0,0,0,0.3)',
-              border: '3px solid rgba(255,255,255,0.3)',
+              boxShadow: '0 8px 40px rgba(248,164,200,0.65), inset 0 -3px 14px rgba(0,0,0,0.3)',
+              border: '4px solid rgba(255,255,255,0.35)',
               cursor: !hasSpun && !isSpinning ? 'pointer' : 'default',
             }}
             onClick={handleSpin}
@@ -251,9 +251,9 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
               className="relative z-10"
               style={{
                 color: '#0D0008',
-                fontSize: '14px',
+                fontSize: '36px',
                 fontWeight: 800,
-                letterSpacing: '0.1em',
+                letterSpacing: '0.14em',
                 textTransform: 'uppercase',
                 textShadow: '0 1px 2px rgba(255,255,255,0.5)',
               }}
