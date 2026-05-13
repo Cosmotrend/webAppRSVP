@@ -44,13 +44,13 @@ export function Premium3DWheel({ onSpinComplete, isSpinning, resetKey, size, lan
     sounds.spin();
 
     // Weighted random selection — probabilités contrôlées
-    // -25% : 35% | -30% : 30% | -35% : 20% | -40% : 15%
-    // Espérance pondérée = 30.75% de réduction moyenne par client
+    // -25% : 30% | -30% : 30% | -35% : 20% | -40% : 20%
+    // Espérance pondérée = 31.5% de réduction moyenne par client
     const weights: Array<{ label: string; weight: number }> = [
-      { label: '-40%', weight: 0.15 },
+      { label: '-40%', weight: 0.20 },
       { label: '-35%', weight: 0.20 },
       { label: '-30%', weight: 0.30 },
-      { label: '-25%', weight: 0.35 },
+      { label: '-25%', weight: 0.30 },
     ];
     const r = Math.random();
     let cumulative = 0;
